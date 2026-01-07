@@ -162,6 +162,25 @@ body, h1, h2, h3, h4, h5, h6, input, button, textarea, select {
     background: #0f172a !important;
     width: 280px !important;
     transition: width 0.3s ease;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding-left: 20px !important;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#hd_top #logo .text_logo {
+    color: #fff !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
+    text-decoration: none !important;
+    display: block !important;
+}
+
+#hd_top #logo .text_logo:hover {
+    color: #3b82f6 !important;
 }
 
 #container {
