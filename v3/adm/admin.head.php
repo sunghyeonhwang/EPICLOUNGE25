@@ -197,58 +197,79 @@ jQuery(function($){
     });
 
     // 서브메뉴 그룹 접기/펴기 기능 (UE57, 시작해요 25 등)
-    $(document).on("click", ".gnb_grp_style, .gnb_grp_arrow", function(e) {
-        var $target = $(e.target);
-        var $headerLi = $target.closest('li');
-        var $nextItems = $headerLi.nextUntil('li:has(.gnb_grp_style)');
-
-        if ($nextItems.length > 0) {
-            // a 태그 클릭 시 페이지 이동 방지
-            if ($target.is('a') || $target.parent().is('a')) {
-                e.preventDefault();
-            }
-            $nextItems.slideToggle(150);
-            $headerLi.find('.gnb_grp_arrow').toggleClass('fa-angle-down fa-angle-up');
-        }
-    });
-
-    // 초기 상태 설정 및 화살표 추가
     function init_menu_groups() {
         $(".gnb_2da.gnb_grp_style").each(function() {
             var $headerA = $(this);
-            var $headerLi = $headerA.parent();
+            var $headerLi = $headerA.closest('li');
             var $nextItems = $headerLi.nextUntil('li:has(.gnb_grp_style)');
 
             if ($nextItems.length > 0) {
-                // li를 상대 위치로 설정하여 화살표 고정
-                $headerLi.css({
+                // 헤더 LI 스타일 설정
+                $headerLi.addClass('gnb_grp_header').css({
                     "position": "relative",
-                    "cursor": "pointer"
+                    "cursor": "pointer",
+                    "border-bottom": "none"
                 });
 
-                if ($headerLi.find('.gnb_grp_arrow').length === 0) {
-                    var $arrow = $('<i class="fa fa-angle-down gnb_grp_arrow" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); font-size:14px; color:#555; pointer-events:none;"></i>');
-                    $headerLi.append($arrow);
-                }
-
-                // 현재 활성화된 메뉴가 포함된 그룹이 아니면 닫기
+                // 현재 상태에 따라 초기 노출 여부 결정
                 var hasOn = $nextItems.find("a.on").length > 0 || $headerA.hasClass("on");
-                if (!hasOn) {
-                    $nextItems.hide();
-                    $headerLi.find('.gnb_grp_arrow').removeClass('fa-angle-up').addClass('fa-angle-down');
-                } else {
+                if (hasOn) {
+                    $headerLi.addClass('on');
                     $nextItems.show();
-                    $headerLi.find('.gnb_grp_arrow').removeClass('fa-angle-down').addClass('fa-angle-up');
+                } else {
+                    $headerLi.removeClass('on');
+                    $nextItems.hide();
                 }
             }
         });
     }
 
-    // 메뉴가 열릴 때마다 초기화 (Gnuboard gnb는 동적으로 노출될 수 있음)
-    $(".btn_op").click(function() {
-        setTimeout(init_menu_groups, 10);
+    // LI 전체 클릭 이벤트
+    $(document).on("click", ".gnb_grp_header", function(e) {
+        var $headerLi = $(this);
+        var $nextItems = $headerLi.nextUntil('li:has(.gnb_grp_style)');
+        
+        // <a> 태그나 그 자식을 직접 클릭한 경우 페이지 이동 방지 (접기/펴기 우선)
+        if ($(e.target).closest('a').length > 0) {
+            e.preventDefault();
+        }
+
+        if ($nextItems.length > 0) {
+            $nextItems.slideToggle(150);
+            $headerLi.toggleClass('collapsed');
+            
+            // 화살표 방향 변경을 위한 클래스 토글링
+            var $icon = $headerLi.find('.grp_arrow');
+            if ($icon.hasClass('fa-angle-up')) {
+                $icon.removeClass('fa-angle-up').addClass('fa-angle-down');
+            } else {
+                $icon.removeClass('fa-angle-down').addClass('fa-angle-up');
+            }
+        }
     });
+
+    // 화살표 아이콘을 JS로 한 번만 강제 삽입 (CSS와 폰트어썸 조합)
+    function inject_arrows() {
+        $(".gnb_grp_header").each(function() {
+            if ($(this).find('.grp_arrow').length === 0) {
+                var isVisible = $(this).next().is(':visible');
+                var arrowClass = isVisible ? 'fa-angle-up' : 'fa-angle-down';
+                $(this).append('<i class="fa ' + arrowClass + ' grp_arrow" style="position:absolute; right:12px; top:50%; margin-top:-7px; font-size:16px; color:#555; pointer-events:none;"></i>');
+            }
+        });
+    }
+
+    // 메뉴 열릴 때 실행
+    $(".btn_op").click(function() {
+        setTimeout(function() {
+            init_menu_groups();
+            inject_arrows();
+        }, 50);
+    });
+
+    // 초기 실행
     init_menu_groups();
+    inject_arrows();
 
 });
 </script>
