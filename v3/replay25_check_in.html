@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>에픽 라운지</title>
+
+  <!-- CSS -->
+
+  <link rel="stylesheet" href="./assets/css/nice-select.css">
+  <link rel="stylesheet" href="./assets/css/event_start25.css">
+  <link rel="stylesheet" href="./assets/css/font_start25.css">
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/jquery.nice-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="inner-wrap">
+      <div class="logo">
+        <a href="https://epiclounge.co.kr/start_lsu2025.php"><span class="blind">로고</span></a>
+      </div>
+      <div class="confirm">
+        <!-- <p>이미 등록을 하셨나요?</p>
+        <div class="btn-group">
+          <a href="application_confirm.html" class="md sky">등록 확인</a>
+        </div> -->
+      </div>
+    </div>
+  </header>
+  <!-- 🔽 배경 영상 -->
+  <video class=" background-video" autoplay muted loop playsinline>
+    <source src="https://unrealsummit16.cafe24.com/2025/start_twinunreal/lsu_2025_bg.mp4" type="video/mp4" />
+    브라우저가 영상을 지원하지 않습니다.
+  </video>
+
+  <!-- 🔽 오버레이 이미지 -->
+  <div class="background-gradient"></div>
+
+  <div class="container check_in">
+    <form id="login-form" name="login-form" action="start_lsu2025_check.php" method="post" enctype="multipart/form-data">
+      <!-- <form id="login-form" name="login-form" action="https://epiclounge.co.kr/start_lsu2025_review_v1.php" method="post" enctype="multipart/form-data"> -->
+      <input type="hidden" name="live" value="1" />
+
+      <div class="contents-wrap">
+
+        <div class="content-head">
+          <div class="event-header">
+            <img src="https://unrealsummit16.cafe24.com/2025/start_twinunreal/top_logo25.svg" alt="시작해요 언리얼" class="event-logo" />
+          </div>
+          <p>체크인을 완료하면 <span class="logoc">주차별 수업 노트와 함께 다시보기 영상</span>을 시청하실 수 있습니다.</p>
+        </div>
+        <div class="content-box">
+          <div class="section">
+            <h2 class="section-title">이메일 확인</h2>
+            <p class="section-content blue_text">등록 시 작성한 정보를 입력해 주세요.</p>
+            <div class="form-wrap">
+              <ul>
+                <li>
+                  <h3><span class="red-dot">이메일</span></h3>
+                  <div class="wrap">
+                    <input type="text" name="inputEmail" placeholder="이메일을 입력해주세요">
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="descript">
+          <p>체크인 문제 발생 시 <a href="mailto:info@epiclounge.co.kr" target="_blank">고객센터</a>에 문의하세요.</p>
+        </div>
+        <div class="btn-group one_btn">
+          <a href="#n" class="lg half sky" onclick="$('#login-form').submit()">확인</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</body>
+
+</html>

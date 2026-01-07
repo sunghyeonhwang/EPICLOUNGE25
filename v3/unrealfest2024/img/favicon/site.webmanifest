@@ -1,0 +1,10 @@
+{
+  "name": "UNREAL FEST 2024 | SEOUL",
+  "short_name": "UNREAL FEST 2024 | SEOUL",
+  "icons": [
+    { "src": "https://epiclounge.co.kr/v3/unrealfest2024/img/favicon/android-chrome-192x192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "https://epiclounge.co.kr/v3/unrealfest2024/img/favicon/android-chrome-512X512.png", "type": "image/png", "sizes": "512x512" }
+  ],
+  
+  "display": "standalone"
+}

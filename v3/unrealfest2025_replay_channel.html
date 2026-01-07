@@ -1,0 +1,812 @@
+<?
+include "./common.php";
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+ini_set('display_errors', 1);
+$admin = $_GET['admin'];
+$code = $_GET['code'];
+$apply_user_email = $_POST['inputEmail'];
+
+
+
+
+if ($admin == 'admin') {
+
+} else if($_POST['inputEmail'] == 'parkdh0191@hanmail.net' || $_POST['inputEmail'] == 'sunhee.yu@epicgames.com' || $_POST['inputEmail'] == 'doeun.park@xa.epicgames.com' || $_POST['inputEmail'] == 'jinyoung.choi@epicgames.com' || $_POST['inputEmail'] == 'suyong.song@griff.co.kr' || $_POST['inputEmail'] == 'osh384@gmail.com' || $_POST['inputEmail'] == 'kwangsub.shin@epicgames.com' || $_POST['inputEmail'] == 'sunghyeon.hwang@griff.co.kr' || $_POST['inputEmail'] == 'ray.park@epicgames.com' || $_POST['inputEmail'] == 'sunhee.yu@gmail.com' || $_POST['inputEmail'] == 'dorn615@gmail.com' || $_POST['inputEmail'] == 'egoago@gmail.com' || $_POST['inputEmail'] == 'seunghwan.park@griff.co.kr' || $_POST['inputEmail'] == 'chany1220@gmail.com') {
+
+} else if($_POST['inputEmail'] == 'dsmslove@naver.com' ) {
+
+} else {
+    if('2024-06-01 11:59:00' < date("Y-m-d H:i:s")){
+
+    } else {
+        echo '<script type="text/javascript">';
+        echo "alert('지금은 시청시간이 아닙니다.');  self.close();";
+        echo '</script>';exit();
+    }
+}
+
+if ($admin == 'admin') {
+    $obj[apply_user_name] = '관리자';
+    // $track = $_GET['track'];
+} else if ($code) {
+    // $track = $_GET['track'];
+    $sql = "select * from cb_unreal_2025_event2_apply where apply_password = '".$code."' limit 1";
+    $result = $mysqli -> query($sql);
+    $obj = $result -> fetch_array();
+    if(count($obj[0])){
+    }else{
+        echo '<script type="text/javascript">';
+        echo "alert('등록된 정보가 존재하지 않습니다. 코드를 확인해 주세요.');  self.close();";
+        echo '</script>';
+        exit();
+    }
+} else {
+    $num = $_POST['live'];
+    // $track = $_POST['track_select'];
+    if(!$num){
+        echo '<script type="text/javascript">';
+        echo "location.replace('https://epiclounge.co.kr/v3/unrealfest2025_replay_check_in.html'); alert('정상적인 접근방식이 아닙니다. 언리얼 페스트 서울 2025 참석자만 확인이 가능합니다. ');";
+        echo '</script>';
+        exit();
+    }
+    $sql = "select * from cb_unreal_2025_event2_apply where apply_user_email = '".$apply_user_email."' limit 1";
+    $result = $mysqli -> query($sql);
+    $obj = $result -> fetch_array();
+    if(count($obj[0])){
+    }else{
+        echo '<script type="text/javascript">';
+        echo "alert('언리얼 페스트 서울 2025에 참가하거나 등록된 정보가 존재하지 않습니다. ');  self.close();";
+        echo '</script>';
+        exit();
+    }
+}
+
+
+
+
+
+
+
+
+$track = 1;
+if($track == '1'){
+  $track1 = 1;
+} else if($track == '2'){
+  $track2 = 2;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unreal Fest Seoul 2025</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(to bottom, #1a2b5c, #111a3e);
+      min-height: 100vh;
+      color: white;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* 로고 영역 */
+    .logo-section {
+      text-align: center;
+      padding: 80px 0;
+    }
+
+    .logo-svg {
+      width: 400px;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+    }
+
+    /* 탭 네비게이션 */
+    .tab-navigation {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .tab-button {
+      padding: 16px 74px;
+      border-radius: 55px;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: black;
+      color: white;
+    }
+
+    .tab-button.active {
+      background: #2e42dd;
+    }
+
+    .tab-button:hover {
+      background: #333;
+    }
+
+    .tab-button.active:hover {
+      background: #2e42dd;
+    }
+
+    /* 카테고리 네비게이션 */
+    .category-navigation {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    .category-button {
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      font-weight: normal;
+    }
+
+    .category-button.active {
+      color: #2eabf9;
+      font-weight: bold;
+    }
+
+    .category-button:hover {
+      color: #2eabf9;
+    }
+
+    .category-divider {
+      font-size: 28px;
+      color: #666;
+      font-weight: 100;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #666;
+      margin: 0 0 48px 0;
+    }
+
+    /* 세션 목록 */
+    .sessions-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+
+    .session-item {
+      margin-bottom: 64px;
+      position: relative;
+    }
+
+    .video-area {
+      background: #272727;
+      width: 100%;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .video-placeholder {
+      padding: 56.25% 0 0 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 18px;
+      background: #272727;
+    }
+
+    .video-placeholder span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+
+    .session-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+    }
+
+    .session-details {
+      flex: 1;
+    }
+
+    .session-title {
+      font-size: 26px;
+      font-weight: bold;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      word-break: keep-all;
+    }
+
+    .session-speaker {
+      font-size: 18px;
+      font-weight: 300;
+      color: white;
+    }
+
+    .pdf-button {
+      background: #2eabf9;
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .pdf-button:hover {
+      background: #1e8bc3;
+    }
+
+    .pdf-button:disabled {
+      background: #666;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .pdf-button:disabled:hover {
+      background: #666;
+    }
+
+    .session-divider {
+      border: none;
+      border-top: 1px solid #666;
+      margin: 64px 0 0 0;
+    }
+
+    .no-sessions {
+      text-align: center;
+      padding: 80px 20px;
+      color: #666;
+      font-size: 20px;
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+      .tab-navigation {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .tab-button {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .category-navigation {
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .category-button {
+        font-size: 20px;
+      }
+
+      .session-info {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .pdf-button {
+        align-self: flex-start;
+      }
+
+      .session-title {
+        font-size: 24px;
+      }
+
+      .session-speaker {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 로고 영역 -->
+  <div class="logo-section">
+    <img src="https://unrealsummit16.cafe24.com/2025/ufest25/images/member_top_text.svg" alt="Unreal Fest Seoul 2025" class="logo-svg">
+  </div>
+
+  <div class="container">
+    <!-- 탭 네비게이션 -->
+    <div class="tab-navigation">
+      <button class="tab-button active" id="day1-tab" onclick="switchDay('day1')">
+        Day 1. 8월 25일(월)
+      </button>
+      <button class="tab-button " id="day2-tab" onclick="switchDay('day2')">
+        Day 2. 8월 26일(화)
+      </button>
+    </div>
+
+    <!-- 카테고리 네비게이션 -->
+    <div class="category-navigation">
+      <button class="category-button active" id="game-programming" onclick="switchCategory('game-programming')">
+        게임: 프로그래밍
+      </button>
+      <span class="category-divider">|</span>
+      <button class="category-button " id="media-entertainment" onclick="switchCategory('media-entertainment')">
+        미디어 & 엔터테인먼트
+      </button>
+      <span class="category-divider">|</span>
+      <button class="category-button" id="game-art" onclick="switchCategory('game-art')">
+        게임: 아트
+      </button>
+    </div>
+
+    <hr class="divider">
+  </div>
+
+  <!-- 세션 목록 -->
+  <div class="sessions-container" id="sessions-container">
+    <!-- 세션들이 JavaScript로 동적으로 추가됩니다 -->
+  </div>
+
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  <script>
+    // 세션 데이터 - 도메인 제한된 비메오 영상 포함
+    const sessions = [{
+        id: 1,
+        title: "언리얼 엔진 5.6으로 모바일 게임 개발하기",
+        speaker: "Jack Porter, Epic Games Korea",
+        day: 'day1',
+        category: 'game-programming',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120660335?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_PRO_2(Jack)"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day1_Jack%20Porter_Developing_Mobile_Games_with_Unreal_Engine_5.6.pdf'
+      },
+      {
+        id: 2,
+        title: "<더 위쳐 4 언리얼 엔진 5 테크 데모> 속 기술 들여다보기",
+        speaker: "박창현, 에픽게임즈 코리아",
+        day: 'day1',
+        category: 'game-programming',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120659959?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_PRO_3(박창현)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Tech_Behind_The_Witcher_4_UE5_Tech_Demo_for_Review.pdf'
+      },
+      {
+        id: 3,
+        title: "일본 사례로 보는 UE5 그래픽 심층 인사이트",
+        speaker: "Noriaki Shinoyama, Epic Games Japan",
+        day: 'day1',
+        category: 'game-programming',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120660438?h=b5474e1617&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_PRO_4(Nori)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day1_Noriaki_UE5_Graphics_Deep_Insights_From_Japan.pdf'
+      }, {
+        id: 4,
+        title: "언리얼 엔진의 멀티 플랫폼 엔진 아키텍처",
+        speaker: "윤준기, 에픽게임즈 코리아 ",
+        day: 'day1',
+        category: 'game-programming',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120660681?h=668a18a343&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_PRO_5(윤준기)_QA"></iframe></div>',
+        pdfUrl: null
+      }, {
+        id: 5,
+        title: "스케일러빌리티를 넘어서: 일본에서 전하는 멀티 플랫폼 인사이트",
+        speaker: "Noriaki Shinoyama, Epic Games Japan",
+        day: 'day1',
+        category: 'game-programming',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120660899?h=1588293bc4&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_PRO_6(Nori)"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day1_Noriaki_Beyond_Scalability_Multi_Platform_Insights_from_Japan.pdf'
+      },
+      {
+        id: 6,
+        title: "UE 5.6과 함께 확 달라진 메타휴먼: 핵심 업데이트 알아보기",
+        speaker: "박성제, 에픽게임즈 코리아",
+        day: 'day1',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120662939?h=b328e0db93&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_M&amp;E_1(박성제)_QA"></iframe></div>',
+        pdfUrl: null
+      },
+      {
+        id: 7,
+        title: "더 사실적이게, 더 자연스럽게, 하지만 더 빠르게: <컨트롤 릭 피직스>로 절차적 애니메이션 제작하기",
+        speaker: "권오찬, 에픽게임즈 코리아",
+        day: 'day1',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120663197?h=9d20133e4b&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_M&amp;E_3(권오찬)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Unreal Fest Seoul 25_OC_last.pdf'
+        // pdfUrl: null
+
+      },
+      {
+        id: 8,
+        title: "언리얼 엔진 5 애니메이션 리타기팅의 미래",
+        speaker: "Chris Murphy, Epic Games ",
+        day: 'day1',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120663583?h=4c8e6d2c98&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_M&amp;E_4(Chris)"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/The%20Future%20of%20Animation%20Retargeting%20in%20Unreal_v03_Seoul.pdf'
+      },
+      {
+        id: 9,
+        title: "1인 창작자가 극장용 애니메이션을 제작하고 상영하기까지",
+        speaker: "정명국, 자루스튜디오",
+        day: 'day1',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120663875?h=09fe10f6db&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_M&amp;E_5(정명국)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day1_Jung_Myung_Guk_From_Solo_Creator_to_Big_Screen_Producing_and_Screening_a_Feature_Animation.pdf'
+      },
+      // {
+      // id: 10,
+      // title: "<몬길: STAR DIVE> 다이내믹 라이팅 세팅을 활용한 리얼타임 시퀀스 라이팅",
+      // speaker: "박상혁, 넷마블몬스터",
+      // day: 'day1',
+      // category: 'game-art',
+      // vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID?h=YOUR_HASH&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="몬길 라이팅"></iframe></div>',
+      // pdfUrl: 'https://epiclounge.co.kr/pdfs/session5.pdf'
+      // },
+      {
+        id: 11,
+        title: "나이아가라로 인터랙티브한 파티클 효과 제작해 보기",
+        speaker: "김대혁, 에픽게임즈 코리아",
+        day: 'day1',
+        category: 'game-art',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120656963?h=2518e6fcd0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_ART_1(김대혁)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day1_Kim_Dae_hyuk_Creating_Interactive_Particle_Effects_with_Niagara.pdf'
+      },
+      {
+        id: 12,
+        title: "뮤터블 플러그인: 게임용 메타휴먼 커스터마이징 시스템 제작",
+        speaker: "김태철, 에픽게임즈 코리아",
+        day: 'day1',
+        category: 'game-art',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120657246?h=d99a7e30cd&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_ART_2(김태철)"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day1_Kim_Tae_Chul_Mutable_Plugin_Building_a_MetaHuman_Customization_System_for_Game.pdf'
+      },
+      {
+        id: 13,
+        title: "아티스트가 엔진 수정 없이 커스텀 렌더링 패스 추가하기",
+        speaker: "김진홍, 컴투스",
+        day: 'day1',
+        category: 'game-art',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120657487?h=67ca2295c5&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_ART_3(김진홍)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day1_Kim_Jin_hong_Adding_Custom_Rendering_Passes_Without_Engine_Modifications_for_Artists.pdf'
+      },
+      {
+        id: 14,
+        title: "듀랑고 IP <프로젝트 DX>의 성공적인 PCG 활용 사례: PCG로 새로운 듀랑고의 오픈월드 바이옴 구성하기",
+        speaker: "김경환, 넥슨게임즈",
+        day: 'day1',
+        category: 'game-art',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120657692?h=8232ecdb05&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_ART_4(김경환)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day1_Kim_Kyung_hwan_Durango_IP_Project_DX_andIts_Successful_PCG_Implementation_Building_Open_World_Biomes_with_Procedural_Content_Generation.pdf'
+
+      },
+      {
+        id: 15,
+        title: "<몬길: STAR DIVE> 다이내믹 라이팅 세팅을 활용한 리얼타임 시퀀스 라이팅",
+        speaker: "박상혁, 넷마블몬스터",
+        day: 'day1',
+        category: 'game-art',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120657957?h=006ae0a7f0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D1_ART_5(박상혁)_QA"></iframe></div>',
+        pdfUrl: null
+      },
+      {
+        id: 16,
+        title: "영화 VFX 업체가 방대한 오픈월드 생존 RPG 게임을 개발할 수 있었던 방법",
+        speaker: "한지수/이수하, 폴리모프",
+        day: 'day2',
+        category: 'game',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120664516?h=26bcc809aa&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_PRO_1(한지수,이수하)_QA"></iframe></div>',
+        pdfUrl: null
+      },
+      {
+        id: 17,
+        title: "에픽 온라인 서비스(EOS)를 활용한 게임의 치팅 대응",
+        speaker: "김정욱, 에픽게임즈 코리아 ",
+        day: 'day2',
+        category: 'game',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120664790?h=6b2b786683&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_PRO_2(김정욱)_QA"></iframe></div>',
+        pdfUrl: null
+      },
+      {
+        id: 18,
+        title: "꼭 써봐야 할 나이아가라 고급 개념들",
+        speaker: "Chris Murphy, Epic Games ",
+        day: 'day2',
+        category: 'game',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120664893?h=3d3e10910b&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_PRO_4(Chris)"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_Chris_Murphy_Must-Try_Advanced_Concepts_in_Niagara.pdf'
+      }, {
+        id: 19,
+        title: "상호작용 렌더링 플러그인 개발기",
+        speaker: "김용남, 넥슨코리아",
+        day: 'day2',
+        category: 'game',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120665207?h=dea2e0106c&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_PRO_5(김용남)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_Kim_Yong_Nam_Developing_an_Interactive_Rendering_Plugin.pdf'
+      }, {
+        id: 20,
+        title: "<낙원: LAST PARADISE> 렌더링 최적화 시도 및 사례",
+        speaker: "강준수, 넥슨코리아 ",
+        day: 'day2',
+        category: 'game',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120665460?h=2db8afe943&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_PRO_6(강준수)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_Kang_Jun_su_Last_Paradise_Rendering_Optimization_Attempts_and_Case_Studies.pdf'
+      },
+      {
+        id: 21,
+        title: "아티스트들이 구축한 에셋 리뷰 환경: 스타일라이즈드 스타일까지 폭넓은 라이팅 지원하기",
+        speaker: "Ruito Harada, ATLUS",
+        day: 'day2',
+        category: 'game',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120665883?h=275f91035a&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_PRO_7(Ruito)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_Ruito_Harada_Asset_Review_Environment_Built_by_Artists_Comprehensive_Lighting_Support_from_Stylized_to_Realistic.pdf'
+      },
+      {
+        id: 22,
+        title: "라이팅 팁: 라이트를 이해하는 법(feat. CG 아티스트들이 라이트에 관심 없는 이유)",
+        speaker: "Yoichi Kimura, SQUARE ENIX ",
+        day: 'day2',
+        category: 'game',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120666102?h=f880662473&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_PRO_8(Yoichi)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_Yoichi_Kimura_Lighting_Tips_How_to_Understand_Light_feat_Why_CG_Artists_Don%E2%80%99t_Care_about_Light.pdf'
+      },
+      {
+        id: 23,
+        title: "기술 혁신으로 여는 창의적 스토리텔링의 미래",
+        speaker: "Blake Baxter/Daniel Urbach, IEL",
+        day: 'day2',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120669060?h=6b16f6e4aa&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_M&amp;E_1(Blake,Daniel)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_The_Future_of_Creative_Storytelling_Through_Technological_Innovation.pdf'
+      },
+      {
+        id: 24,
+        title: "하이퍼 리얼리티 자연유산 에셋의 제작과 활용",
+        speaker: "고명현, 문화유산기술연구소",
+        day: 'day2',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120666691?h=ed727f6292&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_M&amp;E_2(고명현)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_Ko_Myeong_hyun_Production_and_Utilization_of_Hyper-Reality_Natural_Heritage_Assets.pdf'
+      },
+      {
+        id: 25,
+        title: "전통 공간을 실시간 콘텐츠로: K-헤리티지의 언리얼 엔진 구현 사례",
+        speaker: "임주영, 웨스트월드",
+        day: 'day2',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120667184?h=24ca9144c5&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_M&amp;E_3(임주영)_QA"></iframe></div>',
+        pdfUrl: null
+      },
+      {
+        id: 26,
+        title: "K-POP 가상 무대 제작 워크플로: 음악 방송 제작 사례를 중심으로",
+        speaker: "이상헌/하수민, 메타로켓",
+        day: 'day2',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120667595?h=dc18be4b91&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_M&amp;E_4(이상헌,하수민)_QA"></iframe></div>',
+        pdfUrl: null
+      },
+      {
+        id: 27,
+        title: "&lt;유랑&gt;의 제작 트레일러 샘플로 보는 언리얼 엔진 애니메이션 제작 과정",
+        speaker: "김진우, 쿠트이미지웍스",
+        day: 'day2',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120667903?h=093adee6d0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_M&amp;E_5(김진우)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_Kim_jin_woo_The_Animation_Production_Process_in_Unreal_Engine_Through_the_Trailer_Sample_of_Wanderer.pdf'
+      },
+      {
+        id: 28,
+        title: "고퀄리티 FX: Houdini에서 언리얼 엔진까지",
+        speaker: "최길남, Kong Studios, Inc. ",
+        day: 'day2',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120668423?h=a92ba4148e&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_M&amp;E_6(최길남)_QA"></iframe></div>',
+        pdfUrl: null
+      },
+      {
+        id: 29,
+        title: "언리얼 엔진이 실현하는 콘텐츠 제작의 진화: 애니메이션 &lt;킹 오브 킹스&gt;와 영화 &lt;사조영웅전&gt;을 중심으로",
+        speaker: "진교현/강한결, 모팩스튜디오 ",
+        day: 'day2',
+        category: 'media-entertainment',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120668760?h=573be8dc6f&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_M&amp;E_7(진교현,강한결)_QA"></iframe></div>',
+        pdfUrl: null
+      },
+      {
+        id: 30,
+        title: "언리얼 엔진을 활용한 전투기 정비훈련 시뮬레이터 구축",
+        speaker: "이동훈, KAI/김대욱, 비브스튜디오스 ",
+        day: 'day2',
+        category: 'manufacturing',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120672193?h=1d7bb4c596&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_MS_1(이동훈,김대욱)_QA"></iframe></div>',
+        pdfUrl: null
+      },
+      {
+        id: 31,
+        title: "언리얼 엔진과 에픽 에코시스템을 통한 시뮬레이션 산업의 혁신",
+        speaker: "Mark Collins/Alban Bergeret, Epic Games ",
+        day: 'day2',
+        category: 'manufacturing',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120672517?h=707cd18563&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_MS_2(Mark,Alban)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_Innovation_in_the_Simulation_Industry_with_Unreal_Engine_and_the_Epic_Ecosystem.pdf'
+      },
+      {
+        id: 32,
+        title: "&lt;Virtual Factory Builder&gt;: 언리얼 엔진으로 디지털 트윈 혁신하기",
+        speaker: "김성곤/주희진, 현대오토에버 ",
+        day: 'day2',
+        category: 'manufacturing',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120672882?h=c8936d1f5b&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_MS_3(김성곤,주희진)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_Kim_Seong_gon_Joo_Hee_jin_Virtual_Factory_Builder_Revolutionizing_Digital_Twins_with_Unreal_Engine.pdf'
+      },
+      {
+        id: 33,
+        title: "언리얼 엔진 5를 활용한 차량 내비게이션 구현",
+        speaker: "오기태/남수현, 현대오토에버",
+        day: 'day2',
+        category: 'manufacturing',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120673133?h=4472ac95eb&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_MS_6(오기태,남수현)_QA"></iframe></div>',
+        pdfUrl: null
+      },
+      {
+        id: 34,
+        title: "언리얼 엔진을 활용한 자동차 부품 디자인 개발",
+        speaker: "백종현, 현대모비스",
+        day: 'day2',
+        category: 'manufacturing',
+        vimeoEmbed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1120673377?h=9acd684b80&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="D2_MS_7(백종현)_QA"></iframe></div>',
+        pdfUrl: 'https://unrealsummit16.cafe24.com/2025/unrealfest2025/replay/Day2_Back_Jong_hyron_Automotive_Parts_Design_and_Development_Using_Unreal_Engine.pdf'
+      }
+      
+    ];
+    let activeDay = 'day1';
+    let activeCategory = 'game-programming';
+
+    // 카테고리 설정
+    const day1Categories = {
+      'game-programming': '게임: 프로그래밍',
+      'media-entertainment': '미디어 & 엔터테인먼트',
+      'game-art': '게임: 아트'
+    };
+
+    const day2Categories = {
+      'game': '게임',
+      'media-entertainment': '미디어 & 엔터테인먼트',
+      'manufacturing': '제조 및 시뮬레이션'
+    };
+
+    function switchDay(day) {
+      activeDay = day;
+
+      // 탭 활성화 상태 변경
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(day + '-tab').classList.add('active');
+
+      // 카테고리 네비게이션 업데이트
+      updateCategoryNavigation();
+
+      // 세션 목록 업데이트
+      updateSessions();
+    }
+
+    function switchCategory(category) {
+      activeCategory = category;
+
+      // 카테고리 활성화 상태 변경
+      document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(category).classList.add('active');
+
+      // 세션 목록 업데이트
+      updateSessions();
+    }
+
+    function updateCategoryNavigation() {
+      const categoryNav = document.querySelector('.category-navigation');
+      const categories = activeDay === 'day1' ? day1Categories : day2Categories;
+
+      categoryNav.innerHTML = '';
+      const categoryKeys = Object.keys(categories);
+
+      categoryKeys.forEach((key, index) => {
+        if (index > 0) {
+          const divider = document.createElement('span');
+          divider.className = 'category-divider';
+          divider.textContent = '|';
+          categoryNav.appendChild(divider);
+        }
+
+        const button = document.createElement('button');
+        button.className = 'category-button';
+        button.id = key;
+        button.textContent = categories[key];
+        button.onclick = () => switchCategory(key);
+
+        if (key === activeCategory || (index === 0 && !categoryKeys.includes(activeCategory))) {
+          button.classList.add('active');
+          activeCategory = key;
+        }
+
+        categoryNav.appendChild(button);
+      });
+    }
+
+    function updateSessions() {
+      const container = document.getElementById('sessions-container');
+      const filteredSessions = sessions.filter(session =>
+        session.day === activeDay && session.category === activeCategory
+      );
+
+      if (filteredSessions.length === 0) {
+        container.innerHTML = '<div class="no-sessions">선택하신 카테고리의 세션이 없습니다.</div>';
+        return;
+      }
+
+      container.innerHTML = filteredSessions.map((session, index) => `
+                    <div class="session-item">
+                        <div class="video-area">
+                            ${session.vimeoEmbed ? 
+                                session.vimeoEmbed
+                                : 
+                                `<div class="video-placeholder"><span>영상 준비 중입니다</span></div>`
+                            }
+                        </div>
+                        <div class="session-info">
+                            <div class="session-details">
+                                <h2 class="session-title">${session.title}</h2>
+                                <p class="session-speaker">${session.speaker}</p>
+                            </div>
+                            ${hasPDF(session) ? 
+                                `<button class="pdf-button" onclick="downloadPDF(${session.id})">PDF 다운로드</button>` 
+                                : 
+                                `<button class="pdf-button" disabled>비공개</button>`
+                            }
+                        </div>
+                        ${index < filteredSessions.length - 1 ? '<hr class="session-divider">' : ''}
+                    </div>
+                `).join('');
+    }
+
+    // PDF 파일 존재 여부 확인 함수
+    function hasPDF(session) {
+      return session.pdfUrl && session.pdfUrl.trim() !== '';
+    }
+
+    function downloadPDF(sessionId) {
+      const session = sessions.find(s => s.id === sessionId);
+      if (session && hasPDF(session)) {
+        window.open(session.pdfUrl, '_blank');
+      } else {
+        alert('PDF 파일을 준비 중입니다.');
+      }
+    }
+
+    // 초기 로드
+    document.addEventListener('DOMContentLoaded', function() {
+      updateSessions();
+    });
+  </script>
+</body>
+
+</html>

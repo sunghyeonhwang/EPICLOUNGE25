@@ -1,0 +1,326 @@
+<?
+include_once "../common.php";
+include_once "member_header.php";
+?>
+  <div class="container">
+      <div class="contents-wrap">
+        <div class="content-box">
+           <table border="1">
+               <tr>
+                   <th>일반 양일권</th>
+                   <th>일반 28일권</th>
+                   <th>일반 29일권</th>
+               </tr>
+               <tr>
+                   <td style="height: 200px">
+                       <strike>120,000</strike><br/>
+
+                       <button onclick="fn_pay_select_normal('1')">60,000원</button>
+                   </td>
+                   <td style="height: 200px">
+                       <strike>60,000</strike><br/>
+                       <button onclick="fn_pay_select_normal('2')">30,000원</button>
+                   </td>
+                   <td style="height: 200px">
+                       <strike>60,000</strike><br/>
+                       <button onclick="fn_pay_select_normal('3')">30,000원</button>
+
+                   </td>
+               </tr>
+
+               <tr>
+                   <th>학생 양일권</th>
+                   <th>학생 28일권</th>
+                   <th>학생 29일권</th>
+               </tr>
+               <tr>
+                   <td style="height: 200px">
+                       <strike>90,000</strike><br/>
+                       <button onclick="fn_pay_select_student('1')">45,000원</button>
+                   </td>
+                   <td style="height: 200px">
+                       <strike>45,000</strike><br/>
+                       <button onclick="fn_pay_select_student('2')">22,500원</button>
+                   </td>
+                   <td style="height: 200px">
+                       <strike>45,000</strike><br/>
+                       <button onclick="fn_pay_select_student('3')">22,500원</button>
+                   </td>
+               </tr>
+               <tr>
+                   <th colspan="3">참여 예정 트랙</th>
+               </tr>
+               <tr>
+                   <td colspan="3">
+
+
+                       <input type="text" name="apply_product_name" value="" id="apply_product_name"><br />
+                       <input type="text" name="apply_product_name" value="" id="apply_product_price"><br />
+                       <input type="text" name="apply_product_code" value="" id="apply_product_code"><br />
+
+
+
+                       <input type="radio" onclick="fn_track_check()" name="apply_track" value="게임:프로그래밍" id="apply_track_1"><label for="apply_track_1">게임·프로그래밍</label>
+                       <input type="radio" onclick="fn_track_check()" name="apply_track" value="게임:아트" id="apply_track_2"><label for="apply_track_2">게임·아트 및 공통</label>
+                       <br />
+                       <input type="radio" onclick="fn_track_check()" name="apply_track" value="M&E" id="apply_track_3"><label for="apply_track_3">영화&TV, 애니메이션, 방송</label>
+                       <input type="radio" onclick="fn_track_check()" name="apply_track" value="AEC/제조" id="apply_track_4"><label for="apply_track_4">건축 및 기타</label>
+                   </td>
+
+               </tr>
+           </table>
+        </div>
+          <div class="content-box">
+              <div class="section">
+                  <h2 class="section-title">본인 인증 선택</h2>
+                  <div class="btn-group ipin_btn">
+                      <button onclick="jsSubmitPin()">아이핀 인증</button>
+                      <button onclick="jsSubmit()">휴대폰 인증</button>
+                  </div>
+              </div>
+              <div class="section">
+                  <div class="terms-wrap">
+                      <div class="wra">
+                          본인 인증은 공인 인증된 타기관(KCB인증)을 통해 진행됩니다.<br />
+                          입력하신 개인정보는 에픽 라운지에서 보관하지 않습니다.<br />
+                          등록은 만 18세 이상부터 가능합니다.<br />
+                          인증이 불가한 경우, 관리자에게 이메일로 문의해 주세요: <a href="mailto:info@epiclounge.co.kr" target="_blank"> info@epiclounge.co.kr</a>
+                      </div>
+                  </div>
+
+              </div>
+
+          </div>
+    </div>
+  </div>
+  <style>
+      strike{
+          background-color: black;
+          color: gray;
+          border: none;
+          padding: 10px 20px;
+          text-align: center;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+
+      }
+      button{
+          background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+
+      }
+  </style>
+  <script>
+      function fn_pay_select_student(type) {
+
+
+          if (type == 1) {
+              $("#apply_product_name").val("학생 양일권");
+              $("#apply_product_price").val("45000");
+              $("#apply_product_code").val("STD_ALL");
+          } else if (type == 2) {
+              $("#apply_product_name").val("학생 28일권");
+              $("#apply_product_price").val("22500");
+              $("#apply_product_code").val("STD_28");
+          } else if (type == 3) {
+              $("#apply_product_name").val("학생 29일권");
+              $("#apply_product_price").val("22500");
+              $("#apply_product_code").val("STD_29");
+          }
+      }
+      function fn_pay_select_normal(type) {
+          if (type == 1) {
+              $("#apply_product_name").val("일반 양일권");
+              $("#apply_product_price").val("60000");
+              $("#apply_product_code").val("NORMAL_ALL");
+          } else if (type == 2) {
+              $("#apply_product_name").val("일반 28일권");
+              $("#apply_product_price").val("30000");
+              $("#apply_product_code").val("NORMAL_28");
+          } else if (type == 3) {
+              $("#apply_product_name").val("일반 29일권");
+              $("#apply_product_price").val("30000");
+              $("#apply_product_code").val("NORMAL_29");
+
+          }
+      }
+
+      function fn_track_check(){
+
+          if($("#apply_product_name").val() == ""){
+              alert("티켓을 선택해주세요");
+              $("input[name=apply_track]:checked").prop("checked", false);
+              return;
+          }
+          if($("#apply_product_price").val() == ""){
+              alert("티켓을 선택해주세요");
+              $("input[name=apply_track]:checked").prop("checked", false);
+              return;
+          }
+          if($("#apply_product_code").val() == ""){
+              alert("티켓을 선택해주세요");
+              $("input[name=apply_track]:checked").prop("checked", false);
+              return;
+          }
+          $.ajax({
+              type: "GET",
+              url: "/v3/unrealfest2024/_applicaiton_ajax.php",
+              data: {
+                  code: $("#apply_product_code").val(),
+                  track: $("input[name=apply_track]:checked").val()
+              },
+              success: function (data) {
+                  if(data == "success"){
+
+                  }else{
+                      alert(data);
+                      $("input[name=apply_track]:checked").prop("checked", false);
+                      $("input[name=apply_track]:checked").prop("disabled", true);
+                  }
+              }
+          });
+      }
+  </script>
+
+
+
+<script>
+    <!--
+    function jsSubmit(){
+
+
+        $("#ipin_apply_product_name").val($("#apply_product_name").val());
+        $("#ipin_apply_product_price").val($("#apply_product_price").val());
+        $("#ipin_apply_product_code").val($("#apply_product_code").val());
+        $("#ipin_apply_track").val($("input[name=apply_track]:checked").val());
+
+        if($("#ipin_apply_track").val() == ""){
+            alert("트랙을 선택해주세요");
+            return;
+        }
+        if($("#ipin_apply_product_name").val() == ""){
+            alert("티켓을 선택해주세요");
+            return;
+        }
+        if($("#ipin_apply_product_price").val() == ""){
+            alert("티켓을 선택해주세요");
+            return;
+        }
+        if($("#ipin_apply_product_code").val() == ""){
+            alert("티켓을 선택해주세요");
+            return;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/v3/unrealfest2024/_applicaiton_ajax.php",
+            data: {
+                code: $("#ipin_apply_product_code").val(),
+                track: $("#ipin_apply_track").val()
+            },
+            success: function (data) {
+                if(data == "success"){
+                    window.open("/v3/unrealfest2024/real/phone_popup2.php", "auth_popup", "width=430,height=640,scrollbars=yes");
+                    var form1 = document.form1;
+                    form1.target = "auth_popup";
+                    form1.submit();
+                }else{
+                    alert(data);
+                }
+            }
+        });
+
+    }
+    //-->
+</script>
+<script>
+    <!--
+    function jsSubmitPin(){
+
+
+        $("#ipin_apply_product_name").val($("#apply_product_name").val());
+        $("#ipin_apply_product_price").val($("#apply_product_price").val());
+        $("#ipin_apply_product_code").val($("#apply_product_code").val());
+        $("#ipin_apply_track").val($("input[name=apply_track]:checked").val());
+
+        if($("#ipin_apply_track").val() == ""){
+            alert("트랙을 선택해주세요");
+            return;
+        }
+        if($("#ipin_apply_product_name").val() == ""){
+            alert("티켓을 선택해주세요");
+            return;
+        }
+        if($("#ipin_apply_product_price").val() == ""){
+            alert("티켓을 선택해주세요");
+            return;
+        }
+        if($("#ipin_apply_product_code").val() == ""){
+            alert("티켓을 선택해주세요");
+            return;
+        }
+
+
+
+        $.ajax({
+            type: "GET",
+            url: "/v3/unrealfest2024/_applicaiton_ajax.php",
+            data: {
+                code: $("#ipin_apply_product_code").val(),
+                track: $("#ipin_apply_track").val()
+            },
+            success: function (data) {
+                if(data == "success"){
+                    var popupWindow = window.open("/v3/unrealfest2024/real/ipin_popup2.php", "kcbPop", "left=200, top=100, status=0, width=450, height=550");
+                    popupWindow.focus()	;
+                }else{
+                    alert(data);
+                }
+            }
+        });
+
+
+    }
+    //-->
+</script>
+
+<!-- 휴대폰 본인확인 팝업 처리결과 정보 = phone_popup3 에서 값 입력 -->
+<form name="kcbResultForm" method="post" >
+    <input type="hidden" name="CP_CD" />
+    <input type="hidden" name="TX_SEQ_NO" />
+    <input type="hidden" name="RSLT_CD" />
+    <input type="hidden" name="RSLT_MSG" />
+
+    <input type="hidden" name="RSLT_NAME" />
+    <input type="hidden" name="RSLT_BIRTHDAY" />
+    <input type="hidden" name="RSLT_SEX_CD" />
+    <input type="hidden" name="RSLT_NTV_FRNR_CD" />
+
+    <input type="hidden" name="DI" />
+    <input type="hidden" name="CI" />
+    <input type="hidden" name="CI2" />
+    <input type="hidden" name="CI_UPDATE" />
+    <input type="hidden" name="TEL_COM_CD" />
+    <input type="hidden" name="TEL_NO" />
+    <input type="hidden" name="VSSN" />
+
+    <input type="hidden" name="RETURN_MSG" />
+
+    <input type="hidden" name="apply_product_name" value="" id="ipin_apply_product_name">
+    <input type="hidden" name="apply_product_price" value="" id="ipin_apply_product_price">
+    <input type="hidden" name="apply_product_code" value="" id="ipin_apply_product_code">
+    <input type="hidden" name="apply_track" value="" id="ipin_apply_track"><br />
+
+</form>
+</body>
+
+</html>

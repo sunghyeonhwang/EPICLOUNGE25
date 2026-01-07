@@ -1,0 +1,85 @@
+@font-face {
+	font-family: 'SUITE';
+	font-weight: 200;
+	src: local('SUITE Light'), url('../font/SUITE-Light.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'SUITE';
+	font-weight: normal;
+	src: local('SUITE Regular'), url('../font/SUITE-Regular.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'SUITE';
+	font-weight: 500;
+	src: local('SUITE Medium'), url('../font/SUITE-Medium.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'SUITE';
+	font-weight: 600;
+	src: local('SUITE SemiBold'), url('../font/SUITE-SemiBold.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'SUITE';
+	font-weight: bold;
+	src: local('SUITE Bold'), url('../font/SUITE-Bold.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'SUITE';
+	font-weight: 900;
+	src: local('SUITE Heavy'), url('../font/SUITE-Heavy.woff2') format('woff2');
+}
+
+
+@font-face {
+	font-family: 'pretendard';
+	font-weight: 200;
+	src: local('pretendard'), url('../font/pretendard_light.woff2') format('woff2');
+}
+
+
+
+@font-face {
+	font-family: 'pretendard';
+	font-weight: normal;
+	src: local('pretendard'), url('../font/pretendard_regular.woff2') format('woff2');
+}
+
+
+
+@font-face {
+	font-family: 'pretendard';
+	font-weight: bold;
+	src: local('pretendard'), url('../font/pretendard_bold.woff2') format('woff2');
+}
+
+
+
+@font-face{
+	font-family:'Brutal Type';
+	font-style:normal;
+	font-weight:300;
+	src:local("BrutalType Light"),local("BrutalType-Light"),url("/v3/assets/font/BrutalType-Light.eot");
+	src:url("/v3/assets/font/BrutalType-Light.eot?#iefix") format("embedded-opentype"),url("/v3/assets/font/BrutalType-Light.woff2") format("woff2"),url("/v3/assets/font/BrutalType-Light.woff") format("woff")
+}
+@font-face{
+	font-family:'Brutal Type';
+	font-style:normal;
+	font-weight:400;
+	src:local("BrutalType Regular"),local("BrutalType-Regular"),url("/v3/assets/font/BrutalType-Light.eot");
+	src:url("/v3/assets/font/BrutalType-Regular.eot?#iefix") format("embedded-opentype"),url("/v3/assets/font/BrutalType-Regular.woff2") format("woff2"),url("/v3/assets/font/BrutalType-Regular.woff") format("woff")
+}
+@font-face{
+	font-family:'Brutal Type';
+	font-style:normal;
+	font-weight:500;
+	src:local("BrutalType Medium"),local("BrutalType-Medium"),url("/v3/assets/font/BrutalType-Medium.eot");
+	src:url("/v3/assets/font/BrutalType-Medium.eot?#iefix") format("embedded-opentype"),url("/v3/assets/font/BrutalType-Medium.woff2") format("woff2"),url("/v3/assets/font/BrutalType-Medium.woff") format("woff")
+}
+@font-face{
+	font-family:'Brutal Type';
+	font-style:normal;
+	font-weight:700;
+	src:local("BrutalType Bold"),local("BrutalType-Bold"),url("/v3/assets/font/BrutalType-Bold.eot");
+	src:url("/v3/assets/font/BrutalType-Bold.eot?#iefix") format("embedded-opentype"),url("/v3/assets/font/BrutalType-Bold.woff2") format("woff2"),url("/v3/assets/font/BrutalType-Bold.woff") format("woff")
+}

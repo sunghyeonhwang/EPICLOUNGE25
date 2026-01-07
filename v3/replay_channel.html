@@ -1,0 +1,462 @@
+<?
+include "./common.php";
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+ini_set('display_errors', 1);
+$admin = $_GET['admin'];
+$code = $_GET['code'];
+$apply_user_email = $_POST['inputEmail'];
+
+
+
+
+if ($admin == 'admin') {
+
+} else if($_POST['inputEmail'] == 'parkdh0191@hanmail.net' || $_POST['inputEmail'] == 'sunhee.yu@epicgames.com' || $_POST['inputEmail'] == 'doeun.park@xa.epicgames.com' || $_POST['inputEmail'] == 'jinyoung.choi@epicgames.com' || $_POST['inputEmail'] == 'suyong.song@griff.co.kr' || $_POST['inputEmail'] == 'osh384@gmail.com' || $_POST['inputEmail'] == 'kwangsub.shin@epicgames.com' || $_POST['inputEmail'] == 'sunghyeon.hwang@griff.co.kr' || $_POST['inputEmail'] == 'ray.park@epicgames.com' || $_POST['inputEmail'] == 'sunhee.yu@gmail.com' || $_POST['inputEmail'] == 'dorn615@gmail.com' || $_POST['inputEmail'] == 'egoago@gmail.com' || $_POST['inputEmail'] == 'seunghwan.park@griff.co.kr' || $_POST['inputEmail'] == 'chany1220@gmail.com') {
+
+} else if($_POST['inputEmail'] == 'dsmslove@naver.com' ) {
+
+} else {
+    if('2024-06-01 11:59:00' < date("Y-m-d H:i:s")){
+
+    } else {
+        echo '<script type="text/javascript">';
+        echo "alert('지금은 시청시간이 아닙니다.');  self.close();";
+        echo '</script>';exit();
+    }
+}
+
+if ($admin == 'admin') {
+    $obj[apply_user_name] = '관리자';
+    // $track = $_GET['track'];
+} else if ($code) {
+    // $track = $_GET['track'];
+    $sql = "select * from cb_unreal_2023_event_apply_live where apply_password = '".$code."' limit 1";
+    $result = $mysqli -> query($sql);
+    $obj = $result -> fetch_array();
+    if(count($obj[0])){
+    }else{
+        echo '<script type="text/javascript">';
+        echo "alert('등록된 정보가 존재하지 않습니다. 코드를 확인해 주세요.');  self.close();";
+        echo '</script>';
+        exit();
+    }
+} else {
+    $num = $_POST['live'];
+    // $track = $_POST['track_select'];
+    if(!$num){
+        echo '<script type="text/javascript">';
+        echo "location.replace('/'); alert('정상적인 접근방식이 아닙니다.');";
+        echo '</script>';
+        exit();
+    }
+    $sql = "select * from cb_unreal_2023_event_apply where apply_user_email = '".$apply_user_email."' limit 1";
+    $result = $mysqli -> query($sql);
+    $obj = $result -> fetch_array();
+    if(count($obj[0])){
+    }else{
+        echo '<script type="text/javascript">';
+        echo "alert('라이브에 참가하거나 등록된 정보가 존재하지 않습니다. 이메일을 확인해 주세요.');  self.close();";
+        echo '</script>';
+        exit();
+    }
+}
+
+
+
+
+
+
+
+
+$track = 1;
+if($track == '1'){
+  $track1 = 1;
+} else if($track == '2'){
+  $track2 = 2;
+}
+?><!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>시작해요 언리얼 2024</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./assets/css/swiper.min.css">
+  <link rel="stylesheet" href="./assets/css/nice-select.css">
+  <link rel="stylesheet" type="text/css" href="https://epiclounge.co.kr/v2/replay23/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="https://epiclounge.co.kr/v2/replay23/css/style.css">
+  <style>
+    
+    #myBtn {
+      display: none; /* Hidden by default */
+      position: fixed; /* Fixed/sticky position */
+      bottom: 20px; /* Place the button at the bottom of the page */
+      right: 30px; /* Place the button 30px from the right */
+      z-index: 99; /* Make sure it does not overlap */
+      border: none; /* Remove borders */
+      outline: none; /* Remove outline */
+      background-color: red; /* Set a background color */
+      color: white; /* Text color */
+      cursor: pointer; /* Add a mouse pointer on hover */
+      padding: 15px; /* Some padding */
+      border-radius: 10px; /* Rounded corners */
+      font-size: 18px; /* Increase font size */
+    }
+    
+    #myBtn:hover {
+      background-color: #555; /* Add a dark-grey background on hover */
+    }
+  </style>
+
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/jquery.nice-select.min.js"></script>
+  <script src="assets/js/swiper.min.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="assets/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <!--[if IE 9]>
+  <link rel="stylesheet" href="assets/js/ie9.css">
+  <![endif]-->
+  <script>
+    // Get the button:
+    let mybutton = document.getElementById("myBtn");
+    
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+    
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+    
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+</head>
+
+<body>
+
+ <div class="wrapper">
+ 
+ <h2 class="top_header"><img src="https://unrealsummit16.cafe24.com/2024/lsu2024/visual_text_reg_re24.svg" alt="시작해요 언리얼 2024"  width="38%"></h2> 
+ <!--1주차시작-->
+  
+  <div class="view_content">  <div style="font-family: 'Gothic A1', sans-serif; color:#FFF;font-size: 1.2em; line-height: 140%; margin: 0 9% ;letter-spacing: -0.045em; text-align: left; word-break: keep-all; word-spacing:-0.055em;">
+     
+
+   
+  </div>
+ 
+  <!--1주차끝--> <!--1주차시작-->
+    <div class="container"><span style="font-weight:400;">1주차</span><span style="font-weight:800;">&nbsp; 레벨 제작하기</span> <a href="https://unrealsummit16.cafe24.com/2024/lsu2024/lets_start_unrealengine_2024_document1.pdf" target="_blank" class="myButton">1주차 자료집 다운로드</a></div>
+   <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/951807137?h=eac92763c6&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="시작해요 언리얼 1주차    레벨 제작하기"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script> 
+<Br ><Br ><Br >
+   <!--1주차끝--> <!--1주차시작-->
+  <div class="container"><span style="font-weight:400;">2주차</span><span style="font-weight:800;">&nbsp; 라이트 세팅 및 시퀀서 추가하기</span> <a href="https://unrealsummit16.cafe24.com/2024/lsu2024/lets_start_unrealengine_2024_document2.pdf" target="_blank" class="myButton">2주차 자료집 다운로드</a>
+  </div>
+ <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/951810591?h=58e9b0dca4&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="시작해요 언리얼 2주차    라이트 세팅 및 시퀀서 추가하기"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+<Br ><Br ><Br >
+ <!--1주차끝--> <!--1주차시작-->
+  <div class="container"><span style="font-weight:400;">3주차</span><span style="font-weight:800;">&nbsp; 캐릭터 애니메이션 작업하기</span> <a href="https://unrealsummit16.cafe24.com/2024/lsu2024/lets_start_unrealengine_2024_document3.pdf" target="_blank" class="myButton">3주차 자료집 다운로드</a></div>
+ <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/951813708?h=cd77fcafe3&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="시작해요 언리얼 3주차   캐릭터 애니메이션 작업하기"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+<Br ><Br ><Br >
+ <!--1주차끝--> <!--1주차시작-->
+  <div class="container"><span style="font-weight:400;">4주차</span><span style="font-weight:800;">&nbsp; 나이아가라와 블루프린트 활용하기</span> <a href="https://unrealsummit16.cafe24.com/2024/lsu2024/lets_start_unrealengine_2024_document4.pdf" target="_blank" class="myButton">4주차 자료집 다운로드</a></div>
+ <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/951816820?h=7148787bf9&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="시작해요 언리얼 4주차   나이아가라와 블루프린트 활용하기"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+<Br ><Br ><Br >
+ <!--1주차끝--> <!--1주차시작-->
+  <div class="container"><span style="font-weight:400;">5주차</span><span style="font-weight:800;">&nbsp; 영상 연출 및 렌더링하기</span> <a href="https://unrealsummit16.cafe24.com/2024/lsu2024/lets_start_unrealengine_2024_document5.pdf" target="_blank" class="myButton">5주차 자료집 다운로드</a></div>
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/952197499?h=852d736286&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="시작해요 언리얼 5주차   영상 연출 및 렌더링하기"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
+ <!--1주차끝-->
+
+  
+   
+</div>
+
+
+  
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+ </body>
+  <?php if ($admin == admin) { ?>
+  <form class="form-inline" name="fsearch2" action="https://epiclounge.co.kr/v2/replay_channel.html" method="get">
+  <input type="hidden" name="admin" value="admin">
+  <input type="hidden" name="track_select" value="">
+  <input type="hidden" name="track" value="">
+  </form>
+  <?php } else { ?>
+  <form class="form-inline" name="fsearch2" action="https://epiclounge.co.kr/v2/replay_channel.html" method="post">
+  <input type="hidden" name="inputEmail" value="<?=$obj[apply_user_email]?>">
+  <input type="hidden" name="track_select" value="">
+  <input type="hidden" name="track" value="">
+  <input type="hidden" name="live" value="1">
+  </form>
+  <?php } ?>
+  
+  
+  <script>
+    $(".header .btn-group").on("click", "a", function(){
+      //$("#popup_question").addClass("active");
+      var today3 = new Date();
+      var option2 = "width = 960, height = 1000, top = 0, left = 0, location = no";
+      var msg2 = '';
+      msg2 += today3.getFullYear()+"/",
+      msg2 += today3.getMonth()+1+"/",
+      msg2 += today3.getDate()+" ";
+      msg2 += today3.getHours()+":";
+      msg2 += today3.getMinutes()+":";
+      msg2 += today3.getSeconds();
+        var clock = document.getElementById("clock");   
+
+   
+   
+   
+   
+      if (new Date('2023/03/21 11:00:00').getTime() <= new Date(msg2).getTime() && new Date('2023//03/21 15:25:00').getTime() > new Date(msg2).getTime()) {
+      window.open('https://app.sli.do/event/wAGz3cvTcUr52UNdNCNJ9p', 'live', option2);
+      } else if (new Date('2022/09/30 13:55:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/30 14:40:00').getTime() > new Date(msg2).getTime()) {
+      window.open('https://app.sli.do/event/tfAiNYmQWs5Sw5WDRtcPJL', 'live', option2);
+      } else if (new Date('2022/09/30 14:50:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/30 15:35:00').getTime() > new Date(msg2).getTime()) {
+      window.open('https://app.sli.do/event/ja33CXJqJYyteUbBSaNk1w', 'live', option2);
+      } else if (new Date('2022/09/30 15:45:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/30 16:30:00').getTime() > new Date(msg2).getTime()) {
+      window.open('https://app.sli.do/event/iYcM13vADXKdnNUF4qK4Du', 'live', option2);
+      } else if (new Date('2022/09/30 16:40:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/30 17:25:00').getTime() > new Date(msg2).getTime()) {
+      window.open('https://app.sli.do/event/ctECCkLrJoA4j6YtxiPvw4', 'live', option2);
+      } else if (new Date('2022/09/30 17:35:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/30 18:20:00').getTime() > new Date(msg2).getTime()) {
+      window.open('https://app.sli.do/event/7m9ft4QxHfUoS5eyM2sYHu', 'live', option2);
+      //      if (new Date('2022/09/23 00:04:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/23 00:07:00').getTime() > new Date(msg2).getTime()) {
+      //window.open('#', 'live', option2);
+      //} else if (new Date('2022/09/23 00:07:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/23 00:09:00').getTime() > new Date(msg2).getTime()) {
+      //window.open('#', 'live', option2);
+      //} else if (new Date('2022/09/23 00:07:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/23 00:09:00').getTime() > new Date(msg2).getTime()) {
+      //window.open('#', 'live', option2);
+      //} else if (new Date('2022/09/23 00:09:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/23 00:11:00').getTime() > new Date(msg2).getTime()) {
+      //window.open('#', 'live', option2);
+      //} else if (new Date('2022/09/23 00:11:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/23 00:12:00').getTime() > new Date(msg2).getTime()) {
+      //window.open('#', 'live', option2);
+      //} else if (new Date('2022/09/23 00:12:00').getTime() <= new Date(msg2).getTime() && new Date('2022/09/23 00:13:00').getTime() > new Date(msg2).getTime()) {
+      //window.open('#', 'live', option2);
+      } else {
+        alert('질문하기 시간이 아닙니다.');
+      }
+    });
+    
+    $("#popup_question").on("click", ".close", function(){
+      $("#popup_question").removeClass("active");
+    });
+    
+    $(".inquiry a").on("click", function(){
+      $("#popup_inquiry").addClass("active");
+    });
+    
+    $("#popup_inquiry").on("click", ".close", function(){
+      $("#popup_inquiry").removeClass("active");
+    });
+    
+    $(".tab-menu").on("click", "a", function() {
+       $(this).addClass("active");
+      // $(this).parent().siblings("li").find("a").removeClass("active");
+      // $(".tab-content").removeClass("active");
+      // $(this).parent().siblings("li").find("a").removeClass("active");
+      // $(".tab-content").removeClass("active");
+     //  $(".tab-content-" + $(this).data("tab")).addClass("active");
+      if($(this).data("tab") == 1){
+        var f = document.fsearch2;
+        f.track_select.value = 1;
+        f.track.value = 1;
+        f.submit();
+      } else {
+        var f = document.fsearch2;
+        f.track_select.value = "2";
+        f.track.value = "2";
+        f.submit();
+      }
+    });
+    
+    
+    var swiper = new Swiper(".schedule .right .list", {
+      slidesPerView: "auto",
+    });
+    
+    // 시간 체크
+    function timeControl() {
+      var today = new Date(),
+          nowTime = today.getTime(),
+          year = today.getFullYear(),
+          month = today.getMonth() + 1,
+          date = today.getDate();
+      
+      $(".list ul li").each(function() {
+        var time = $(this).find(".time").text(),
+            times = time.split("~"),
+            time1 = new Date(year + "/" + month + "/" + date + " " + times[0]),
+            time2 = new Date(year + "/" + month + "/" + date + " " + times[1]),
+            timeStamp1 = time1.getTime(),
+            timeStamp2 = time2.getTime();
+        
+        if (nowTime < timeStamp1 && nowTime < timeStamp2) {
+          $(this).addClass("expected").find(".status").text("예정");
+        } else if (nowTime > timeStamp1 && nowTime < timeStamp2) {
+          $(this).removeClass("expected").addClass("ing").find(".status").text("NOW");
+        } else {
+          $(this).removeClass("ing").addClass("end").find(".status").text(" ");
+        }
+      });
+
+      var today2 = new Date();
+      var msg = '';
+        msg += today2.getFullYear()+"/",
+        msg += today2.getMonth()+1+"/",
+        msg += today2.getDate()+" ";
+        msg += today2.getHours()+":";
+        msg += today2.getMinutes()+":";
+        msg += today2.getSeconds();
+        var option = "width = 700, height = 900, top = 0, left = 0, location = no";
+        var track = '<?=$track?>';
+        var clock = document.getElementById("clock");   
+        //clock.innerHTML = msg;
+       //if (track == 1) {
+       //if ((new Date('2022/04/14 16:50:00').getTime() == new Date(msg).getTime())) {
+       //window.open('https://bit.ly/3lsE9Cg', 'live', option);
+       //  }
+       //} else if (track == 2) {
+       //  if ((new Date('2022/04/14 16:50:00').getTime() == new Date(msg).getTime())) {
+       //    window.open('https://bit.ly/3FDTf02', 'live', option);
+       //  }
+      // }
+       if (track == 1) {
+        // if ((new Date('2021/10/13 18:00:00').getTime() == new Date(msg).getTime())) {
+        //   window.open('https://forms.gle/pug46LeLU6C6RQx3A', 'live', option);
+        // }
+       //} else if (track == 2) {
+         if ((new Date('2023/03/21 14:55:00').getTime() == new Date(msg).getTime())) {
+           window.open('https://forms.gle/ADyTMQZwr5qqJuGn6', 'live', option);
+         }
+       }
+      
+    }
+    
+    timeControl();
+    
+    setInterval(timeControl, 1000);
+    
+    $('select').niceSelect();
+    
+  </script>
+  <script>
+      $(function() {
+        setLogin();
+        // 전화번호 숫자만 입력
+        $("input:text[numberOnly]").on("keyup", function() {
+            $(this).val($(this).val().replace(/[^0-9]/g,""));
+        });
+      });
+  
+      function setLogin() {
+          $.validator.addMethod("userEmail", function(value, element) {
+              return this.optional(element) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(value);
+          }, "이메일을 형식에 맞게 입력하세요.");
+  
+          $('#login-form').validate({
+              debug: true,
+              onfocusout: function(element) {
+                  $(element).valid();
+              },
+              errorPlacement: function(error, element) {
+                  element.parent().next('.warning').show();
+              },
+              rules: {
+                  inputEmail: {
+                      required: true,
+                      maxlength: 50,
+                      userEmail: true,
+                      email: true
+                  },
+              },
+              highlight: function(element) {},
+              unhighlight: function(element) {
+                  $(element).parent().next('.warning').hide();
+              },
+              messages: {
+                  inputEmail: {
+                      required: "이메일을 입력하세요.",
+                      maxlength: $.validator.format('이메일은 {0}자 내로 입력하세요.'),
+                      email: "이메일을 형식에 맞게 입력하세요."
+                  },
+              },
+              invalidHandler: function(form, validator) {
+                  var errors = validator.numberOfInvalids();
+                  if (errors) {
+                      alert(validator.errorList[0].message);
+                      validator.errorList[0].element.focus();
+                  }
+              }
+          });
+          
+
+          $("#btnLoginAction").on("click", function(e) {
+            var form = document.forms['login-form'];
+            if ($('#login-form').valid()) { // test for validity
+              if (form.apply_user_name.value == "") {
+                alert("이름을 입력해 주세요.");
+                form.apply_user_name.focus();
+                return false;
+              } else if (form.apply_user_phone.value == "") {
+                alert("연락처를 입력해 주세요.");
+                form.apply_user_phone.focus();
+                return false;
+              } else if (form.apply_user_company.value == "") {
+                alert("회사명을 입력해 주세요.");
+                form.apply_user_company.focus();
+                return false;
+              } else if (form.apply_user_depart.value == "") {
+                alert("부서를 입력해 주세요.");
+                form.apply_user_depart.focus();
+                return false;
+              } else if (form.apply_user_grade.value == "") {
+                alert("분류를 선택해 주세요.");
+                form.apply_user_grade.focus();
+                return false;
+              } else if (form.apply_content.value == "") {
+                alert("내용을 입력해 주세요.");
+                form.apply_content.focus();
+                return false;
+              }
+              
+              var gsWin = window.open("about:blank", "winName");
+              form.target="winName";
+              form.submit();
+              
+              form.apply_user_name.value = '';
+              form.inputEmail.value = '';
+              form.apply_user_phone.value = '';
+              form.apply_user_company.value = '';
+              form.apply_user_depart.value = '';
+              form.apply_user_grade.value = '';
+              form.apply_content.value = '';
+            } else {
+                // do stuff if form is not valid
+            }
+        });
+      }
+    </script>
+</body>
+
+</html>

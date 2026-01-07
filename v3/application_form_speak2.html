@@ -1,0 +1,675 @@
+<?php
+include_once "./common.php";
+if($_SESSION["CI"] == ""){
+    echo "<script>alert('본인인증이 필요합니다.');location.href=\"application_terms_speaker.html\";</script>";
+    exit;
+}
+
+
+$birthdate = $_SESSION["RSLT_BIRTHDAY"];
+$currentDate = date('Y-m-d');
+$age = date_diff(date_create($birthdate), date_create($currentDate))->y;
+if($age < 14){
+    echo "<script>alert('14세 이상만 신청이 가능합니다.');location.href=\"application_terms_speaker.html\";</script>";
+    exit;
+
+}
+
+$ci = $_SESSION["CI"];
+
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+$sql = "select count(*) from cb_unreal_2024_speaker_apply where apply_ci = '$ci' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if($obj[0]['count']){
+    echo '<script type="text/javascript">';
+    echo " alert('이미 등록되어 있는 회원입니다.'); location.href='application_terms_speaker.html';";
+    echo '</script>';
+    exit();
+};
+if(!empty($_SESSION["prev_post"])){
+    $prev_data = $_SESSION["prev_post"];
+};
+
+$complete_url = "findApplySpeakByEmail.php";
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>에픽라운지</title>
+
+  <!-- CSS -->
+
+    <link rel="stylesheet" href="./assets/css/nice-select.css">
+    <link rel="stylesheet" href="./assets/css/event_speaker.css">
+    <link rel="stylesheet" href="./assets/css/font_0626.css">
+
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/jquery.nice-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="assets/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <!--[if IE 9]>
+  <link rel="stylesheet" href="assets/js/ie9.css">
+  <![endif]-->
+
+</head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-174668456-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-174668456-1');
+</script>
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '413080733349618');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=413080733349618&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<body>
+  <header class="header">
+    <div class="inner-wrap">
+      <div class="logo">
+<a href="https://epiclounge.co.kr/"><span class="blind">로고</span></a>
+      </div>
+      <div class="confirm">
+        <p>이미 등록을 하셨나요?</p>
+        <div class="btn-group">
+          <a href="application_confirm_speak.html" class="md sky" "="">등록 확인</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container app_from">
+    <form id="login-form" name="login-form" action="<?=$complete_url?>" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="level" value="<?=$level?>" />
+<h1 class="event-title"><img src="/assets/img/unrealfest/UnrealFest_Logo_24.svg" alt="시작해요 언리얼 UEFN" /></h1>
+        <div class="contents-wrap">
+        <div class="steps">
+          <ul>
+            <li>
+              <div class="num">01</div>
+              <div class="text">약관 동의</div>
+            </li>
+            <li>
+              <div class="num">02</div>
+              <div class="text">본인 인증</div>
+            </li>
+            <li class="active">
+              <div class="num">03</div>
+              <div class="text">정보 입력</div>
+            </li>
+            <li>
+              <div class="num">04</div>
+
+                <?php if($_SESSION["mode"] == "pay"){ ?>
+                    <div class="text">결제 및 등록</div>
+                <?}else{?>
+                    <div class="text">등록</div>
+
+                <?}?>
+            </li>
+          </ul>
+        </div>
+          <div class="content-box">
+
+              <div class="section">
+                <!--  <h2 class="section-title">선택티켓</h2>-->
+
+             
+              </div>
+            <div class="section">
+              <h2 class="section-title">발표자 정보 입력</h2>
+              <div class="form-wrap">
+                <ul>
+                  <li>
+                    <h3><span class="red-dot">이름</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_name"  value="<?=$_SESSION["RSLT_NAME"]?>" readonly placeholder="이름을 입력해 주세요.">
+                    </div>
+                  </li>
+                  <li>
+                    <h3><span class="red-dot">회사</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_company"  value="<?=$_SESSION["RSLT_COMP"]?>"  placeholder="회사명을 입력해 주세요.">
+                    </div>
+                  </li>
+                  <li>
+                    <h3><span class="red-dot">이메일</span></h3>
+                    <div class="wrap">
+                      <input type="text" id="inputEmail" name="inputEmail" value="<?=$prev_data["inputEmail"]?>" placeholder="이메일을 입력해 주세요.">
+                    </div>
+                  </li>
+                  <li>
+                    <h3><span class="red-dot">연락처</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_phone" value="<?=$_SESSION["TEL_NO"]?>" readonly numberOnly placeholder="연락처를 입력해 주세요.">
+                     <!-- <input type="text" name="apply_user_phone" value="<?=$_SESSION["TEL_NO"]?>" numberOnly placeholder="연락처를 입력해 주세요.">-->
+
+                    </div>
+                  </li>
+                  <li>
+                    <h3><span class="red-dot">약력</span></h3>
+                    <div class="wrap">
+                      <textarea type="textarea" wrap="soft" name="apply_user_history" value=""  style="height:120px;" placeholder="예)2009년 에픽게임즈 코리아에 합류해서 현재 본부장으로 재직 중이며, 이전에는 소프트맥스에서 언리얼 엔진 2,3로 마그나카르타 PS2, PSP, Xbox 360 버전을 개발했습니다."></textarea>
+                  
+                    </div>
+                  </li>
+                  <li>
+                    <h3><span class="red-dot">강연자<br  />사진</span></h3>
+                    <div class="wrap">
+                     <input type="file" style="width:100%;" name="apply_photo_file" value="" numberOnly placeholder="4MB이하의 JPG파일을 사용해 주세요.">
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="line";>
+              <br><hr></hr>
+            </div>
+            <div class="section">
+               <h2 class="section-title">분야</h2>
+               <div class="form-wrap session">
+                 <ul class="list_2">
+                   <li>
+                       <input type="radio" name="apply_pt_category" class="ex_chk"  id="category1" value="공통" >
+                       <label for="category1" >공통</label>
+          </li>
+                   <li>
+                       <input type="radio" name="apply_pt_category" class="ex_chk"  id="category2" value="게임" >
+                       <label for="category2" class="day3">게임</label>
+          </li>
+                   <li>
+                       <input type="radio" name="apply_pt_category" class="ex_chk"   id="category3" value="영화&TV" >
+                       <label for="category3" style="width: 100%">영화&TV</label>
+          </li>
+                   <li>
+                       <input type="radio" name="apply_pt_category"  class="ex_chk"  id="category4" value="방송&라이브 이벤트" >
+                       <label for="category4" style="width: 100%">방송&라이브 이벤트</label>
+          </li>
+                   <li>
+                       <input type="radio" name="apply_pt_category"  class="ex_chk"  id="category5" value="애니메이션" >
+                        <label for="category5" style="width: 100%">애니메이션</label>
+          </li>
+                     <li>
+                         <input type="radio" name="apply_pt_category"  class="ex_chk"  id="category6" value="건축" >
+                         <label for="category6" style="width: 100%">건축</label>
+                     </li>
+                     <li>
+                         <input type="radio" name="apply_pt_category"  class="ex_chk"  id="category7" value="자동차" >
+                         <label for="category7" style="width: 100%">자동차</label>
+                     </li>
+                     <li>
+                         <input type="radio" name="apply_pt_category"  class="ex_chk"  id="category8" value="시뮬레이션" >
+                         <label for="category8" style="width: 100%">시뮬레이션</label>
+                     </li>
+                     <li>
+                         <input type="radio" name="apply_pt_category"  class="ex_chk"  id="category9" value="교육" >
+                         <label for="category9" style="width: 100%">교육</label>
+                     </li>
+                     <li>
+                         <input type="radio" name="apply_pt_category"  class="ex_chk"  id="category10" value="기타" >
+                         <label for="category10" style="width: 100%">기타</label>
+                     </li>
+                 </ul>
+                   <script>
+                      $(document).ready(function(){
+
+                          $("#etc1").hide();
+                          $("#etc2").hide();
+                          $("#etc3").hide();
+                          $("#etc4").hide();
+                        $(".ex_chk").click(function(){
+                          if($(this).val() == "기타"){
+                              $("#etc1").attr("readonly",false);
+                              $("#etc1").focus();
+                              $("#etc1").show();
+                          }else{
+                            $("#etc1").attr("readonly",true);
+                            $("#etc1").val("");
+                            $("#etc1").hide();
+                          }
+                        });
+                      });
+                   </script>
+
+         <input type="text" name="etc1" id="etc1" value="" readonly="readonly" placeholder="기타내용을 입력해 주세요.">
+               </div> 
+             </div>
+             
+             <div class="line";>
+               <br><hr></hr>
+             </div> 
+              <div class="section">
+                <h2 class="section-title">제품군</h2>
+                <p class="section-content">복수 선택이 가능합니다.</p>
+
+               <div class="form-wrap session">
+                  <ul class="list_2">
+                    <li>
+                        <input type="checkbox" name="apply_pt_platform[]" class="ex_chk2"  id="platform1" value="언리얼 엔진 5" <?=$prev_data["apply_user_ex1"]?"checked":""?>>
+                        <label for="platform1" class="day1">언리얼 엔진 5</label>
+          </li>
+                   <li>
+                        <input type="checkbox" name="apply_pt_platform[]" class="ex_chk2"  id="platform2" value="언리얼 엔진 4" <?=$prev_data["apply_user_ex2"]?"checked":""?>>
+                        <label for="platform2" class="day2">언리얼 엔진 4</label>
+          </li>
+                   <li>
+                        <input type="checkbox" name="apply_pt_platform[]" class="ex_chk2"   id="platform3" value="UEFN" <?=$prev_data["apply_user_ex3"]?"checked":""?>>
+                        <label for="platform3" class="day3">UEFN</label>
+          </li>
+                   <li>
+                        <input type="checkbox" name="apply_pt_platform[]"  class="ex_chk2"  id="platform4" value="메타휴먼" <?=$prev_data["apply_user_ex4"]?"checked":""?>>
+                        <label for="platform4" style="width: 100%">메타휴먼</label>
+          </li>
+                   <li>
+                        <input type="checkbox" name="apply_pt_platform[]"  class="ex_chk2"  id="platform5" value="에픽온라인서비스" <?=$prev_data["apply_user_ex4"]?"checked":""?>>
+                        <label for="platform5" style="width: 100%">에픽온라인서비스</label>
+          </li>
+                   <li>
+                        <input type="checkbox" name="apply_pt_platform[]"  class="ex_chk2"  id="platform6" value="퀵셀" <?=$prev_data["apply_user_ex4"]?"checked":""?>>
+                        <label for="platform6" style="width: 100%">퀵셀</label>
+          </li>
+                   <li>
+                        <input type="checkbox" name="apply_pt_platform[]"  class="ex_chk2"  id="platform7" value="트윈모션" <?=$prev_data["apply_user_ex4"]?"checked":""?>>
+                        <label for="platform7" style="width: 100%">트윈모션</label>
+          </li>
+                      <li>
+                          <input type="checkbox" name="apply_pt_platform[]" class="ex_chk2"  id="platform9" value="리얼리티캡쳐" <?=$prev_data["apply_user_ex1"]?"checked":""?>>
+                          <label for="platform9" class="day1">리얼리티캡처</label>
+                      </li>
+                   <li>
+                        <input type="checkbox" name="apply_pt_platform[]"  class="ex_chk2"  id="platform8" value="기타" <?=$prev_data["apply_user_ex4"]?"checked":""?>>
+                        <label for="platform8" style="width: 100%">기타</label>
+                    </li>
+                  </ul>
+                    <script>
+                        $(document).ready(function(){
+                            $("#platform8").click(function(){
+                                if($("#platform8").is(":checked")){
+                                    $("#etc2").attr("readonly",false);
+                                    $("#etc2").focus();
+                                    $("#etc2").show();
+                                }else{
+                                    $("#etc2").attr("readonly",true);
+                                    $("#etc2").val("");
+                                    $("#etc2").hide();
+                                }
+
+                            });
+                        });
+                    </script>
+         <input type="text" name="etc2" id="etc2"  readonly="true" value="" placeholder="기타내용을 입력해 주세요.">
+                </div> 
+              </div>
+              <div class="line";>
+                <br><hr></hr>
+              </div>
+              <div class="section">
+                 <h2 class="section-title">주제</h2>
+                 <p class="section-content">복수 선택이 가능합니다.</p>
+                 <div class="form-wrap session">
+                 <ul class="list_2">
+                     <li>
+                         <input type="checkbox" name="apply_pt_subject[]" class="ex_chk3"   id="subject12" value="공통" <?=$prev_data["apply_user_ex1"]?"checked":""?>>
+                         <label for="subject12" >공통</label>
+                     </li>
+                     <li>
+                         <input type="checkbox" name="apply_pt_subject[]" class="ex_chk3"   id="subject1" value="프로그래밍" <?=$prev_data["apply_user_ex1"]?"checked":""?>>
+                         <label for="subject1" >프로그래밍</label>
+          </li>
+                   <li>
+                         <input type="checkbox" name="apply_pt_subject[]" class="ex_chk3"   id="subject2" value="비주얼아트" <?=$prev_data["apply_user_ex2"]?"checked":""?>>
+                         <label for="subject2" class="day3">비주얼아트</label>
+          </li>
+                   <li>
+                         <input type="checkbox" name="apply_pt_subject[]" class="ex_chk3"    id="subject3" value="프로덕션" <?=$prev_data["apply_user_ex3"]?"checked":""?>>
+                         <label for="subject3" style="width: 100%">프로덕션</label>
+          </li>
+                   <li>
+                          <input type="checkbox" name="apply_pt_subject[]"  class="ex_chk3"   id="subject4" value="기획" <?=$prev_data["apply_user_ex4"]?"checked":""?>>
+                          <label for="subject4" style="width: 100%">기획</label>
+          </li>
+                   <li>
+                          <input type="checkbox" name="apply_pt_subject[]"  class="ex_chk3"   id="subject5" value="버추얼프로덕션" >
+                           <label for="subject5" style="width: 100%">버추얼프로덕션</label>
+          </li>
+                   <li>
+                            <input type="checkbox" name="apply_pt_subject[]"  class="ex_chk3"   id="subject6" value="디지털휴먼" <?=$prev_data["apply_user_ex4"]?"checked":""?>>
+                            <label for="subject6" style="width: 100%">디지털휴먼</label>
+          </li>
+                     <li>
+                         <input type="checkbox" name="apply_pt_subject[]"  class="ex_chk3"   id="subject7" value="VR/AR/MR/XR" >
+                         <label for="subject7" style="width: 100%">VR/AR/MR/XR</label>
+                     </li>
+                     <li>
+                         <input type="checkbox" name="apply_pt_subject[]"  class="ex_chk3"   id="subject8" value="디지털트윈" >
+                         <label for="subject8" style="width: 100%">디지털트윈</label>
+                     </li>
+                     <li>
+                         <input type="checkbox" name="apply_pt_subject[]"  class="ex_chk3"   id="subject9" value="메타버스" >
+                         <label for="subject9" style="width: 100%">메타버스</label>
+                     </li>
+                     <li>
+                         <input type="checkbox" name="apply_pt_subject[]"  class="ex_chk3"   id="subject11" value="리얼리티 캡쳐" >
+                         <label for="subject11" style="width: 100%">리얼리티캡처</label>
+                     </li>
+                   <li>
+                             <input type="checkbox" name="apply_pt_subject[]"  class="ex_chk3"   id="subject10" value="기타" >
+                              <label for="subject10" style="width: 100%">기타</label>
+                     </li>
+                   </ul>
+                     <script>
+                         $(document).ready(function(){
+                             $("#subject10").click(function(){
+                                 if($("#subject10").is(":checked")){
+                                     $("#etc3").attr("readonly",false);
+                                     $("#etc3").focus();
+                                     $("#etc3").show();
+                                 }else{
+                                     $("#etc3").attr("readonly",true);
+                                     $("#etc3").val("");
+                                     $("#etc3").hide();
+                                 }
+
+                             });
+                         });
+                     </script>
+                     <input type="text" name="etc3" id="etc3"  readonly="true" value="" placeholder="기타내용을 입력해 주세요.">
+                     <script>
+                            $(document).ready(function(){
+                                if($(".ex_chk").length == $(".ex_chk:checked").length) {
+                                    $("#all_session").prop("checked", true);
+                                }else {
+                                    $("#all_session").prop("checked", false);
+                                }
+                              $(".ex_chk").change(function(){
+                                  if($(".ex_chk").length == $(".ex_chk:checked").length) {
+                                      $("#all_session").prop("checked", true);
+                                  }else {
+                                      $("#all_session").prop("checked", false);
+                                  }
+                              });
+                            });
+                     </script>
+                 </div> 
+               </div>
+               <div class="line";>
+                 <br><hr></hr>
+               </div>
+            <div class="section">
+              <h2 class="section-title">세션 정보</h2>
+             
+            
+              <div class="form-wrap">
+                <ul>
+                  <li>
+                   <h3><span class="red-dot">소요시간</span></h3>
+                    <div class="wrap">
+                      <select name="apply_pt_runtime" id="apply_pt_runtime" >
+                        <option value=''>시간선택</option>
+                        <option>30분(Q&A 없음)</option>
+                        <option>50분(Q&A 10분 포함)</option>
+                      </select>
+                    </div>
+                  </li>
+                    <li>
+                        <h3><span class="red-dot">난이도</span></h3>
+                        <div class="wrap">
+                            <select name="apply_pt_difficulty" id="apply_pt_difficulty" >
+                                <option value=''>선택</option>
+                                <option>초급</option>
+                                <option>중급</option>
+                                <option>고급</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <h3><span class="red-dot">플랫폼</span></h3>
+                        <div class="wrap">
+                            <select name="apply_add_field1" id="apply_add_field1" >
+                                <option value=''>선택</option>
+                                <option>크로스 플랫폼</option>
+                                <option>PC</option>
+                                <option>모바일</option>
+                                <option>콘솔</option>
+                                <option>기타</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+
+                        <script>
+                            $(document).ready(function(){
+                                $("#apply_add_field1").change(function(){
+                                    if($("#apply_add_field1").val() == "기타"){
+                                        $("#etc4").attr("readonly",false);
+                                        $("#etc4").focus();
+                                        $("#etc4").show();
+                                    }else{
+                                        $("#etc4").attr("readonly",true);
+                                        $("#etc4").val("");
+                                        $("#etc4").hide();
+                                    }
+                                });
+                            });
+                        </script>
+                        <input type="text" name="etc4" id="etc4"  readonly="true" value="" placeholder="기타내용을 입력해 주세요.">
+                    </li>
+                    <li class=" etc">
+                        <h3><span class="red-dot">청강대상</span></h3>
+                        <div class="wrap">
+                            <input type="text" name="apply_add_field2" value="<?=$prev_data["apply_add_field2"]?>"  placeholder="예) VR 콘텐츠를 제작하는 누구나">
+                        </div>
+                    </li>
+                    <li class=" etc w100_title">
+                      <div class="line";>
+                        <br><hr></hr>
+                      </div>
+                    <div class="section">
+                        <h2 class="section-title">발표 공개 여부</h2>
+                        <h3 style="margin-top:10px"><span class="red-dot"> 발표자료 PDF</span></h3>
+                        <div class="form-wrap session">
+                            <ul class="list_2">
+                                <li>
+                                    <input type="radio" name="apply_add_field3"   id="apply_add_field3_1" value="동의함" >
+                                    <label for="apply_add_field3_1" >동의함</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="apply_add_field3"  id="apply_add_field3_2" value="동의안함" >
+                                    <label for="apply_add_field3_2" >동의안함</label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <h3 style="margin-top:20px"><span class="red-dot"> 발표영상</span></h3>
+                        <div class="form-wrap session">
+                            <ul class="list_2">
+                                <li>
+                                    <input type="radio" name="apply_add_field4"  id="apply_add_field4_1" value="동의함" >
+                                    <label for="apply_add_field4_1" >동의함</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="apply_add_field4"  id="apply_add_field4_2" value="동의안함" >
+                                    <label for="apply_add_field4_2" >동의안함</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    </li>
+ <div class="line";>
+                      <br><hr></hr>
+                    </div>
+                    <li class=" etc w100_title">
+                        <h3><span class="red-dot">목차</span></h3>
+                        <div class="wrap">
+                            <textarea type="textarea" name="apply_add_field5" value="<?=$prev_data["apply_add_field5"]?>" style=" height:140px;"placeholder="예) 1. VR 콘텐츠 제작 시 유의점 2. 몰입감 있는 VR 경험을 선사하기 위해 고려되어야 하는 요소 살펴보기  3. 실제 VR 개발 경험을 토대로 배운 이슈 해결 및 개선 팁 노하우 공유  4. VR환경에서 몰입감 있는 게임 플레이를 위한 최적화 기법"></textarea>
+                        </div>
+                    </li>
+                  <li class=" etc w100_title">
+                   <h3><span class="red-dot">세션 제목</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_pt_title" value="<?=$prev_data["apply_pt_title"]?>"  placeholder="예) 로보리콜 포스트모텀 - 몰입감 극대화를 위한 그 시도와 성공의 구현일지">
+                    </div>
+                  </li>
+                  <li class=" etc w100_title">
+                   <h3><span class="red-dot">세션에서 어떤내용을 다루실 건가요 ?</span></h3>
+                    <div class="wrap">
+                      <textarea type="textarea" name="apply_pt_intro" value="<?=$prev_data["apply_pt_intro"]?>" style=" height:200px;"placeholder="예) VR은 제한적인 이동과 게임 요소에 따라서 멀미를 느낄 수 있는등 콘텐츠 제작에 있어서 조심해야 하고 고려해야 하는 부분이 있고, 또한 몰입감 있는 VR 경험을 선사하기 위해서 생각해야 하는 요소들이 있습니다. 저희의 VR 개발 경험을 토대로 배운 이런 이슈를 해결하거나 개선하기 위한 중요 요소들을 공유할 예정입니다. 또한, 90 프레임으로 렌더링과 게임플레이 요소를 전부 처리해야 하는 VR환경에서 어떤 최적화를 통해서 그래픽 퀄리티와 몰입감 있는 게임 플레이가 가능하도록 했는지 그 최적화 기법에 대해서 다루게 됩니다"></textarea>
+                    </div>
+                  </li>
+                  <li class=" etc w100_title">
+                   <h3><span class="red-dot">청강자들이 발표하게 될 세션에서 어떤 이점을 얻을 수 있나요?</span></h3>
+                    <div class="wrap">
+                      <textarea type="textarea" name="apply_pt_intro2" value="<?=$prev_data["apply_pt_intro2"]?>" style=" height:140px;"placeholder="예) 청강자들은 VR 콘텐츠 개발에 있어서 조심하고, 고려해야 하는 상황을 알게 되므로서, 더 몰입감 있고, 퀄리티 높은 VR 콘텐츠 제작이 가능하게 되고, 또한 VR의 중요 이슈인 퍼포먼스부분에서 어떤 방식으로 퍼포먼스적인 최적화를 할 수 있는지 배울 수 있게 됩니다."></textarea>
+                    </div>
+                  </li>
+                  <li class=" etc w100_title">
+                   <h3>참고 링크 (선택)</h3>
+                    <div class="wrap">
+                      <textarea type="textarea" name="apply_pt_intro3" value="<?=$prev_data["apply_pt_intro3"]?>" style=" height:100px;"placeholder="세션을 참고할 만한 링크가 있다면 링크를 공유해 주세요."></textarea>
+                    </div>
+                  </li>
+                  <li class=" etc w100_title">
+                   <h3><span class="red-dot">요청 사항</span></h3>
+                    <div class="wrap">
+                      <textarea type="text" name="apply_pt_request" value="<?=$prev_data["apply_pt_request"]?>"  style=" height:120px;"placeholder="발표시 요청 사항을 기입해 주세요."></textarea>
+                    </div>
+                  </li>
+                  
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="btn-group">
+            <a href="application_terms_speaker.html" class="lg half gray" >이전</a>
+            <a href="javascript:;" id="btnLoginAction" class="lg half sky" >확인</a>
+          </div>
+      </div>
+    </form>
+  </div>
+  
+  <script>
+      // 세션선택
+      
+      $('select').niceSelect();
+;
+
+      $(document).ready(function (){
+
+      });
+    </script>
+
+    <script>
+      $(function() {
+        setLogin();
+        // 전화번호 숫자만 입력
+        $("input:text[numberOnly]").on("keyup", function() {
+            $(this).val($(this).val().replace(/[^0-9]/g,""));
+        });
+      });
+  
+      function setLogin() {
+          $.validator.addMethod("userEmail", function(value, element) {
+              return this.optional(element) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(value);
+          }, "이메일을 형식에 맞게 입력하세요.");
+  
+          $('#login-form').validate({
+              debug: true,
+              onfocusout: function(element) {
+                  $(element).valid();
+              },
+              errorPlacement: function(error, element) {
+                  element.parent().next('.warning').show();
+              },
+              rules: {
+                  inputEmail: {
+                      required: true,
+                      maxlength: 50,
+                      userEmail: true,
+                      email: true
+                  }
+              },
+              highlight: function(element) {},
+              unhighlight: function(element) {
+                  $(element).parent().next('.warning').hide();
+              },
+              messages: {
+                  inputEmail: {
+                      required: "이메일을 입력하세요.",
+                      maxlength: $.validator.format('이메일은 {0}자 내로 입력하세요.'),
+                      email: "이메일을 형식에 맞게 입력하세요."
+                  },
+              },
+              invalidHandler: function(form, validator) {
+                  var errors = validator.numberOfInvalids();
+                  if (errors) {
+                      alert(validator.errorList[0].message);
+                      validator.errorList[0].element.focus();
+                  }
+              }
+          });
+          
+          $("#btnLoginAction").on("click", function(e) {
+            var form = document.forms['login-form'];
+            if (form.apply_user_name.value == "") {
+              alert("이름을 입력해 주세요.");
+              form.apply_user_name.focus();
+              return false;
+            } else if (form.apply_user_phone.value == "") {
+              alert("연락처를 입력해 주세요.");
+              form.apply_user_phone.focus();
+              return false;
+            } else if (form.apply_user_phone.value.length != 11) {
+              alert("연락처 형식에 맞게 숫자 11자리를 입력해 주세요.");
+              form.apply_user_phone.focus();
+              return false;
+            }
+  //          else if (form.apply_product_name.value == "") {
+  //            alert("상품을 선택해주세요.");
+  //            form.apply_title.focus();
+  //            return false;
+  //          }
+  
+            if ($('#login-form').valid()) { // test for validity
+                form.submit();
+            } else {
+                // do stuff if form is not valid
+            }
+        });
+      }
+      function checkSpacebar(){
+        var kcode = event.keyCode;
+        if(kcode == 32) event.returnValue = false;
+       }
+
+    </script>
+  
+  </body>
+  
+  </html>

@@ -1,0 +1,753 @@
+<?php
+include_once "./common.php";
+if($_SESSION["CI"] == ""){
+    echo "<script>alert('본인인증이 필요합니다.');location.href=\"application_terms.html\";</script>";
+    exit;
+}
+if($_SESSION["mode"] == "pay"){
+
+    $sql_pay_cnt = " select count(*) as cnt from cb_unreal_2023_event_apply a where (apply_pay_status = 10 or apply_pay_status = 1) and free_yn='N' ";
+    $row_pay_cnt = sql_fetch($sql_pay_cnt);
+    if($row_pay_cnt["cnt"] >= 900){
+        echo '<script type="text/javascript">';
+        echo " alert('오프라인 등록이 마감되었습니다. \\n온라인 무료등록을 이용해주세요.'); location.href='/unrealfest.php';";
+        echo '</script>';
+        exit();
+    }
+
+}
+
+//$_SESSION["mode"] = "pay";
+//$_SESSION["mode"] = "free";
+
+if($_SESSION["mode"] == "pay"){
+    $complete_url = "application_form_pay.html";
+}else{
+    $complete_url = "application_complete.html";
+}
+
+
+
+
+
+$birthdate = $_SESSION["RSLT_BIRTHDAY"];
+$currentDate = date('Y-m-d');
+$age = date_diff(date_create($birthdate), date_create($currentDate))->y;
+if($age < 14){
+    echo "<script>alert('14세 이상만 신청이 가능합니다.');location.href=\"application_terms.html\";</script>";
+    exit;
+    
+}
+
+$ci = $_SESSION["CI"];
+
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+$sql = "select count(*) from cb_unreal_2023_event_apply where apply_ci = '$ci' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if($obj[0]['count']){
+    echo '<script type="text/javascript">';
+    echo " alert('이미 등록되어 있는 회원입니다.'); location.href='application_confirm.html';";
+    echo '</script>';
+    exit();
+};
+if(!empty($_SESSION["prev_post"])){
+    $prev_data = $_SESSION["prev_post"];
+};
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>에픽라운지</title>
+
+  <!-- CSS -->
+
+    <link rel="stylesheet" href="./assets/css/nice-select.css">
+    <link rel="stylesheet" href="./assets/css/event_0626.css">
+    <link rel="stylesheet" href="./assets/css/font_0626.css">
+
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/jquery.nice-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="assets/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <!--[if IE 9]>
+  <link rel="stylesheet" href="assets/js/ie9.css">
+  <![endif]-->
+
+</head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-174668456-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-174668456-1');
+</script>
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '413080733349618');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=413080733349618&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<body>
+  <header class="header">
+    <div class="inner-wrap">
+      <div class="logo">
+<a href="https://epiclounge.co.kr/"><span class="blind">로고</span></a>
+      </div>
+      <div class="confirm">
+        <p>이미 등록을 하셨나요?</p>
+        <div class="btn-group">
+<a href="application_confirm.html" class="md sky">등록 확인</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container app_from">
+    <form id="login-form" name="login-form" action="<?=$complete_url?>" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="level" value="<?=$level?>" />
+        <h1 class="event-title"><img src="/assets/img/event_0626/top_logo.svg" alt="시작해요 언리얼 UEFN" /></h1>
+        <div class="contents-wrap">
+        <div class="steps">
+          <ul>
+            <li>
+              <div class="num">01</div>
+              <div class="text">약관 동의</div>
+            </li>
+            <li>
+              <div class="num">02</div>
+              <div class="text">본인 인증</div>
+            </li>
+            <li class="active">
+              <div class="num">03</div>
+              <div class="text">정보 입력</div>
+            </li>
+            <li>
+              <div class="num">04</div>
+
+                <?php if($_SESSION["mode"] == "pay"){ ?>
+                    <div class="text">결제 및 등록</div>
+                <?}else{?>
+                    <div class="text">등록</div>
+
+                <?}?>
+            </li>
+          </ul>
+        </div>
+          <div class="content-box">
+
+              <div class="section">
+                  <h2 class="section-title">선택티켓</h2>
+
+            <?php if($_SESSION["mode"] == "pay"){ ?>
+             <div class="top_ticket price_ticket">
+                  <div class="ticket_wrap">
+                  <div class="price_ticket_1"><span>오프라인+온라인</span></div>
+                  <div class="price_ticket_2">30,000원</div>
+                  <div class="price_ticket_3">60,000</div>
+                  <div class="price_ticket_4">*얼리버드 특별 50% 할인가(~8월6일까지)</div>
+                 </div>
+              </div>
+            <?}else{?>
+             
+                
+                <div class="top_ticket free_ticket">
+                  <div class="ticket_wrap">
+                  <div class="free_ticket_1"><span>온라인</span></div>
+                  <div class="free_ticket_2">FREE</div>
+                 </div>
+              </div>
+            <?}?>
+              </div>
+            <div class="section">
+              <h2 class="section-title">기본 정보</h2>
+              <div class="form-wrap">
+                <ul>
+                  <li>
+                    <h3><span class="red-dot">이름</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_name" value="<?=$_SESSION["RSLT_NAME"]?>" readonly placeholder="이름을 입력해 주세요.">
+                    </div>
+                  </li>
+                  <li>
+                    <h3><span class="red-dot">이메일</span></h3>
+                    <div class="wrap">
+                      <input type="text" id="inputEmail" name="inputEmail" value="<?=$prev_data["inputEmail"]?>" placeholder="이메일을 입력해 주세요.">
+                    </div>
+                  </li>
+                  <li>
+                    <h3><span class="red-dot">연락처</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_phone" value="<?=$_SESSION["TEL_NO"]?>" readonly numberOnly placeholder="연락처를 입력해 주세요.">
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="section">
+              <h2 class="section-title">추가 정보</h2>
+             
+            
+              <div class="form-wrap">
+                <ul>
+                  <li>
+                   <h3><span class="red-dot">소속</span></h3>
+                    <div class="wrap">
+                      <select name="apply_user_job" id="apply_user_job" >
+                        <option value=''>선택</option>
+                        <option <?=$prev_data["apply_user_job"] == "직장인"?"selected='selected'":""?>>직장인</option>
+                       <!-- <option <?=$prev_data["apply_user_job"] == "학생"?"selected='selected'":""?>>학생</option>-->
+                        <option <?=$prev_data["apply_user_job"] == "학생/교육기관"?"selected='selected'":""?>>학생/교육기관</option>
+                        <option <?=$prev_data["apply_user_job"] == "인디/프리랜서"?"selected='selected'":""?>>인디/프리랜서</option>
+                        <option <?=$prev_data["apply_user_job"] == "기타"?"selected='selected'":""?>>기타</option>
+                      </select>
+                    </div>
+                  </li>
+                  <li class="select-category office">
+                  <h3><span class="red-dot">직장</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_company1" value="<?=$prev_data["apply_user_company1"]?>" placeholder="직장">
+                    </div>
+                  </li>
+                  <li class="select-category office">
+                    <h3><span class="red-dot">부서</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_depart1" value="<?=$prev_data["apply_user_depart1"]?>"  placeholder="부서">
+                    </div>
+                  </li>
+                  <li class="select-category office">
+                   <h3><span class="red-dot">직무</span></h3>
+                    <div class="wrap">
+                      <select name="apply_user_grade1" id="apply_user_grade">
+                        <option value=''>선택</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "비주얼아트"?"selected='selected'":""?>>비주얼아트</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "프로그래밍"?"selected='selected'":""?>>프로그래밍</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "프로덕션"?"selected='selected'":""?>>프로덕션</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "엔지니어링"?"selected='selected'":""?>>엔지니어링</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "설계"?"selected='selected'":""?>>설계</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "기획"?"selected='selected'":""?>>기획</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "R&D"?"selected='selected'":""?>>R&D</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "IT"?"selected='selected'":""?>>IT</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "감독/PD"?"selected='selected'":""?>>감독/PD</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "비즈니스/마케팅"?"selected='selected'":""?>>비즈니스/마케팅</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "C-level"?"selected='selected'":""?>>C-level</option>
+                        <option <?=$prev_data["apply_user_grade1"] == "기타"?"selected='selected'":""?>>기타</option>
+                      </select>
+                    </div>
+                  </li>
+                  <li class="select-category student">
+                    <h3><span class="red-dot">학교</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_company2" value="<?=$prev_data["apply_user_company2"]?>"   placeholder="학교">
+                    </div>
+                  </li>
+                  <li class="select-category student">
+                    <h3><h3><span class="red-dot">학과</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_depart2" value="<?=$prev_data["apply_user_depart2"]?>"    placeholder="학과">
+                    </div>
+                  </li>
+                  <li class="select-category student">
+                    <h3><span class="red-dot">학년</span></h3>
+                    <div class="wrap">
+                      <select name="apply_user_grade2" id="">
+                        <option value=''>선택</option>
+                        <option  <?=$prev_data["apply_user_grade2"] == "4"?"selected='selected'":""?>>4</option>
+                        <option  <?=$prev_data["apply_user_grade2"] == "3"?"selected='selected'":""?>>3</option>
+                        <option  <?=$prev_data["apply_user_grade2"] == "2"?"selected='selected'":""?>>2</option>
+                        <option  <?=$prev_data["apply_user_grade2"] == "1"?"selected='selected'":""?>>1</option>
+                      </select>
+                    </div>
+                  </li>
+                  <li class="select-category professor">
+                    <h3><span class="red-dot">학교/기관</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_company3" value="<?=$prev_data["apply_user_company3"]?>"  placeholder="학교/기관">
+                    </div>
+                  </li>
+                  <li class="select-category professor">
+                    <h3><span class="red-dot">학과/분야</h3></span>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_depart3" value="<?=$prev_data["apply_user_depart3"]?>"  placeholder="학과/분야">
+                    </div>
+                  </li>
+                  <li class="select-category professor">
+                    <h3><span class="red-dot">구분</span></h3>
+                    <div class="wrap">
+                      <select name="apply_user_grade3" id="">
+                        <option value=''>선택</option>
+                        <option  <?=$prev_data["apply_user_grade3"] == "대학생"?"selected='selected'":""?>>대학생</option>
+                        <option  <?=$prev_data["apply_user_grade3"] == "대학원생"?"selected='selected'":""?>>대학원생</option>
+
+                        <option  <?=$prev_data["apply_user_grade3"] == "교수"?"selected='selected'":""?>>교수</option>
+                        <option  <?=$prev_data["apply_user_grade3"] == "강사"?"selected='selected'":""?>>강사</option>
+                        <option  <?=$prev_data["apply_user_grade3"] == "원장"?"selected='selected'":""?>>원장</option>
+                        <option  <?=$prev_data["apply_user_grade3"] == "조교"?"selected='selected'":""?>>조교</option>
+                        <option  <?=$prev_data["apply_user_grade3"] == "교사"?"selected='selected'":""?>>교사</option>
+                        <option  <?=$prev_data["apply_user_grade3"] == "기타"?"selected='selected'":""?>>기타</option>
+                      </select>
+                    </div>
+                  </li>
+                  <li class="select-category other">
+                    <h3><span class="red-dot">직장/학교</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_company4" value="<?=$prev_data["apply_user_company4"]?>"   placeholder="직장/학교(없는 경우, 해당없음으로 기재해 주세요)">
+                    </div>
+                  </li>
+                  <li class="select-category other">
+                    <h3><span class="red-dot">부서/학과</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_depart4" value="<?=$prev_data["apply_user_depart4"]?>"  placeholder="부서/학과(없는 경우, 해당없음으로 기재해 주세요)">
+                    </div>
+                  </li>
+                  <li class="select-category other">
+                   <h3><span class="red-dot">직무</h3></span>
+                    <div class="wrap">
+                        <select name="apply_user_grade4" id="">
+                            <option value=''>선택</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "비주얼아트" ? "selected='selected'" : ""?>>비주얼아트</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "프로그래밍" ? "selected='selected'" : ""?>>프로그래밍</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "프로덕션" ? "selected='selected'" : ""?>>프로덕션</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "엔지니어링" ? "selected='selected'" : ""?>>엔지니어링</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "설계" ? "selected='selected'" : ""?>>설계</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "기획" ? "selected='selected'" : ""?>>기획</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "R&D" ? "selected='selected'" : ""?>>R&D</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "IT" ? "selected='selected'" : ""?>>IT</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "감독/PD" ? "selected='selected'" : ""?>>감독/PD</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "비즈니스/마케팅" ? "selected='selected'" : ""?>>비즈니스/마케팅</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "C-level" ? "selected='selected'" : ""?>>C-level</option>
+                            <option <?=$prev_data["apply_user_grade4"] == "기타" ? "selected='selected'" : ""?>>기타</option>
+                        </select>
+                    </div>
+                  </li>
+                  <li class="select-category etc">
+                   <h3><span class="red-dot">기타 항목1</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_company5" value="<?=$prev_data["apply_user_company5"]?>"  placeholder="추가정보(없는 경우, 없음)">
+                    </div>
+                  </li>
+                  <li class="select-category etc">
+                   <h3><span class="red-dot">기타 항목2</span></h3>
+                    <div class="wrap">
+                      <input type="text" name="apply_user_depart5" value="<?=$prev_data["apply_user_depart5"]?>"  placeholder="추가정보(없는 경우, 없음)">
+                    </div>
+                  </li>
+                  <li class="select-category etc">
+                    <h3><span class="red-dot">직무</span></h3>
+                    <div class="wrap">
+                        <select name="apply_user_grade5" id="">
+                            <option value=''>선택</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "비주얼아트" ? "selected='selected'" : ""?>>비주얼아트</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "프로그래밍" ? "selected='selected'" : ""?>>프로그래밍</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "프로덕션" ? "selected='selected'" : ""?>>프로덕션</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "엔지니어링" ? "selected='selected'" : ""?>>엔지니어링</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "설계" ? "selected='selected'" : ""?>>설계</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "기획" ? "selected='selected'" : ""?>>기획</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "R&D" ? "selected='selected'" : ""?>>R&D</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "IT" ? "selected='selected'" : ""?>>IT</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "감독/PD" ? "selected='selected'" : ""?>>감독/PD</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "비즈니스/마케팅" ? "selected='selected'" : ""?>>비즈니스/마케팅</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "C-level" ? "selected='selected'" : ""?>>C-level</option>
+                            <option <?=$prev_data["apply_user_grade5"] == "기타" ? "selected='selected'" : ""?>>기타</option>
+                        </select>
+                    </div>
+                  </li>
+                  <li>
+                   <h3><span class="red-dot">산업/관심 <br class="m_none" />분야</h3></span>
+                    <div class="wrap">
+                        <select name="apply_sector" id="apply_sector">
+                            <option value=''>선택</option>
+                            <option <?=$prev_data["apply_sector"] == "게임" ? "selected='selected'" : ""?>>게임</option>
+                            <option <?=$prev_data["apply_sector"] == "건축" ? "selected='selected'" : ""?>>건축</option>
+                            <option <?=$prev_data["apply_sector"] == "자동차&amp;운송" ? "selected='selected'" : ""?>>자동차&amp;운송</option>
+                            <option <?=$prev_data["apply_sector"] == "영화&amp;TV" ? "selected='selected'" : ""?>>영화&amp;TV</option>
+                            <option <?=$prev_data["apply_sector"] == "방송&amp;라이브 이벤트" ? "selected='selected'" : ""?>>방송&amp;라이브 이벤트</option>
+                            <option <?=$prev_data["apply_sector"] == "애니메이션" ? "selected='selected'" : ""?>>애니메이션</option>
+                            <option <?=$prev_data["apply_sector"] == "제조" ? "selected='selected'" : ""?>>제조</option>
+                            <option <?=$prev_data["apply_sector"] == "소프트웨어&amp;툴 개발" ? "selected='selected'" : ""?>>소프트웨어&amp;툴 개발</option>
+                            <option <?=$prev_data["apply_sector"] == "VR/AR" ? "selected='selected'" : ""?>>VR/AR</option>
+                            <option <?=$prev_data["apply_sector"] == "교육" ? "selected='selected'" : ""?>>교육</option>
+                            <option <?=$prev_data["apply_sector"] == "기타" ? "selected='selected'" : ""?>>기타</option>
+                        </select>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          <div class="section">
+               <h2 class="section-title">관심분야</h2>
+               <p class="section-content">관심/선호 날짜를 선택해 주세요.</p>
+               <div class="form-wrap session">
+                 <ul>
+                   <li>
+                       <input type="checkbox" name="apply_user_ex1" class="ex_chk"  id="day1" value="1" <?=$prev_data["apply_user_ex1"]?"checked":""?>>
+                       <label for="day1" class="day3">8월 29일 (화) - 공통</label>
+                       <br />
+                       <!--<br class="m_block" />-->
+                       <input type="checkbox" name="apply_user_ex2" class="ex_chk"  id="day2" value="2" <?=$prev_data["apply_user_ex2"]?"checked":""?>>
+                       <label for="day2" class="day3">8월 30일 (수) - 게임</label>
+                       <br />
+                       <input type="checkbox" name="apply_user_ex3" class="ex_chk"   id="day3" value="3" <?=$prev_data["apply_user_ex3"]?"checked":""?>>
+                       <label for="day3" style="width: 100%">8월 31일 (목) - 영화 & TV / 라이브 이벤트 / 애니메이션</label>
+                       <br />
+                       <input type="checkbox" name="apply_user_ex4"  class="ex_chk"  id="day4" value="4" <?=$prev_data["apply_user_ex4"]?"checked":""?>>
+                       <label for="day4" style="width: 100%">9월 1일 (금) - AEC/자동차/시뮬레이션</label>
+                       <br />
+                   </li>
+                   <li>
+                     <input type="checkbox" name="" id="all_session">
+                     <label for="all_session" style="width: 100%">전체</label>
+                   </li>
+                 </ul>
+                   <script>
+                          $(document).ready(function(){
+                              if($(".ex_chk").length == $(".ex_chk:checked").length) {
+                                  $("#all_session").prop("checked", true);
+                              }else {
+                                  $("#all_session").prop("checked", false);
+                              }
+                            $(".ex_chk").change(function(){
+                                if($(".ex_chk").length == $(".ex_chk:checked").length) {
+                                    $("#all_session").prop("checked", true);
+                                }else {
+                                    $("#all_session").prop("checked", false);
+                                }
+                            });
+                          });
+                   </script>
+               </div> 
+             </div>
+            <!-- <div class="section">
+                 <h2 class="section-title"><span class="red-dot">일정 선택하기</span></h2>
+                 <p class="section-content">참여하실 세션을 모두 선택해주세요</p>
+                 <div class="form-wrap session">
+                   <ul>
+                     <li>
+                       <input type="checkbox" name="apply_user_ex1" id="day1">
+                       <label for="day1" class="day1">10월 12일(화)-공통</label>
+                       <input type="checkbox" name="apply_user_ex2" id="day2">
+                       <label for="day2">10월 13일(수)-게임</label>
+                       <input type="checkbox" name="apply_user_ex3" id="day3">
+                       <label for="day3" class="day3">10월 14일(목)-영화, TV &amp; 라이프</label>
+                       <input type="checkbox" name="apply_user_ex4" id="day4">
+                       <label for="day4" class="day4">10월 15일(금)-건축 &amp; 제조</label>
+                     </li>
+                     <li>
+                       <input type="checkbox" name="" id="all_session">
+                       <label for="all_session">전체 일정 등록하기</label>                    
+                     </li>
+                   </ul>
+                 </div> 
+               </div>
+               <div class="section">
+                 <h2 class="section-title">선택정보</h2>
+                 <div class="form-wrap">
+                    <ul>
+                      <li>
+                        <h3>카페 별명</h3>
+                        <div class="wrap">
+                          <input type="text" name="inputEmail2" id="inputEmail2" placeholder="공식 카페 별명 입력">
+                          <p class="section-content">도전과제 이벤트 참여를 위해 언리얼 엔진 공식 카페 가입 및 카페 별명 입력이 필수입니다.</p>
+                           <p class="section-content2"><a href="https://cafe.naver.com/unrealenginekr" target="_blank">공식 카페 가입</a></p>
+                 
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+               </div>-->
+              
+            <!--<div class="section">
+              <h2 class="section-title">홍보성 알림 수신 동의서</h2>
+              <div class="terms-wrap">
+                <div class="wrap scroll">
+                  에픽 라운지는 마케팅 또는 홍보자료 배포를 위하여 다음과 같이 개인정보를 수집 및 이용합니다. 귀하는 개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으나 거부 시 에픽 라운지로부터 유용한 정보를 제공받지 못할 수 있습니다.<br><br>
+                  <strong>개인정보 수집 및 이용목적</strong><br>
+                  - 이메일 또는 문자메시지를 통한 마케팅 또는 홍보자료 배포<br>
+                  - 에픽게임즈의 제품 및 서비스 홍보, 모니터링, 캠페인 효과 측정, 사용자 보호 및 개선, 직장 및 학교정보, 관심분야에 따른 맞춤형 정보 제공<br><br>
+                 <strong> 수집하는 개인정보의 항목</strong><br>
+                  - 이름, 연락처, 이메일, 직장, 학교, 직무, 부서, 학년,  학과, 관심분야<br><br>
+                  <strong>개인정보 보유 및 이용기한</strong><br>
+                  - <a href="https://www.epicgames.com/site/ko/privacypolicy?lang=ko" target="_blank" style="text-decoration:underline;"> 에픽 게임즈 개인정보 취급 방침</a>에 따름<br>
+                
+                </div>
+              </div>
+              <div class="agree">
+                <input type="checkbox" name="apply_user_event_agree" id="agreePrivacy3">
+                <label for="agreePrivacy3">(선택) 에픽게임즈의 뉴스, 설문조사, 행사 및 이벤트 수신에 동의합니다.</label>
+              </div>
+            </div>-->
+          </div>
+          <div class="btn-group">
+            <a href="application_terms.html" class="lg half gray" >이전</a>
+            <a href="javascript:;" id="btnLoginAction" class="lg half sky" >확인</a>
+          </div>
+      </div>
+    </form>
+  </div>
+  
+  <script>
+      // 세션선택
+      $("#all_session").on("change", function(){
+        if ($("#all_session").prop("checked")) {
+          $(".session input[type=checkbox]").prop("checked", true);
+        } else {
+          $(".session input[type=checkbox]").prop("checked", false);
+        }
+      });
+      
+      $('select').niceSelect();
+;
+
+      $(document).ready(function (){
+
+          var selected = $("#apply_user_job").siblings(".nice-select").find(".selected").text();
+          switch (selected) {
+              case "직장인":
+                  $(".select-category").removeClass("active");
+                  $(".select-category.office").addClass("active");
+                  break;
+              case "학생":
+                  $(".select-category").removeClass("active");
+                  $(".select-category.student").addClass("active");
+                  break;
+              case "학생/교육기관":
+                  $(".select-category").removeClass("active");
+                  $(".select-category.professor").addClass("active");
+                  break;
+              case "인디/프리랜서":
+                  $(".select-category").removeClass("active");
+                  $(".select-category.other").addClass("active");
+                  break;
+              default:
+                  $(".select-category").removeClass("active");
+                  $(".select-category.etc").addClass("active");
+                  break;
+          }
+
+      });
+    </script>
+
+    <script>
+      $(function() {
+        setLogin();
+        // 전화번호 숫자만 입력
+        $("input:text[numberOnly]").on("keyup", function() {
+            $(this).val($(this).val().replace(/[^0-9]/g,""));
+        });
+      });
+  
+      function setLogin() {
+          $.validator.addMethod("userEmail", function(value, element) {
+              return this.optional(element) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(value);
+          }, "이메일을 형식에 맞게 입력하세요.");
+  
+          $('#login-form').validate({
+              debug: true,
+              onfocusout: function(element) {
+                  $(element).valid();
+              },
+              errorPlacement: function(error, element) {
+                  element.parent().next('.warning').show();
+              },
+              rules: {
+                  inputEmail: {
+                      required: true,
+                      maxlength: 50,
+                      userEmail: true,
+                      email: true
+                  }
+              },
+              highlight: function(element) {},
+              unhighlight: function(element) {
+                  $(element).parent().next('.warning').hide();
+              },
+              messages: {
+                  inputEmail: {
+                      required: "이메일을 입력하세요.",
+                      maxlength: $.validator.format('이메일은 {0}자 내로 입력하세요.'),
+                      email: "이메일을 형식에 맞게 입력하세요."
+                  },
+                  // inputEmail2: {
+                  //     required: "이메일을 입력하세요.",
+                  //     maxlength: $.validator.format('이메일은 {0}자 내로 입력하세요.'),
+                  //     email: "이메일을 형식에 맞게 입력하세요."
+                  // },
+              },
+              invalidHandler: function(form, validator) {
+                  var errors = validator.numberOfInvalids();
+                  if (errors) {
+                      alert(validator.errorList[0].message);
+                      validator.errorList[0].element.focus();
+                  }
+              }
+          });
+          
+          $("#btnLoginAction").on("click", function(e) {
+            var form = document.forms['login-form'];
+            if (form.apply_user_name.value == "") {
+              alert("이름을 입력해 주세요.");
+              form.apply_user_name.focus();
+              return false;
+            } else if (form.apply_user_phone.value == "") {
+              alert("연락처를 입력해 주세요.");
+              form.apply_user_phone.focus();
+              return false;
+            } else if (form.apply_user_phone.value.length != 11) {
+              alert("연락처 형식에 맞게 숫자 11자리를 입력해 주세요.");
+              form.apply_user_phone.focus();
+              return false;
+            } else if (form.apply_user_job.value == "") {
+              alert("소속을 입력해 주세요.");
+              form.apply_user_job.focus();
+              return false;
+            } else if (form.apply_sector.value == "") {
+              alert("산업/관심분야를 선택해 주세요.");
+              form.apply_user_job.focus();
+              return false;
+            //} else if (!form.apply_user_ex1.checked && !form.apply_user_ex2.checked && !form.apply_user_ex3.checked && !form.apply_user_ex4.checked) {
+              //alert("참여하실 날짜를 한가지 이상 선택해 주세요.");
+              //form.apply_user_ex1.focus();
+              //return false;
+            } else if (form.apply_user_job.value == "회사") {
+              if (form.apply_user_company1.value == "") {
+                alert("회사명을 입력해 주세요.");
+                form.apply_user_company1.focus();
+                return false;
+              } else if (form.apply_user_depart1.value == "") {
+                alert("부서를 입력해 주세요.");
+                form.apply_user_depart1.focus();
+                return false;
+              } else if (form.apply_user_grade1.value == "") {
+                alert("직무를 선택해 주세요.");
+                form.apply_user_grade1.focus();
+                return false;
+              } 
+            } else if (form.apply_user_job.value == "학생") {
+              if (form.apply_user_company2.value == "") {
+                alert("학교명을 입력해 주세요.");
+                form.apply_user_company2.focus();
+                return false;
+              } else if (form.apply_user_depart2.value == "") {
+                alert("학과명을 입력해 주세요.");
+                form.apply_user_depart2.focus();
+                return false;
+              } else if (form.apply_user_grade2.value == "") {
+                alert("학년을 선택해 주세요.");
+                form.apply_user_grade2.focus();
+                return false;
+              } 
+            } else if (form.apply_user_job.value == "학생/교육기관") {
+              if (form.apply_user_company3.value == "") {
+                alert("학교/기관을 입력해 주세요.");
+                form.apply_user_company3.focus();
+                return false;
+              } else if (form.apply_user_depart3.value == "") {
+                alert("학과/분야를 입력해 주세요.");
+                form.apply_user_depart3.focus();
+                return false;
+              } else if (form.apply_user_grade3.value == "") {
+                alert("구분을 선택해 주세요.");
+                form.apply_user_grade3.focus();
+                return false;
+              } 
+            } else if (form.apply_user_job.value == "인디/프리랜서") {
+              if (form.apply_user_company4.value == "") {
+                alert("직장/학교를 입력해 주세요.");
+                form.apply_user_company4.focus();
+                return false;
+              } else if (form.apply_user_depart4.value == "") {
+                alert("부서/학과를 입력해 주세요.");
+                form.apply_user_depart4.focus();
+                return false;
+              } else if (form.apply_user_grade4.value == "") {
+                alert("직무를 선택해 주세요.");
+                form.apply_user_grade4.focus();
+                return false;
+              } 
+            } else if (form.apply_user_job.value == "기타") {
+              if (form.apply_user_company5.value == "") {
+                alert("추가정보를 입력해 주세요.");
+                form.apply_user_company5.focus();
+                return false;
+              } else if (form.apply_user_depart5.value == "") {
+                alert("추가정보를 입력해 주세요.");
+                form.apply_user_depart5.focus();
+                return false;
+              } else if (form.apply_user_grade5.value == "") {
+                alert("추가정보를 입력해 주세요.");
+                form.apply_user_grade5.focus();
+                return false;
+              } 
+            } 
+  //          else if (form.apply_product_name.value == "") {
+  //            alert("상품을 선택해주세요.");
+  //            form.apply_title.focus();
+  //            return false;
+  //          }
+  
+            if ($('#login-form').valid()) { // test for validity
+                form.submit();
+            } else {
+                // do stuff if form is not valid
+            }
+        });
+      }
+      function checkSpacebar(){
+        var kcode = event.keyCode;
+        if(kcode == 32) event.returnValue = false;
+       }
+      $("#apply_user_job").on("change", function() {
+        var selected = $("#apply_user_job").siblings(".nice-select").find(".selected").text();
+        switch (selected) {
+          case "직장인":
+            $(".select-category").removeClass("active");
+            $(".select-category.office").addClass("active");
+            break;
+          case "학생":
+            $(".select-category").removeClass("active");
+            $(".select-category.student").addClass("active");
+            break;
+          case "학생/교육기관":
+            $(".select-category").removeClass("active");
+            $(".select-category.professor").addClass("active");
+            break;
+          case "인디/프리랜서":
+            $(".select-category").removeClass("active");
+            $(".select-category.other").addClass("active");
+            break;
+          default:
+            $(".select-category").removeClass("active");
+            $(".select-category.etc").addClass("active");
+            break;
+        }
+      });
+    </script>
+  
+  </body>
+  
+  </html>
+  

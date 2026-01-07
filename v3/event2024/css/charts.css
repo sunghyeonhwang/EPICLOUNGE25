@@ -1,0 +1,707 @@
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu72xKOzY.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu5mxKOzY.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu7mxKOzY.woff2) format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4WxKOzY.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu7WxKOzY.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu7GxKOzY.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxK.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+
+
+
+
+/* chart-skills-one STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.chart-skills-one {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+  margin:auto;
+  margin-top:25px;
+}
+
+.chart-skills-one::before,
+.chart-skills-one::after {
+  position: absolute;
+}
+
+.chart-skills-one::before {
+  content: '';
+  width: inherit;
+  height: inherit;
+  border: 35px solid rgba(211, 211, 211, .3);
+  border-bottom: none;
+  border-top-left-radius: 175px;
+  border-top-right-radius: 175px;
+}
+
+.chart-skills-one::after {
+  content: '평균 이하';
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-size: 15px;
+  font-weight: bold;
+  color: #de6b6b;
+}
+
+.chart-skills-one li {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border: 35px solid;
+  border-top: none;
+  border-bottom-left-radius: 175px;
+  border-bottom-right-radius: 175px;
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation-fill-mode: forwards;
+  animation-duration: .4s;
+  animation-timing-function: linear;
+}
+
+.chart-skills-one li:nth-child(1) {
+  z-index: 4;
+  border-color: #de6b6b;
+  animation-name: rotate-one;
+}
+
+.chart-skills-one li:nth-child(2) {
+  z-index: 3;
+  border-color: #5ecc7d;
+  animation-name: rotate-two;
+  animation-delay: .4s;
+}
+
+.chart-skills-one li:nth-child(3) {
+  z-index: 2;
+  border-color: #c8eed3;
+  animation-name: rotate-three;
+  animation-delay: .8s;
+}
+
+
+
+.chart-skills-one span {
+  position: absolute;
+  font-size: .85rem;
+  backface-visibility: hidden;
+  animation: fade-in .4s linear forwards;
+}
+
+.chart-skills-one li:nth-child(1) span {
+  top: 5px;
+  left: 10px;
+  transform: rotate(-80deg);
+}
+
+.chart-skills-one li:nth-child(2) span {
+  top: 20px;
+  left: 10px;
+  transform: rotate(-140deg);
+  animation-delay: .4s;
+}
+
+.chart-skills-one li:nth-child(3) span {
+  top: 18px;
+  left: 10px;
+  transform: rotate(-180.4deg);
+  animation-delay: .8s;
+}
+
+
+
+
+
+
+
+
+/* chart-skills-tow STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.chart-skills-tow {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+  margin:auto;
+  margin-top:25px;
+}
+
+.chart-skills-tow::before,
+.chart-skills-tow::after {
+  position: absolute;
+}
+
+.chart-skills-tow::before {
+  content: '';
+  width: inherit;
+  height: inherit;
+  border: 35px solid rgba(211, 211, 211, .3);
+  border-bottom: none;
+  border-top-left-radius: 175px;
+  border-top-right-radius: 175px;
+}
+
+.chart-skills-tow::after {
+  content: '좋음';
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-size: 15px;
+  font-weight: bold;
+  color: #44a660;
+}
+
+.chart-skills-tow li {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border: 35px solid;
+  border-top: none;
+  border-bottom-left-radius: 175px;
+  border-bottom-right-radius: 175px;
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation-fill-mode: forwards;
+  animation-duration: .4s;
+  animation-timing-function: linear;
+}
+
+.chart-skills-tow li:nth-child(1) {
+  z-index: 4;
+  border-color: #44a660;
+  animation-name: rotate-one;
+}
+
+.chart-skills-tow li:nth-child(2) {
+  z-index: 3;
+  border-color: #5ecc7d;
+  animation-name: rotate-two;
+  animation-delay: .4s;
+}
+
+.chart-skills-tow li:nth-child(3) {
+  z-index: 2;
+  border-color: #c8eed3;
+  animation-name: rotate-three;
+  animation-delay: .8s;
+}
+
+
+
+.chart-skills-tow span {
+  position: absolute;
+  font-size: .85rem;
+  backface-visibility: hidden;
+  animation: fade-in .4s linear forwards;
+}
+
+.chart-skills-tow li:nth-child(1) span {
+  top: 5px;
+  left: 10px;
+  transform: rotate(-80deg);
+}
+
+.chart-skills-tow li:nth-child(2) span {
+  top: 20px;
+  left: 10px;
+  transform: rotate(-140deg);
+  animation-delay: .4s;
+}
+
+.chart-skills-tow li:nth-child(3) span {
+  top: 18px;
+  left: 10px;
+  transform: rotate(-180.4deg);
+  animation-delay: .8s;
+}
+
+
+/* chart-skills-three STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.chart-skills-three {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+  margin:auto;
+  margin-top:25px;
+}
+
+.chart-skills-three::before,
+.chart-skills-three::after {
+  position: absolute;
+}
+
+.chart-skills-three::before {
+  content: '';
+  width: inherit;
+  height: inherit;
+  border: 35px solid rgba(211, 211, 211, .3);
+  border-bottom: none;
+  border-top-left-radius: 175px;
+  border-top-right-radius: 175px;
+}
+
+.chart-skills-three::after {
+  content: '평균';
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-size: 15px;
+  font-weight: bold;
+  color: #5b5c5f;
+}
+
+.chart-skills-three li {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border: 35px solid;
+  border-top: none;
+  border-bottom-left-radius: 175px;
+  border-bottom-right-radius: 175px;
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation-fill-mode: forwards;
+  animation-duration: .4s;
+  animation-timing-function: linear;
+}
+
+.chart-skills-three li:nth-child(1) {
+  z-index: 4;
+  border-color: #6f7174;
+  animation-name: rotate-one;
+}
+
+.chart-skills-three li:nth-child(2) {
+  z-index: 3;
+  border-color: #5ecc7d;
+  animation-name: rotate-two;
+  animation-delay: .4s;
+}
+
+.chart-skills-three li:nth-child(3) {
+  z-index: 2;
+  border-color: #c8eed3;
+  animation-name: rotate-three;
+  animation-delay: .8s;
+}
+
+
+
+.chart-skills-three span {
+  position: absolute;
+  font-size: .85rem;
+  backface-visibility: hidden;
+  animation: fade-in .4s linear forwards;
+}
+
+.chart-skills-three li:nth-child(1) span {
+  top: 5px;
+  left: 10px;
+  transform: rotate(-80deg);
+}
+
+.chart-skills-three li:nth-child(2) span {
+  top: 20px;
+  left: 10px;
+  transform: rotate(-140deg);
+  animation-delay: .4s;
+}
+
+.chart-skills-three li:nth-child(3) span {
+  top: 18px;
+  left: 10px;
+  transform: rotate(-180.4deg);
+  animation-delay: .8s;
+}
+
+
+
+
+/* chart-skills-four STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.chart-skills-four {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+  margin:auto;
+  margin-top:25px;
+}
+
+.chart-skills-four::before,
+.chart-skills-four::after {
+  position: absolute;
+}
+
+.chart-skills-four::before {
+  content: '';
+  width: inherit;
+  height: inherit;
+  border: 35px solid rgba(211, 211, 211, .3);
+  border-bottom: none;
+  border-top-left-radius: 175px;
+  border-top-right-radius: 175px;
+}
+
+.chart-skills-four::after {
+  content: '평균';
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-size: 15px;
+  font-weight: bold;
+  color: #5b5c5f;
+}
+
+.chart-skills-four li {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border: 35px solid;
+  border-top: none;
+  border-bottom-left-radius: 175px;
+  border-bottom-right-radius: 175px;
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation-fill-mode: forwards;
+  animation-duration: .4s;
+  animation-timing-function: linear;
+}
+
+.chart-skills-four li:nth-child(1) {
+  z-index: 4;
+  border-color: #6f7174;
+  animation-name: rotate-one;
+}
+
+.chart-skills-four li:nth-child(2) {
+  z-index: 3;
+  border-color: #5ecc7d;
+  animation-name: rotate-two;
+  animation-delay: .4s;
+}
+
+.chart-skills-four li:nth-child(3) {
+  z-index: 2;
+  border-color: #c8eed3;
+  animation-name: rotate-three;
+  animation-delay: .8s;
+}
+
+
+
+.chart-skills-four span {
+  position: absolute;
+  font-size: .85rem;
+  backface-visibility: hidden;
+  animation: fade-in .4s linear forwards;
+}
+
+.chart-skills-four li:nth-child(1) span {
+  top: 5px;
+  left: 10px;
+  transform: rotate(-80deg);
+}
+
+.chart-skills-four li:nth-child(2) span {
+  top: 20px;
+  left: 10px;
+  transform: rotate(-140deg);
+  animation-delay: .4s;
+}
+
+.chart-skills-four li:nth-child(3) span {
+  top: 18px;
+  left: 10px;
+  transform: rotate(-180.4deg);
+  animation-delay: .8s;
+}
+
+
+
+/* chart-skills-five STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.chart-skills-five {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+  margin:auto;
+  margin-top:25px;
+}
+
+.chart-skills-five::before,
+.chart-skills-five::after {
+  position: absolute;
+}
+
+.chart-skills-five::before {
+  content: '';
+  width: inherit;
+  height: inherit;
+  border: 35px solid rgba(211, 211, 211, .3);
+  border-bottom: none;
+  border-top-left-radius: 175px;
+  border-top-right-radius: 175px;
+}
+
+.chart-skills-five::after {
+  content: '환자 현황';
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-size: 15px;
+  font-weight: bold;
+  color: #5b5c5f;
+}
+
+.chart-skills-five li {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border: 35px solid;
+  border-top: none;
+  border-bottom-left-radius: 175px;
+  border-bottom-right-radius: 175px;
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation-fill-mode: forwards;
+  animation-duration: .4s;
+  animation-timing-function: linear;
+}
+
+.chart-skills-five li:nth-child(1) {
+  z-index: 4;
+  border-color: #6f7174;
+  animation-name: rotate-one;
+}
+
+.chart-skills-five li:nth-child(2) {
+  z-index: 3;
+  border-color: #5ecc7d;
+  animation-name: rotate-two;
+  animation-delay: .4s;
+}
+
+.chart-skills-five li:nth-child(3) {
+  z-index: 2;
+  border-color: #c8eed3;
+  animation-name: rotate-three;
+  animation-delay: .8s;
+}
+
+
+
+.chart-skills-five span {
+  position: absolute;
+  font-size: .85rem;
+  backface-visibility: hidden;
+  animation: fade-in .4s linear forwards;
+}
+
+.chart-skills-five li:nth-child(1) span {
+  top: 5px;
+  left: 10px;
+  transform: rotate(-80deg);
+}
+
+.chart-skills-five li:nth-child(2) span {
+  top: 20px;
+  left: 10px;
+  transform: rotate(-140deg);
+  animation-delay: .4s;
+}
+
+.chart-skills-five li:nth-child(3) span {
+  top: 18px;
+  left: 10px;
+  transform: rotate(-180.4deg);
+  animation-delay: .8s;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ANIMATIONS
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+@keyframes rotate-one {
+  100% {
+    transform: rotate(80deg);
+    /**
+     * 12% => 21.6deg
+     */
+  }
+}
+
+@keyframes rotate-two {
+  0% {
+    transform: rotate(21.6deg);
+  }
+  100% {
+    transform: rotate(140deg);
+    /**
+     * 32% => 57.6deg 
+     * 57.6 + 21.6 => 79.2deg
+     */
+  }
+}
+
+@keyframes rotate-three {
+  0% {
+    transform: rotate(79.2deg);
+  }
+  100% {
+    transform: rotate(180.4deg);
+    /**
+     * 34% => 61.2deg 
+     * 61.2 + 79.2 => 140.4deg
+     */
+  }
+}
+
+
+
+@keyframes fade-in {
+  0%,
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+
+
+.barchart {
+  width: 100%;
+}
+
+[class*=date] {
+  height: 30px;
+  background: #ccc;
+  -moz-animation: anime1 1s 1 ease;
+  -webkit-animation: anime1 1s 1 ease;
+  animation: anime1 1s 1 ease;
+}
+
+.date1 {
+  background: #5ecc7d;
+  border-radius:0 5px 5px 0;
+}
+
+@-webkit-keyframes anime1 {
+  0% {
+    width: 0px;
+  }
+}
+@keyframes anime1 {
+  0% {
+    width: 0px;
+  }
+}
+
+
+
+.barchart2 {
+  width: 100%;
+}
+
+.date2 {
+  background: #44a699;
+  border-radius:0 5px 5px 0;
+}
+
+@-webkit-keyframes anime2 {
+  0% {
+    width: 0px;
+  }
+}
+@keyframes anime2 {
+  0% {
+    width: 0px;
+  }
+}

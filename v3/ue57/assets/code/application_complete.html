@@ -1,0 +1,331 @@
+<?
+$level = $_POST['level'];
+if(!$level){
+    echo '<script type="text/javascript">';
+    // echo "location.replace('/'); alert('정상적인 접근방식이 아닙니다.');";
+    echo '</script>';
+}
+$apply_user_name = str_replace("'","\'",$_POST['apply_user_name']);
+$apply_user_email = str_replace("'","\'",$_POST['inputEmail']);
+$apply_user_phone = str_replace("'","\'",preg_replace("/[^0-9]/u", "", $_POST['apply_user_phone']));
+$apply_user_job = str_replace("'","\'",$_POST['apply_user_job']);
+if ($apply_user_job == '직장인') {
+  $apply_user_company = str_replace("'","\'",$_POST['apply_user_company1']);
+  $apply_user_depart = str_replace("'","\'",$_POST['apply_user_depart1']);
+  $apply_user_grade = str_replace("'","\'",$_POST['apply_user_grade1']);
+} else if ($apply_user_job == '학생') {
+  $apply_user_company = str_replace("'","\'",$_POST['apply_user_company2']);
+  $apply_user_depart = str_replace("'","\'",$_POST['apply_user_depart2']);
+  $apply_user_grade = str_replace("'","\'",$_POST['apply_user_grade2']);
+} else if ($apply_user_job == '교육자/교육기관') {
+  $apply_user_company = str_replace("'","\'",$_POST['apply_user_company3']);
+  $apply_user_depart = str_replace("'","\'",$_POST['apply_user_depart3']);
+  $apply_user_grade = str_replace("'","\'",$_POST['apply_user_grade3']);
+} else if ($apply_user_job == '인디/프리랜서') {
+  $apply_user_company = str_replace("'","\'",$_POST['apply_user_company4']);
+  $apply_user_depart = str_replace("'","\'",$_POST['apply_user_depart4']);
+  $apply_user_grade = str_replace("'","\'",$_POST['apply_user_grade4']);
+} else if ($apply_user_job == '기타') {
+  $apply_user_company = str_replace("'","\'",$_POST['apply_user_company5']);
+  $apply_user_depart = str_replace("'","\'",$_POST['apply_user_depart5']);
+  $apply_user_grade = str_replace("'","\'",$_POST['apply_user_grade5']);
+}
+$apply_sector = str_replace("'","\'",$_POST['apply_sector']);
+$apply_user_ex1 = str_replace("'","\'",$_POST['apply_user_ex1']);
+$apply_user_ex2 = str_replace("'","\'",$_POST['apply_user_ex2']);
+$apply_user_ex3 = str_replace("'","\'",$_POST['apply_user_ex3']);
+$apply_user_ex4 = str_replace("'","\'",$_POST['apply_user_ex4']);
+$apply_user_email2 = str_replace("'","\'",$_POST['inputEmail2']);
+$apply_product_name = str_replace("'","\'",$_POST['apply_product_name']);
+$apply_user_event_agree = str_replace("'","\'",$_POST['apply_user_event_agree']);
+
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+
+$sql = "select count(*) from cb_unreal_2021_summit_apply where apply_user_email = '$apply_user_email' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if($obj[0]['count']){
+  echo '<script type="text/javascript">';
+  echo " alert('이미 등록되어 있는 메일입니다.'); history.go(-1);";
+  echo '</script>';
+  exit();
+};
+
+  
+$sql = "select count(*) from cb_unreal_2021_summit_apply where apply_user_phone = '$apply_user_phone' limit 1";
+  $result = $mysqli -> query($sql);
+  $obj = $result -> fetch_array();
+  if($obj[0]['count']){
+    echo '<script type="text/javascript">';
+    echo " alert('이미 등록되어 있는 연락처입니다.'); history.go(-1);";
+    echo '</script>';
+    exit();
+  };
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>에픽 라운지</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./assets/css/nice-select.css">
+  <link rel="stylesheet" href="./assets/css/event.css">
+  <link rel="stylesheet" href="./assets/css/font.css">
+
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/jquery.nice-select.min.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="assets/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <!--[if IE 9]>
+  <link rel="stylesheet" href="assets/js/ie9.css">
+  <![endif]-->
+
+</head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-174668456-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-174668456-1');
+</script>
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '413080733349618');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=413080733349618&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<body>
+  <header class="header">
+    <div class="inner-wrap">
+      <div class="logo">
+<a href="https://epiclounge.co.kr/"><span class="blind">로고</span></a>
+      </div>
+      <div class="confirm">
+        <p>이미 등록을 하셨나요?</p>
+        <div class="btn-group">
+          <a href="application_confirm.html" class="md sky" >등록 확인</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container">
+<h1 class="event-title" style="padding-top:5%;  ">언리얼 엔진 <span style="font-weight:700;">5.1</span> 출시 웨비나</h1>  
+    <div class="contents-wrap">
+      <div class="steps">
+        <ul>
+          <li class="complete">
+            <div class="num">01</div>
+            <div class="text">약관 동의</div>
+          </li>
+          <li class="complete">
+            <div class="num">02</div>
+            <div class="text">정보 입력</div>
+          </li>
+          <li class="active">
+            <div class="num">03</div>
+            <div class="text">등록 확인</div>
+          </li>
+        </ul>
+      </div>
+      <div class="content-head">
+       
+        <p>
+         등록하신 이메일과 문자로 행사 당일 시청 링크를 보내드리니, 
+        
+
+          <span class="span pc-block"> 아래 등록 정보가 정확하게 입력되었는지 다시 한번 확인해 주세요.</span>
+        </p>
+        <div class="info-text"><span>등록정보</span></div>
+      </div>
+      <div class="content-box">
+        <div class="top">
+         <h2>언리얼 엔진 5.1 출시 웨비나</h2>
+       <p> </p>
+
+        </div>
+        <div class="section info">
+          <h2 class="section-title">기본 정보</h2>
+          <ul>
+            <li>
+              <h3>이름</h3>
+              <p><?=$apply_user_name?></p>
+            </li>
+            <li>
+              <h3>이메일</h3>
+              <p><?=$apply_user_email?></p>
+            </li>
+            <li>
+              <h3>연락처</h3>
+              <p><?=$apply_user_phone?></p>
+            </li>
+          </ul>
+        </div>
+        <div class="section info">
+          <h2 class="section-title">추가 정보</h2>
+          <ul>
+           
+            <li>
+              <h3>소속</h3>
+              <p><?=$apply_user_job?></p>
+            </li>
+            <li>
+              <h3>
+                <?php
+                  if ($apply_user_job == '직장인') {
+                    echo '직장';
+                  } else if ($apply_user_job == '학생') {
+                    echo '학교';
+                  } else if ($apply_user_job == '교육자/교육기관') {
+                    echo '학교/기관';
+                  } else if ($apply_user_job == '인디/프리랜서') {
+                    echo '직장/학교';
+                  } else if ($apply_user_job == '기타') {
+                    echo '기타 항목1';
+                  }
+                ?>
+              </h3>
+              <p><?=$apply_user_company?></p>
+            </li>
+            <li>
+              <h3>
+                <?php
+                  if ($apply_user_job == '직장인') {
+                    echo '부서';
+                  } else if ($apply_user_job == '학생') {
+                    echo '학과';
+                  } else if ($apply_user_job == '교육자/교육기관') {
+                    echo '학과/분야';
+                  } else if ($apply_user_job == '인디/프리랜서') {
+                    echo '부서/학과';
+                  } else if ($apply_user_job == '기타') {
+                    echo '기타 항목2';
+                  }
+                ?>
+              </h3>
+              <p><?=$apply_user_depart?></p>
+            </li>
+            <li>
+              <h3>
+                <?php
+                  if ($apply_user_job == '직장인') {
+                    echo '직무';
+                  } else if ($apply_user_job == '학생') {
+                    echo '학년';
+                  } else if ($apply_user_job == '교육자/교육기관') {
+                    echo '구분';
+                  } else if ($apply_user_job == '인디/프리랜서') {
+                    echo '직무';
+                  } else if ($apply_user_job == '기타') {
+                    echo '직무';
+                  }
+                ?>
+              </h3>
+              <p><?=$apply_user_grade?></p>
+            </li>
+            <li>
+              <h3>산업/관심 분야</h3>
+              <p><?=$apply_sector?></p>
+            </li>
+          </ul>
+        </div>
+    <!-- <div class="section info">
+          <h2 class="section-title">선택한 날짜</h2>
+          <ul>
+            <li>
+              <h3 class="full">
+              <?
+              if ($apply_user_ex1) {
+              $arrayList[] = '09. 27(화)-공통<br>';
+              }
+              if ($apply_user_ex2) {
+              $arrayList[] = '09. 28(수)-게임<br>';
+              }
+              if ($apply_user_ex3) {
+              $arrayList[] = '09. 29(목)-영화, TV &amp; 애니메이션<br>';
+              }
+              if ($apply_user_ex4) {
+              $arrayList[] = '09. 30(금)-건축 &amp; 자동차';
+              }
+              echo implode($arrayList);
+              ?>
+              </h3>
+            </li>
+          </ul>
+        </div>
+        <!--<div class="section info">
+          <h2 class="section-title">강의 자료</h2>
+          <ul>
+           <li>
+             <h3>다운로드</h3>
+             -<p><?=$apply_user_email2?></p>-
+             <p><a href="http://epiclounge.co.kr/download/download.html" target="_blank">시작해요 언리얼 언리얼 엔진 프로젝트</a>
+           </li>
+         <!-- <li>
+              <h3>상품</h3>
+              <p><?=$obj['apply_product_name']?></p>
+            </li>
+            <li>
+              <h3>결제금액</h3>
+              <p>20,000원</p>
+            </li>  
+          </ul>
+        </div>-->
+      </div>
+      <div class="btn-group">
+        <a href="javascript:history.back();" class="lg half gray" style="font-family:Spoqa Han Sans Neo; ">정보 수정</a>
+        <a href="javascript:;" id="btnLoginAction" class="lg half sky" style="font-family:Spoqa Han Sans Neo; ">등록 완료</a>
+      </div>
+      <form id="login-form" name="login-form" action="findApplyByEmail.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="mode" value="write" />
+        <input type="hidden" name="apply_user_name" value="<?=$apply_user_name?>" />
+        <input type="hidden" name="inputEmail" value="<?=$apply_user_email?>" />
+        <input type="hidden" name="apply_user_phone" value="<?=$apply_user_phone?>" />
+        <input type="hidden" name="apply_user_job" value="<?=$apply_user_job?>" />
+        <input type="hidden" name="apply_user_company" value="<?=$apply_user_company?>" />
+        <input type="hidden" name="apply_user_depart" value="<?=$apply_user_depart?>" />
+        <input type="hidden" name="apply_user_grade" value="<?=$apply_user_grade?>" />
+        <input type="hidden" name="apply_sector" value="<?=$apply_sector?>" />
+        <input type="hidden" name="apply_user_ex1" value="<?=$apply_user_ex1?>" />
+        <input type="hidden" name="apply_user_ex2" value="<?=$apply_user_ex2?>" />
+        <input type="hidden" name="apply_user_ex3" value="<?=$apply_user_ex3?>" />
+        <input type="hidden" name="apply_user_ex4" value="<?=$apply_user_ex4?>" />
+        <input type="hidden" name="inputEmail2" value="<?=$apply_user_email2?>" />
+        <input type="hidden" name="apply_product_name" value="<?=$apply_product_name?>" />
+        <input type="hidden" name="apply_user_event_agree" value="<?=$apply_user_event_agree?>" />
+      </form>
+    </div>
+  </div>
+  <script>
+    $(function() {
+      $("#btnLoginAction").on("click", function(e) {
+        var form = document.forms['login-form'];
+        form.submit();
+      });
+    });
+  </script>
+</body>
+
+</html>

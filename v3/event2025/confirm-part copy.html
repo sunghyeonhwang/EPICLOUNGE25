@@ -1,0 +1,203 @@
+<?
+$apply_title = $_POST['apply_title'];
+$apply_sector = $_POST['apply_sector'];
+$apply_sns = $_POST['apply_sns'];
+$apply_introduce = $_POST['apply_introduce'];
+$apply_source = $_POST['apply_source'];
+$apply_user_name = $_POST['apply_user_name'];
+$apply_user_job = $_POST['apply_user_job'];
+$inputEmail = $_POST['inputEmail'];
+$apply_user_phone = preg_replace("/[^0-9]/u", "", $_POST['apply_user_phone']);
+$password1 = md5($_POST['password1']);
+if($_FILES['file']['name']) {
+$tempfile = $_FILES['file']['tmp_name'];
+$filename = $_FILES['file']['name'];
+$pos = strrpos($filename, '.');
+$ext = substr($filename, $pos, strlen($filename));
+$random_name = strtotime(date("H:i:s")) . rand(20, 200) . $ext;
+$savefile = '/unrealengine/www/event/file/' . $random_name;
+move_uploaded_file($tempfile, $savefile);
+}
+
+$t_size = $_POST['t_size'];
+$addr_1 = $_POST['addr_1'];
+$addr_2 = $_POST['addr_2'];
+$addr_3 = $_POST['addr_3'];
+
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>언리얼 챌린지 2025</title>
+
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/ui_common.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://unrealengine.cafe24.com/v3/event2025/assets/css/style3.css">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174668456-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-174668456-1');
+  </script>
+  <!-- Global site tag (gtag.js) - Google Ads: 760706945 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-760706945"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'AW-760706945');
+  </script>
+  <!-- Facebook Pixel Code -->
+  <script>
+    ! function(f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function() {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '413080733349618');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=413080733349618&ev=PageView&noscript=1" /></noscript>
+  <!-- End Facebook Pixel Code -->
+</head>
+
+<body>
+  <div class="container">
+    <div class="confirm-part">
+      <div class="contents-wrap">
+        <div class="logo">
+          <a href="https://epiclounge.co.kr">
+            <img src="assets/img/logo2.png">
+          </a>
+        </div>
+        <h1 class="part-title"></h1>
+        <div class="contents-box">
+          <div class="section">
+            <h2 class="section-title">작품정보</h2>
+            <div class="content">
+              <h3 class="content-title">*작품명</h3>
+              <span><? echo $apply_title; ?></span><br>
+              <h3 class="content-title">*부문</h3>
+              <span><? echo $apply_sector; ?></span><br>
+              <h3 class="content-title">*첨부파일</h3>
+              <span><? if ($filename) { echo $filename; } else { echo '없음'; }?></span><br>
+              <h3 class="content-title">*제출영상 링크</h3>
+              <span><? echo $apply_sns; ?></span><br>
+              <h3 class="content-title">*작품소개</h3>
+              <textarea style="
+              font-family: 'Arial', sans-serif; 
+              font-weight: 400; 
+              font-size: 23px; 
+              color: #646464;
+              width: 100%;
+              outline: none;
+              border: 1px solid #CCCCCC;
+              " id="" cols="30" rows="10"><? echo $apply_introduce ?></textarea>
+              <tes>
+                </p>
+                <h3 class="content-title">*에셋 출처</h3>
+                <textarea style="
+              font-family: 'Arial', sans-serif; 
+              font-weight: 400; 
+              font-size: 23px; 
+              color: #646464;
+              width: 100%;
+              outline: none;
+              border: 1px solid #CCCCCC;
+              " id="" cols="30" rows="10"><? echo $apply_source ?></textarea>
+            </div>
+          </div>
+          <div class="section">
+            <h2 class="section-title">제출자 정보</h2>
+            <div class="content">
+              <h3 class="content-title">*이름</h3>
+              <span><? echo $apply_user_name ?></span>
+              <h3 class="content-title">*소속</h3>
+              <span><? echo $apply_user_job ?></span>
+              <h3 class="content-title">*이메일</h3>
+              <span><? echo $inputEmail ?></span>
+              <h3 class="content-title">*전화번호</h3>
+              <span><? echo $apply_user_phone ?></span>
+              <h3 class="content-title">*티셔츠사이즈</h3>
+              <span><? echo $t_size ?></span>
+              <h3 class="content-title">*배송정보</h3>
+              <span><? echo $addr_1 ?> <? echo $addr_2 ?> <? echo $addr_3 ?></span>
+            </div>
+          </div>
+        </div>
+        <form id="login-form" name="login-form" action="/event2025/findApplyByEmail.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" value="write" />
+          <input type="hidden" name="apply_title" value="<? echo $apply_title ?>">
+          <input type="hidden" name="apply_sector" value="<? echo $apply_sector ?>">
+          <input type="hidden" name="file" value="<? echo $random_name ?>">
+          <input type="hidden" name="apply_sns" value="<? echo $apply_sns ?>">
+          <input type="hidden" name="apply_introduce" value="<? echo $apply_introduce ?>">
+          <input type="hidden" name="apply_source" value="<? echo $apply_source ?>">
+          <input type="hidden" name="apply_user_name" value="<? echo $apply_user_name ?>">
+          <input type="hidden" name="apply_user_job" value="<? echo $apply_user_job ?>">
+          <input type="hidden" name="inputEmail" value="<? echo $inputEmail ?>">
+          <input type="hidden" name="apply_user_phone" value="<? echo $apply_user_phone ?>">
+          <input type="hidden" name="password1" value="<? echo $password1 ?>">
+
+          <input type="hidden" name="t_size" value="<? echo $t_size ?>">
+          <input type="hidden" name="addr_1" value="<? echo $addr_1 ?>">
+          <input type="hidden" name="addr_2" value="<? echo $addr_2 ?>">
+          <input type="hidden" name="addr_3" value="<? echo $addr_3 ?>">
+          <h1 class="notice2"></h1>
+
+          <div class="btn-wrap">
+            <a href="javascript:;" id="btnBack" class="cancel">돌아가기</a>
+            <a href="javascript:;" id="btnLoginAction" class="check">확인</a>
+          </div>
+        </form>
+        <script>
+          $(function() {
+            setLogin();
+          });
+
+          function setLogin() {
+            $("#btnLoginAction").on("click", function(e) {
+              var form = document.forms['login-form'];
+              form.submit();
+            });
+
+            $("#btnBack").on("click", function(e) {
+              history.go(-1);
+            });
+          }
+        </script>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

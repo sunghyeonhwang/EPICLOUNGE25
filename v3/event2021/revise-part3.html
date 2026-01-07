@@ -1,0 +1,205 @@
+<?
+$apply_user_email = $_POST['inputEmail'];
+$apply_password = md5($_POST['password']);
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+
+$sql = "select apply_title, 
+apply_sector,
+apply_file,
+apply_sns, 
+apply_introduce, 
+apply_source, 
+apply_user_name, 
+apply_user_job, 
+apply_user_email, 
+apply_user_phone, 
+apply_password from cb_unreal_2021_luman_apply where apply_user_email = '$apply_user_email' and apply_password = '$apply_password' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if(count($obj[0])){
+}else{
+  echo '<script type="text/javascript">';
+  echo "location.replace('/event2021/complete-part-02.html'); alert('등록된 정보가 존재하지 않습니다. 이메일 혹은 비밀번호를 확인해주세요.');";
+  echo '</script>';
+  exit();
+}
+
+
+$mysqli -> close();
+
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>언리얼 엔진 5 챌린지</title>
+  
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/ui_common.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+<body>  
+  <div class="container">
+    <div class="revise-part">
+      <div class="contents-wrap">
+        <div class="logo">
+<a href="https://epiclounge.co.kr">
+            <img src="assets/img/logo.png">
+          </a>
+        </div>
+      <h1 class="part-title" style="color:#19F2E5">언리얼 엔진 5 챌린지</h1>
+        <form id="login-form" name="login-form" action="/event2021/findApplyByEmail.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" value="modify" />
+          <div class="contents-box">
+            <div class="section">
+              <h2 class="section-title">작품정보</h2>
+              <div class="content">
+                  <h3 class="content-title">*작품명</h3>
+                  <input type="text" name="apply_title" value="<? echo $obj['apply_title']; ?>">
+                  <h3 class="content-title">*부문</h3>
+                  <select name="apply_sector" onchange="filechange(this.value)">
+                    <option><? echo $obj['apply_sector']; ?></option>
+                    <option>일반</option>
+                    <option>학생</option>
+                  </select>
+                  <div id="file-box" style="<? if($obj['apply_sector'] == '학생'){}else{ ?>display: none;<? } ?>">
+                    <h3 class="content-title">*파일선택</h3>
+                    <div class="file-wrap">
+                      <input type="text"  id="" name="filename" class="file-name" value="<? echo $obj['apply_file']; ?>" placeholder="파일선택" disabled="disabled">
+                      <input type="file" id="file" name="file">
+                      <label for="file">이미지 추가</label>
+                    </div>
+                    <p style="font-size: 15px;">학생 부문 신청자만 해당되는 항목입니다. 학생 부문으로 신청하는 경우 재학증명서 또는 학생증을 제출해야 합니다. &nbsp;파일 사이즈 100kb 미만, jpg</p>
+                  </div>
+                  <h3 class="content-title">*제출영상 링크</h3>
+                  <input type="text" name="apply_sns" value="<? echo $obj['apply_sns']; ?>">
+                  <p>
+                    - 해상도 1920x1080 이상, 총 30초 이상의 최종 렌더링 영상을 전체공개로 SNS에 업로드하고, 해당 게시물에는 다음 해시태그가 포함되어야 합니다: &nbsp;&nbsp;#UE5챌린지<br>
+                    - 자세한 유의사항은 <a class="link" href="https://epiclounge.co.kr/event2021/notice-part_check.html">여기</a>에서 확인해 주세요.
+                  </p>
+                  <h3 class="content-title">*작품소개</h3>
+                  <textarea name="apply_introduce" id="" cols="30" rows="10"><? echo $obj['apply_introduce']; ?></textarea>
+                  <h3 class="content-title">*에셋 출처</h3>
+                  <textarea name="apply_source" id="" cols="30" rows="10"><? echo $obj['apply_source']; ?></textarea>
+              </div>
+            </div>
+            <div class="section">
+              <h2 class="section-title">제출자 정보</h2>
+              <div class="content">
+                  <h3 class="content-title">*이름</h3>
+                  <input type="text" name="apply_user_name" placeholder="이름과" value="<? echo $obj['apply_user_name']; ?>">
+                  <h3 class="content-title">*소속</h3>
+                  <input type="text" name="apply_user_job" placeholder="소속, 전화번호 수정가능" value="<? echo $obj['apply_user_job']; ?>">
+                  <h3 class="content-title">*이메일</h3>
+                  <input type="hidden" name="apply_user_email" value="<? echo $obj['apply_user_email']; ?>">
+                  <p class="text"><? echo $obj['apply_user_email']; ?></p>
+                  <h3 class="content-title">*전화번호</h3>
+                  <input type="text" name="apply_user_phone" numberOnly value="<? echo $obj['apply_user_phone']; ?>">
+              </div>
+            </div>          
+          </div>
+          <div class="btn-wrap">
+            <a href="/" class="cancel">취소</a>
+            <a href="javascript:;" id="btnLoginAction" class="check">확인</a>
+          </div>
+        </form>
+        <script>
+          var fileTarget = $('#file');
+          
+          fileTarget.on('change', function(){
+            console.log("test");
+            if(window.FileReader){
+              var filename = $(this)[0].files[0].name; }
+            else {
+              var filename = $(this).val().split('/').pop().split('\\').pop();
+            }
+            $(this).siblings('.file-name').val(filename); 
+          });
+
+          function filechange(value) {
+            if(value == '학생') {
+              document.getElementById('file-box').style.display = "block";
+            } else {
+              document.getElementById('file-box').style.display = "none";
+            }
+          }
+        </script>
+        <script>
+          $(function() {
+            setLogin();
+
+            // 전화번호 숫자만 입력
+            $("input:text[numberOnly]").on("keyup", function() {
+                $(this).val($(this).val().replace(/[^0-9]/g,""));
+            });
+          });
+
+          function setLogin() {
+              $("#btnLoginAction").on("click", function(e) {
+                var form = document.forms['login-form'];
+                if (form.apply_title.value == "") {
+                  alert("작품명을 입력해 주세요.");
+                  form.apply_title.focus();
+                  return false;
+                } else if (form.apply_sector.value == "") {
+                  alert("부문을 입력해 주세요.");
+                  form.apply_sector.focus();
+                  return false;
+                  } else if (form.selectrion.value == "") {
+                  alert("부문을 선택해 주세요.");
+                  form.apply_sector.focus();
+                  return false;
+                } else if (form.apply_sns.value == "") {
+                  alert("제출영상 링크를 입력해 주세요.");
+                  form.apply_sns.focus();
+                  return false;
+                } else if (form.apply_introduce.value == "") {
+                  alert("작품소개를 입력해 주세요.");
+                  form.apply_introduce.focus();
+                  return false;
+                } else if (form.apply_source.value == "") {
+                  alert("에셋 출처를 입력해 주세요.");
+                  form.apply_source.focus();
+                  return false;
+                } else if (form.apply_user_name.value == "") {
+                  alert("이름을 입력해 주세요.");
+                  form.apply_user_name.focus();
+                  return false;
+                } else if (form.apply_user_job.value == "") {
+                  alert("소속을 입력해 주세요.");
+                  form.apply_user_job.focus();
+                  return false;
+                } else if (form.apply_user_phone.value == "") {
+                  alert("전화번호를 입력해 주세요.");
+                  form.apply_user_phone.focus();
+                  return false;
+                }  else if (form.apply_user_phone.value.length != 11) {
+                  alert("전화번호 형식에 맞게 숫자 11자리를 입력해 주세요.");
+                  form.apply_user_phone.focus();
+                  return false;
+                } else if (form.apply_sector.value == '학생') {
+                  if(form.filename.value){
+
+                  } else if (!form.file.value) {
+                  alert("학생 부문으로 신청하는 경우 재학증명서 또는 학생증을 제출해야 합니다");
+                  form.apply_sector.focus();
+                  return false;
+                  }
+                } 
+                form.submit();
+            });
+          }
+        </script>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

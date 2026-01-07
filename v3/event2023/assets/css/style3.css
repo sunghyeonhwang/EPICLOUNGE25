@@ -1,0 +1,641 @@
+@import url(_reset.css);
+@import url(common.css);
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
+
+.container{
+
+}
+.container .contents-wrap{
+	position:relative;
+	width:740px;
+	margin:0 auto;
+	padding-top:100px;
+	padding-bottom:100px
+}
+.container .contents-wrap .logo{
+	position:absolute;
+	top:34px;
+	left:-98px
+}
+.container .contents-wrap .notice{
+	font-family: 'KOTRA_BOLD-Bold';
+	font-size:16px;
+	color: #f99;
+	text-align:center;
+	font-weight: 700;
+	padding-top: 10px;
+}
+.container .contents-wrap .notice2{
+	font-family: 'KOTRA_BOLD-Bold';
+	font-size:16px;
+	color: #BC7AF2;
+	text-align:center;
+	font-weight: 700;
+	padding-top: 10px;
+}
+.container .contents-wrap .notice:after{
+	content: ""; 
+}
+
+.container .contents-wrap .notice2:after{
+	content: "잘못된 정보 입력으로 인해 불이익이 발생할 수 있으니 정확한 정보를 입력하였는지 확인해 주세요."; text-align: center; 
+}
+.container .contents-wrap .part-title{
+	font-size:45px;
+	color:#fff;
+	text-align:center;
+}
+	.container .contents-wrap .part-title:after {
+	  content: "언리얼 엔진 5 챌린지"; font-family: 'KOTRA_BOLD-Bold';
+	  
+
+}
+.container .contents-wrap .contents-box{
+	margin-top:31px;
+	padding:40px 98px;
+	background-color:#fff;
+	border-radius: 15px;
+}
+.container .contents-wrap .section:first-of-type .section-title{
+	margin-top:0
+}
+.container .contents-wrap form .content-title{
+	margin-top:30px;
+	margin-bottom:5px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:700;
+	font-size:22px
+}
+.container .contents-wrap form input[type="text"],.container .contents-wrap form input[type="password"],.container .contents-wrap form textarea{
+	width:100%;
+	font-size:23px;
+	outline:none;
+	border:1px solid  rgba(237, 237, 237, 0.853);
+	height: 90px; background-color: #fff;color: #888; font-size:0.85rem; word-break:keep-all;  width: 100%;
+	background-color: 
+
+}
+.container .contents-wrap form input[type="text"]:focus::placeholder,.container .contents-wrap form input[type="password"]:focus::placeholder,.container .contents-wrap form textarea:focus::placeholder{
+	color:#fff;
+	opacity:0
+}
+.container .contents-wrap form input[type="text"]::placeholder,.container .contents-wrap form input[type="password"]::placeholder,.container .contents-wrap form textarea::placeholder{
+	font-family:"Arial", sans-serif;
+	font-weight:300;
+	font-size:23px;
+	color:#646464;
+}
+.container .contents-wrap form input[type="text"],.container .contents-wrap form input[type="password"]{
+	height:83px;
+	padding:23px 19px
+}
+.container .contents-wrap form textarea{
+	height:276px;
+	padding:26px
+}
+.container .contents-wrap form input[type="file"]{
+	width:100%;
+	height:83px;
+	padding:23px 19px
+}
+.container .contents-wrap form input[type="password"]:last-of-type{
+	margin-top:7px
+}
+.container .contents-wrap form .file-wrap{
+	position:relative;
+	width:100%;
+	height:83px;
+	border:1px solid #ccc;
+	background-color:#fff
+}
+.container .contents-wrap form .file-wrap .file-name{
+	padding-left:19px;
+	padding-right:200px;
+	font-family:"Arial", sans-serif;
+	font-weight:300;
+	font-size:23px;
+	line-height:81px
+}
+.container .contents-wrap form .file-wrap input[type="file"]{
+	position:absolute;
+	top:0;
+	left:0;
+	width:1px;
+	height:1px;
+	opacity:0;
+	visibility:hidden
+}
+.container .contents-wrap form .file-wrap label{
+	position:absolute;
+	top:19px;
+	right:26px;
+	width:154px;
+	height:46px;
+	line-height:40px;
+	text-align:center;
+	border:3px solid #D9D9D9;
+	border-radius:5px;
+	background-color:#BEBEBE;
+	font-size:18px;
+	cursor:pointer
+}
+.container .contents-wrap form select{
+	position:relative;
+	border:1px solid #CCCCCC;
+	padding-left:19px;
+	padding-right:110px;
+	width:100%;
+	height:83px;
+	font-family:"Arial", sans-serif;
+	font-weight:400;
+	font-size:23px;
+	color:#646464;
+	outline:none;
+	background-image:url(../img/icon_select_arrow.png);
+	background-repeat:no-repeat;
+	background-position:right top;
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance:none
+}
+.container .contents-wrap form select::-ms-expand{
+	display:none
+}
+.container .contents-wrap form p{
+	margin-top:5px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:400;
+	font-size:15px
+}
+.container .contents-wrap form p.text{
+	color:#3E0000
+}
+.container .contents-wrap form p.text2{
+	color:  #999;
+	font-size: 14px;
+	font-weight: light;
+	
+}
+.container .contents-wrap form p a.link{
+	text-decoration:underline;
+	color:blue
+}
+.container .contents-wrap .btn-wrap{
+	display:flex;
+	justify-content:space-between;
+	margin-top:35px
+}
+.container .contents-wrap .btn-wrap a{
+	width:340px;
+	height:82px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:700;
+	font-size:22px;
+	line-height:82px;
+	text-align:center;
+	cursor:pointer;
+	border-radius: 5px;
+	
+}
+.container .contents-wrap .btn-wrap a.cancel{
+	color:#C6C6C6;
+	background-color:#747474
+}
+.container .contents-wrap .btn-wrap a.check{
+	background-color: #BC7AF2; color:#fff;
+}
+.container .contents-wrap .btn-wrap a.check:hover{
+	box-shadow: 0 0 15px 5px #BC7AF2;
+}
+.container .notice-part .contents-wrap form .section{
+	position:relative
+}
+.container .notice-part .contents-wrap form .section .section-title{
+	margin-top:25px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:700;
+	font-size:24px
+}
+.container .notice-part .contents-wrap form .section .section-title2{
+	margin-top:15px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:700;
+	font-size:18px;
+	text-align: center;
+}
+.container .notice-part .contents-wrap form .section .content{
+	margin-top:14px;
+	border:1px solid #707070;
+	font-size:18px;
+	letter-spacing:-0.5px;
+	word-break:keep-all
+}
+.container .notice-part .contents-wrap form .section .content .bb{
+	font-weight: 700;
+	
+}
+ .container .notice-part .contents-wrap form .section .content .text_under {
+	position: relative; 	font-weight: 700;
+
+}
+
+.container .notice-part .contents-wrap form .section .content p{
+	position:relative;
+	margin-top:20px;
+	padding-left:24px;
+	font-size:18px
+}
+.container .notice-part .contents-wrap form .section .content p:first-of-type{
+	margin-top:0
+}
+.container .notice-part .contents-wrap form .section .content p::before{
+	position:absolute;
+	left:0;
+	top:9px;
+	content:"";
+	display:inline-block;
+	width:12px;
+	height:12px;
+	background-color:#000
+}
+.container .notice-part .contents-wrap form .section .checkbox{
+	margin-top:10px;
+}
+.container .notice-part .contents-wrap form .section .checkbox input[type="checkbox"]{
+	vertical-align:baseline;
+}
+.container .notice-part .contents-wrap form .section .checkbox label{
+	font-size:12px; 
+	font-weight: 700;
+	padding-bottom: 7px;
+	cursor:pointer
+}
+.container .write-part .contents-wrap .contents-box{
+	padding-top:15px;
+	background-color:#F4F4F4
+}
+.container .write-part .contents-wrap .contents-box .section .section-title{
+	margin-top:17px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:70c0;
+	font-size:32px
+}
+.container .write-part .contents-wrap .contents-box .section .content form .number::placeholder{
+	color:red
+}
+.container .write-part .contents-wrap .btn-wrap{
+	justify-content:center
+}
+.container .write-part .contents-wrap .btn-wrap .check{
+	width:576px
+}
+.container .confirm-part .contents-wrap .section>p{
+	font-weight:400;
+	font-size:25px;
+	color:#707070
+}
+.container .confirm-part .contents-wrap .section .section-title{
+	margin-top:47px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:700;
+	font-size:32px
+}
+.container .confirm-part .contents-wrap .section .content .content-title{
+	margin-top:30px;
+	margin-bottom:10px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:700;
+	font-size:22px
+}
+.container .confirm-part .contents-wrap .section .content span{
+	font-family:"Arial", sans-serif;
+	font-weight:400;
+	font-size:23px;
+	color:#646464
+}
+.container .confirm-part .contents-wrap .section .content p{
+	font-family:"Arial", sans-serif;
+	font-weight:400;
+	font-size:23px;
+	color:#646464
+}
+.container .complete-part .contents-wrap .contents-box{
+	padding-top:75px;
+	background-color:#fff;
+	border-radius: 15px;
+}
+.container .complete-part .contents-wrap .contents-box .section .content{
+	text-align:center
+}
+.container .complete-part .contents-wrap .contents-box .section .content .content-title{
+	font-family:'Pretendard', sans-serif;
+	font-weight:700;
+	font-size:32px;
+	color: #000 ; 
+}
+.container .complete-part .contents-wrap .contents-box .section .content p{
+	margin-top:45px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:400;
+	font-size:24px;
+	line-height:50px
+}
+.container .complete-part-02 .contents-wrap .contents-box{
+	background-color: #F4F4F4;
+
+}
+.container .complete-part-02 .contents-wrap .contents-box .section .section-title{
+	font-family:'Pretendard', sans-serif;
+	font-weight:700;
+	font-size:30px;
+	color:#000;
+}
+.container .complete-part-02 .contents-wrap .contents-box .section .section-title span{
+	color:red
+}
+.container .complete-part-02 .contents-wrap .contents-box .section p{
+	margin-top:25px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:600;
+	font-size:22px;
+	color:#535353;
+}
+.container .complete-part-02 .contents-wrap .contents-box .section .content form{
+	margin-left:14px
+}
+.container .complete-part-02 .contents-wrap .contents-box .section .content p{
+	margin-top:30px;
+	text-align:center;
+	color:#535353;
+}
+
+.container .complete-part-02 .contents-wrap .btn-wrap{
+	justify-content:center
+}
+.container .complete-part-02 .contents-wrap .btn-wrap .check{
+	width:576px
+}
+.container .complete-part-02 .contents-wrap .popup{
+	display:none;
+	position:fixed;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	z-index:11;
+	background-color:rgba(0,0,0,0.7)
+}
+.container .complete-part-02 .contents-wrap .popup.active{
+	display:block
+}
+.container .complete-part-02 .contents-wrap .popup .popup-wrap{
+	position:absolute;
+	top:50%;
+	left:50%;
+	width:1150px;
+	padding:18px 18px 0 18px;
+	margin-left:-575px;
+	margin-top:-190px;
+	border-radius:10px;
+	background-color:#fff
+}
+.container .complete-part-02 .contents-wrap .popup .popup-wrap p{
+	padding:60px;
+	height:263.5px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:400;
+	font-size:34px;
+	line-height:54px
+}
+.container .complete-part-02 .contents-wrap .popup .popup-wrap .miniBtn-wrap{
+	position:relative;
+	border-top:1px solid #707070;
+	height:93.5px
+}
+.container .complete-part-02 .contents-wrap .popup .popup-wrap .miniBtn-wrap a{
+	position:absolute;
+	right:0;
+	top:22px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:400;
+	font-size:34px;
+	color:#00B1FF
+}
+.container .complete-part-02 .contents-wrap .popup .popup-wrap .miniBtn-wrap a.cancel{
+	right:152px
+}
+.container .complete-part-02 .contents-wrap .popup .popup-wrap .miniBtn-wrap a.check{
+	right:52px;
+	font-weight:700
+}
+.container .revise-part .contents-wrap .contents-box{
+	padding-top:75px;
+	background-color:#F4F4F4
+}
+.container .revise-part .contents-wrap .contents-box .section .section-title{
+	margin-top:47px;
+	font-family:'Pretendard', sans-serif;
+	font-weight:700;
+	font-size:32px
+}
+.container .revise-part .contents-wrap .contents-box .section .content form input{
+	color:#000
+}
+.container .revise-part .contents-wrap .contents-box .section .content form input::placeholder{
+	color:#000
+}
+.container .revise-part .contents-wrap .contents-box .section .content form select{
+	color:#000
+}
+.container .revise-part .contents-wrap .contents-box .section .content form p.text{
+	margin-left:13px;
+	font-size:23px;
+	color:#000
+}
+.container .revise-part .contents-wrap .contents-box .section .content form p.text a{
+	color:#FF4D97;
+}
+.container .revise-part .contents-wrap .contents-box .section .content form textarea{
+	font-weight:300
+	
+}
+@media screen and (max-width: 768px){
+	.container .contents-wrap{
+		width:100%;
+		padding-top:60px;
+		padding-bottom:40px
+	}
+	.container .contents-wrap .logo{
+		top:15px;
+		left:0
+	}
+	.container .contents-wrap .part-title{
+		font-size:26px;
+		padding-bottom:25px;
+		
+	}
+	.container .contents-wrap .contents-box{
+		padding:0 15px 40px 15px;
+		margin-top:0
+	}
+	.container .contents-wrap .btn-wrap{
+		display:flex;
+		padding:0 10px
+	}
+	.container .contents-wrap .btn-wrap a{
+		flex-grow:1;
+		width:auto;
+		height:50px;
+		margin:0 5px;
+		font-size:16px;
+		line-height:50px
+	}
+	.container .contents-wrap form input[type="text"],.container .contents-wrap form input[type="password"]{
+		height:40px;
+		padding:0 10px;
+		font-size:14px
+	}
+	.container .contents-wrap form input[type="text"]::placeholder,.container .contents-wrap form input[type="password"]::placeholder{
+		font-size:14px
+	}
+	.container .contents-wrap form select{
+		height:40px;
+		padding-left:10px;
+		padding-right:70px;
+		font-size:14px;
+		background-size:40px
+	}
+	.container .contents-wrap form textarea{
+		height:150px;
+		font-size:14px;
+		padding:10px;
+		
+	}
+	.container .contents-wrap form textarea::placeholder{
+		font-size:14px
+	}
+	.container .contents-wrap form p{
+		font-size:13px !important;
+		word-break:keep-all
+	}
+	.container .contents-wrap form .file-wrap{
+		height:40px;
+		border:none
+	}
+	.container .contents-wrap form .file-wrap .file-name{
+		padding:0 100px 0 10px;
+		font-size:14px;
+		line-height:40px
+	}
+	.container .contents-wrap form .file-wrap label{
+		top:0;
+		right:0;
+		width:auto;
+		padding:0 10px;
+		height:40px;
+		font-size:14px;
+		line-height:34px
+	}
+	.container .notice-part .contents-wrap form .section{
+		padding-top:30px
+	}
+	.container .notice-part .contents-wrap form .section .section-title{
+		margin-top:0;
+		font-size:20px
+	}
+
+	.container .notice-part .contents-wrap form .section .checkbox{
+		margin-left:0
+	}
+	.container .notice-part .contents-wrap form .section .checkbox label{
+		font-size:14px
+	}
+	.container .notice-part .contents-wrap form .section .content{
+		padding:15px
+	}
+	.container .notice-part .contents-wrap form .section .content p{
+		margin-top:10px;
+		padding-left:20px;
+		font-size:14px
+	}
+	.container .notice-part .contents-wrap form .section .content p::before{
+		top:6px
+	}
+	.container .write-part .contents-wrap .contents-box,.container .revise-part .contents-wrap .contents-box{
+		padding-top:30px
+	}
+	.container .write-part .contents-wrap .contents-box .section>p,.container .revise-part .contents-wrap .contents-box .section>p{
+		font-size:20px !important
+	}
+	.container .write-part .contents-wrap .contents-box .section .section-title,.container .revise-part .contents-wrap .contents-box .section .section-title{
+		margin-top:20px;
+		font-size:20px
+	}
+	.container .write-part .contents-wrap form .content-title,.container .revise-part .contents-wrap form .content-title{
+		margin-top:20px;
+		font-size:16px
+	}
+	.container .complete-part .contents-wrap .contents-box{
+		padding-top:40px;
+		margin:0 15px
+	}
+	.container .complete-part .contents-wrap .contents-box .section .content .content-title{
+		font-size:24px
+	}
+	.container .complete-part .contents-wrap .contents-box .section .content p{
+		margin-top:15px;
+		font-size:16px;
+		line-height:26px;
+		word-break:keep-all;
+		color:#fff;
+	}
+	.container .complete-part-02 .contents-wrap .contents-box{
+		padding-top:40px;
+		margin:0 15px
+	}
+	.container .complete-part-02 .contents-wrap .contents-box .section .section-title{
+		font-size:20px
+	}
+	.container .complete-part-02 .contents-wrap .contents-box .section>p{
+		margin-top:10px
+	}
+	.container .complete-part-02 .contents-wrap .contents-box .section .content .content-title{
+		margin-top:20px;
+		font-size:16px
+	}
+	.container .complete-part-02 .contents-wrap .contents-box .section .content p{
+		margin-top:20px;
+		font-size:16px;
+		line-height:30px;
+		word-break:keep-all
+	}
+	.container .confirm-part .contents-wrap .contents-box{
+		padding-top:40px
+	}
+	.container .confirm-part .contents-wrap .contents-box .section .section-title{
+		margin-top:30px;
+		font-size:20px
+	}
+	.container .confirm-part .contents-wrap .contents-box .section .content-title{
+		margin-top:20px;
+		font-size:16px
+	}
+	.container .confirm-part .contents-wrap .contents-box .section>p{
+		font-size:16px;
+		word-break:keep-all
+	}
+	.container .confirm-part .contents-wrap .contents-box .section textarea{
+		padding:10px !important;
+		height:150px !important;
+		font-size:14px !important;
+		
+	}
+	.container .confirm-part .contents-wrap .contents-box .section textarea::placeholder{
+		font-size:14px !important
+	}
+	.container .confirm-part .contents-wrap .btn-wrap a{
+		flex-grow:0;
+		width:50%
+	}
+}
+ 

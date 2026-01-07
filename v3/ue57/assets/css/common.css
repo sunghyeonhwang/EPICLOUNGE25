@@ -1,0 +1,192 @@
+@font-face {
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 300;
+  src: local('Spoqa Han Sans Neo Light'),
+    url('../font/SpoqaHanSansNeo-Light.woff2') format('woff2'),
+    url('../font/SpoqaHanSansNeo-Light.woff') format('woff'),
+    url('../font/SpoqaHanSansNeo-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 400;
+  src: local('Spoqa Han Sans Neo Regular'),
+    url('../font/SpoqaHanSansNeo-Regular.woff2') format('woff2'),
+    url('../font/SpoqaHanSansNeo-Regular.woff') format('woff'),
+    url('../font/SpoqaHanSansNeo-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 500;
+  src: local('Spoqa Han Sans Neo Medium'),
+    url('../font/SpoqaHanSansNeo-Medium.woff2') format('woff2'),
+    url('../font/SpoqaHanSansNeo-Medium.woff') format('woff'),
+    url('../font/SpoqaHanSansNeo-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 700;
+  src: local('Spoqa Han Sans Neo Bold'),
+    url('../font/SpoqaHanSansNeo-Bold.woff2') format('woff2'),
+    url('../font/SpoqaHanSansNeo-Bold.woff') format('woff'),
+    url('../font/SpoqaHanSansNeo-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Brutal Type';
+  font-style: normal;
+  font-weight: 300;
+  src: local('BrutalType Light'), local('BrutalType-Light'), url('../font/BrutalType-Light.eot');
+  src: url('../font/BrutalType-Light.eot?#iefix') format('embedded-opentype'),
+    url('../font/BrutalType-Light.woff2') format('woff2'),
+    url('../font/BrutalType-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Brutal Type';
+  font-style: normal;
+  font-weight: 400;
+  src: local('BrutalType Regular'), local('BrutalType-Regular'), url('../font/BrutalType-Light.eot');
+  src: url('../font/BrutalType-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../font/BrutalType-Regular.woff2') format('woff2'),
+    url('../font/BrutalType-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Brutal Type';
+  font-style: normal;
+  font-weight: 500;
+  src: local('BrutalType Medium'), local('BrutalType-Medium'), url('../font/BrutalType-Medium.eot');
+  src: url('../font/BrutalType-Medium.eot?#iefix') format('embedded-opentype'),
+    url('../font/BrutalType-Medium.woff2') format('woff2'),
+    url('../font/BrutalType-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Brutal Type';
+  font-style: normal;
+  font-weight: 700;
+  src: local('BrutalType Bold'), local('BrutalType-Bold'), url('../font/BrutalType-Bold.eot');
+  src: url('../font/BrutalType-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../font/BrutalType-Bold.woff2') format('woff2'),
+    url('../font/BrutalType-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Noto Sans Light'), local('NotoSans-Light'), url('../font/NotoSans-Light.eot');
+  src: url('../font/NotoSans-Light.eot?#iefix') format('embedded-opentype'),
+    url('../font/NotoSans-Light.woff2') format('woff2'),
+    url('../font/NotoSans-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Noto Sans Regular'), local('NotoSans-Regular'), url('../font/NotoSans-Regular.eot');
+  src: url('../font/NotoSans-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../font/NotoSans-Regular.woff2') format('woff2'),
+    url('../font/NotoSans-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Noto Sans Medium'), local('NotoSans-Medium'), url('../font/NotoSans-Medium.eot');
+  src: url('../font/NotoSans-Medium.eot?#iefix') format('embedded-opentype'),
+    url('../font/NotoSans-Medium.woff2') format('woff2'),
+    url('../font/NotoSans-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Noto Sans Bold'), local('NotoSans-Bold'), url('../font/NotoSans-Bold.eot');
+  src: url('../font/NotoSans-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../font/NotoSans-Bold.woff2') format('woff2'),
+    url('../font/NotoSans-Bold.woff') format('woff');
+}
+@font-face {
+  font-family: 'GmarketSansBold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GmarketSansLight';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+html {
+  font-size: 10px;
+}
+
+html.fzoom9 {
+  font-size: 9px;
+}
+
+html.fzoom11 {
+  font-size: 11.6px;
+}
+
+html.fzoom10 {
+  font-size: 10px;
+}
+
+body {
+  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  word-break: break-all;
+  word-wrap: break-word;
+  letter-spacing: -0.7px;
+}
+input {
+  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  appearance:none;
+}
+input::placeholder {
+  color: #C3C3C3;
+}
+input:focus::placeholder {
+  color: #fff;
+  opacity: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+.blind {
+  font-size: 0;
+}
+
+.ellipsis {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.full {
+  width: 100% !important;
+}
+

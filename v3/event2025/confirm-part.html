@@ -1,0 +1,179 @@
+<?
+$apply_title = $_POST['apply_title'];
+$apply_sector = $_POST['apply_sector'];
+$apply_sns = $_POST['apply_sns'];
+$apply_introduce = $_POST['apply_introduce'];
+$apply_source = $_POST['apply_source'];
+$apply_user_name = $_POST['apply_user_name'];
+$apply_user_job = $_POST['apply_user_job'];
+$inputEmail = $_POST['inputEmail'];
+$apply_user_phone = preg_replace("/[^0-9]/u", "", $_POST['apply_user_phone']);
+$password1 = md5($_POST['password1']);
+if($_FILES['file']['name']) {
+$tempfile = $_FILES['file']['tmp_name'];
+$filename = $_FILES['file']['name'];
+$pos = strrpos($filename, '.');
+$ext = substr($filename, $pos, strlen($filename));
+$random_name = strtotime(date("H:i:s")) . rand(20, 200) . $ext;
+$savefile = '/unrealengine/www/event/file/' . $random_name;
+move_uploaded_file($tempfile, $savefile);
+}
+
+$t_size = $_POST['t_size'];
+$addr_1 = $_POST['addr_1'];
+$addr_2 = $_POST['addr_2'];
+$addr_3 = $_POST['addr_3'];
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>언리얼 챌린지 2025</title>
+
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/ui_common.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/event2025/assets/css/style3.css">
+  <!-- 생략: 기존 GA, Ads, Facebook 픽셀 코드 유지 -->
+</head>
+
+<body>
+  <div class="container">
+    <div class="confirm-part">
+      <div class="contents-wrap">
+        <div class="logo">
+          <a href="https://epiclounge.co.kr">
+            <img src="assets/img/logo2.png">
+          </a>
+        </div>
+        <h1 class="part-title"></h1>
+        <p class="confirm-desc">입력하신 정보를 확인해 주세요. 수정이 필요하면 '돌아가기'를 눌러주세요.</p>
+
+        <div class="contents-box">
+          <div class="section">
+            <h2 class="section-title">작품정보</h2>
+            <div class="content">
+              <div class="confirm-item">
+                <h3 class="content-title">작품명</h3>
+                <p class="confirm-value"><?= htmlspecialchars($apply_title) ?></p>
+              </div>
+
+              <div class="confirm-item">
+                <h3 class="content-title">부문</h3>
+                <p class="confirm-value"><?= htmlspecialchars($apply_sector) ?></p>
+              </div>
+
+              <div class="confirm-item">
+                <h3 class="content-title">첨부파일</h3>
+                <p class="confirm-value"><?= $filename ? htmlspecialchars($filename) : '없음' ?></p>
+              </div>
+
+              <div class="confirm-item">
+                <h3 class="content-title">제출영상 링크</h3>
+                <p class="confirm-value confirm-link">
+                  <a href="<?= htmlspecialchars($apply_sns) ?>" target="_blank"><?= htmlspecialchars($apply_sns) ?></a>
+                </p>
+              </div>
+
+              <div class="confirm-item">
+                <h3 class="content-title">작품소개</h3>
+                <div class="confirm-textarea"><?= nl2br(htmlspecialchars($apply_introduce)) ?></div>
+              </div>
+
+              <div class="confirm-item">
+                <h3 class="content-title">에셋 출처</h3>
+                <div class="confirm-textarea"><?= nl2br(htmlspecialchars($apply_source)) ?></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section-title">제출자 정보</h2>
+            <div class="content">
+              <div class="confirm-row">
+                <div class="confirm-item half">
+                  <h3 class="content-title">이름</h3>
+                  <p class="confirm-value"><?= htmlspecialchars($apply_user_name) ?></p>
+                </div>
+                <div class="confirm-item half">
+                  <h3 class="content-title">소속</h3>
+                  <p class="confirm-value"><?= htmlspecialchars($apply_user_job) ?></p>
+                </div>
+              </div>
+
+              <div class="confirm-row">
+                <div class="confirm-item half">
+                  <h3 class="content-title">이메일</h3>
+                  <p class="confirm-value"><?= htmlspecialchars($inputEmail) ?></p>
+                </div>
+                <div class="confirm-item half">
+                  <h3 class="content-title">전화번호</h3>
+                  <p class="confirm-value"><?= htmlspecialchars($apply_user_phone) ?></p>
+                </div>
+              </div>
+
+              <div class="confirm-item">
+                <h3 class="content-title">티셔츠 사이즈</h3>
+                <p class="confirm-value"><?= htmlspecialchars($t_size) ?></p>
+              </div>
+
+              <div class="confirm-item">
+                <h3 class="content-title">배송정보</h3>
+                <p class="confirm-value">(<?= htmlspecialchars($addr_1) ?>) <?= htmlspecialchars($addr_2) ?> <?= htmlspecialchars($addr_3) ?></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form id="login-form" name="login-form" action="/event2025/findApplyByEmail.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" value="write" />
+          <input type="hidden" name="apply_title" value="<?= htmlspecialchars($apply_title) ?>">
+          <input type="hidden" name="apply_sector" value="<?= htmlspecialchars($apply_sector) ?>">
+          <input type="hidden" name="file" value="<?= htmlspecialchars($random_name) ?>">
+          <input type="hidden" name="apply_sns" value="<?= htmlspecialchars($apply_sns) ?>">
+          <input type="hidden" name="apply_introduce" value="<?= htmlspecialchars($apply_introduce) ?>">
+          <input type="hidden" name="apply_source" value="<?= htmlspecialchars($apply_source) ?>">
+          <input type="hidden" name="apply_user_name" value="<?= htmlspecialchars($apply_user_name) ?>">
+          <input type="hidden" name="apply_user_job" value="<?= htmlspecialchars($apply_user_job) ?>">
+          <input type="hidden" name="inputEmail" value="<?= htmlspecialchars($inputEmail) ?>">
+          <input type="hidden" name="apply_user_phone" value="<?= htmlspecialchars($apply_user_phone) ?>">
+          <input type="hidden" name="password1" value="<?= htmlspecialchars($password1) ?>">
+          <input type="hidden" name="t_size" value="<?= htmlspecialchars($t_size) ?>">
+          <input type="hidden" name="addr_1" value="<?= htmlspecialchars($addr_1) ?>">
+          <input type="hidden" name="addr_2" value="<?= htmlspecialchars($addr_2) ?>">
+          <input type="hidden" name="addr_3" value="<?= htmlspecialchars($addr_3) ?>">
+
+          <div class="btn-wrap">
+            <a href="javascript:;" id="btnBack" class="cancel">돌아가기</a>
+            <a href="javascript:;" id="btnLoginAction" class="check">제출하기</a>
+          </div>
+        </form>
+
+        <script>
+          $(function() {
+            setLogin();
+          });
+
+          function setLogin() {
+            $("#btnLoginAction").on("click", function(e) {
+              var form = document.forms['login-form'];
+              form.submit();
+            });
+
+            $("#btnBack").on("click", function(e) {
+              history.go(-1);
+            });
+          }
+        </script>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

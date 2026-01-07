@@ -1,0 +1,407 @@
+<?php
+include_once "./common.php";
+
+$_SESSION["mode"] = "pay";
+//$_SESSION["mode"] = "free";
+
+$_SESSION["prev_post"] = $_POST;
+function isMobileDevice() {
+    $userAgent = $_SERVER['HTTP_USER_AGENT'];
+    $mobileDevices = array('Android', 'iPhone', 'iPad', 'Windows Phone');
+
+    foreach ($mobileDevices as $device) {
+        if (stripos($userAgent, $device) !== false) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+if (isMobileDevice()) {
+    $device_check = "mobile";
+} else {
+    $device_check = "pc";
+}
+
+
+$apply_user_email = $_POST['inputEmail'];
+$apply_user_phone = $_POST['apply_user_phone'];
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+
+$sql = "select count(*) from cb_unreal_2023_event_apply where apply_user_email = '$apply_user_email' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if(!$obj[0]['count']){
+    echo '<script type="text/javascript">';
+    echo " alert('등록되지 않은 메일입니다.'); history.go(-1);";
+    echo '</script>';
+    exit();
+};
+
+$sql = "select count(*) from cb_unreal_2023_event_apply where apply_user_phone = '$apply_user_phone' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if(!$obj[0]['count']){
+    echo '<script type="text/javascript">';
+    echo " alert('등록되지 않은 연락처입니다.'); history.go(-1);";
+    echo '</script>';
+    exit();
+};
+
+$sql = "select 
+*
+from cb_unreal_2023_event_apply where apply_user_email = '$apply_user_email' and apply_user_phone = '$apply_user_phone' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if(count($obj[0])){
+}else{
+    echo '<script type="text/javascript">';
+    echo " alert('이메일 혹은 전화번호를 확인해주세요.'); history.go(-1);";
+    echo '</script>';
+    exit();
+}
+$apply_sc = sql_fetch("select * from cb_unreal_2023_event_apply where apply_user_email = '$apply_user_email' and apply_user_phone = '$apply_user_phone' limit 1");
+
+$pass_flag = false;
+if($apply_sc["free_yn"] == "Y"){
+    $pass_flag = true;
+}else if($apply_sc["free_yn"] == "N" && $apply_sc["pay_complete"] == "Y"  && empty($apply_sc["refund_time"]) ){
+ //결제완료
+    $pass_flag = true;
+}else{
+    $pass_flag = false;
+}
+if($pass_flag == false){
+    echo '<script type="text/javascript">';
+    echo " alert('결제가 완료되지 않았습니다.'); ";
+    echo '</script>';
+
+    $BANK_CODE = array(
+        '03' => '기업은행',
+        '04' => '국민은행',
+        '05' => '외환은행',
+        '07' => '수협중앙회',
+        '11' => '농협중앙회',
+        '20' => '우리은행',
+        '23' => 'SC 제일은행',
+        '31' => '대구은행',
+        '32' => '부산은행',
+        '34' => '광주은행',
+        '37' => '전북은행',
+        '39' => '경남은행',
+        '53' => '한국씨티은행',
+        '71' => '우체국',
+        '81' => '하나은행',
+        '88' => '신한은행',
+        '89' => '케이뱅크',
+        '90' => '카카오뱅크',
+        '92' => '토스뱅크',
+        'D1' => '동양종합금융증권',
+        'D2' => '현대증권',
+        'D3' => '미래에셋증권',
+        'D4' => '한국투자증권',
+        'D5' => '우리투자증권',
+        'D6' => '하이투자증권',
+        'D7' => 'HMC 투자증권',
+        'D8' => 'SK 증권',
+        'D9' => '대신증권',
+        'DA' => '하나대투증권',
+        'DB' => '굿모닝신한증권',
+        'DC' => '동부증권',
+        'DD' => '유진투자증권',
+        'DE' => '메리츠증권',
+        'DF' => '신영증권'
+    );
+
+
+    $_SESSION["VBANK_NUM"]  = $apply_sc["pay_vact_num"];
+    $_SESSION["VBANK_NM"]  = $BANK_CODE[$apply_sc["pay_vact_bankcode"]];
+    $_SESSION["VBANK_AMOUNT"]  = $apply_sc["pay_totprice"];
+
+
+    include_once "application_vbank_result.html";
+    exit();
+}
+
+$mysqli -> close();
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>에픽라운지</title>
+    <!--테스트 JS--><script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+    <!--운영 JS> <script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script> -->
+
+  <!-- CSS -->
+
+
+    <link rel="stylesheet" href="./assets/css/nice-select.css">
+  <link rel="stylesheet" href="./assets/css/event_start24.css">
+    <link rel="stylesheet" href="./assets/css/font_0626.css">
+
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/jquery.nice-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="assets/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <!--[if IE 9]>
+  <link rel="stylesheet" href="assets/js/ie9.css">
+  <![endif]-->
+
+</head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-174668456-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-174668456-1');
+</script>
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '413080733349618');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=413080733349618&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<body>
+  <header class="header">
+    <div class="inner-wrap">
+      <div class="logo">
+<a href="https://epiclounge.co.kr/start_lsu2024.php"><span class="blind">로고</span></a>
+      </div>
+      <div class="confirm">
+        <p>이미 등록을 하셨나요?</p>
+        <div class="btn-group">
+<a href="application_confirm.html" class="md sky">등록 확인</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container modify">
+      <h1 class="event-title"><img src="/assets/img/event_0626/top_logo.svg" alt="시작해요 언리얼 UEFN" /></h1>
+      <div class="contents-wrap">
+    <form id="login-form" name="login-form" action="application_modify.html" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="level" value="<?=$level?>" />
+        <input type="hidden" name="inputEmail" value="<?=$apply_user_email?>" />
+        <input type="hidden" name="apply_user_phone" value="<?=$apply_user_phone?>" />
+          <div class="content-box">
+             <!-- <div class="section">
+                  <h2 class="section-title">선택티켓</h2>
+                  <div class="form-wrap">
+                      <?php if ($obj['team_yn'] == "Y"){ ?>
+                          <div class="top_ticket team_ticket">
+                              <div class="ticket_wrap">
+                                  <div class="team_ticket_1"><span>오프라인+온라인</span></div>
+                                  <div class="team_ticket_2">단체등록</div>
+                                  <div class="team_ticket_3">* 단체 등록 신청서 내에 기재된 정보와 입력 정보가 상이한 경우,<br />등록은 완료되었을지라도 오프라인 행사에 참여하실 수 없습니다.</div>
+                              </div>
+                          </div>
+                      <?php }else{ ?>
+                          <ul>
+                              <li>
+                                  <?php if($obj["free_yn"] == "Y"){ ?>
+
+                                      <div class="top_ticket free_ticket">
+                                          <div class="ticket_wrap">
+                                              <div class="free_ticket_1"><span>온라인</span></div>
+                                              <div class="free_ticket_2">FREE</div>
+                                          </div>
+                                      </div>
+                                  <?}else{?>
+
+                                      <div class="top_ticket price_ticket">
+                                          <div class="ticket_wrap">
+                                              <div class="price_ticket_1"><span>오프라인+온라인</span></div>
+                                              <div class="price_ticket_2">30,000원</div>
+                                              <div class="price_ticket_3">60,000</div>
+                                              <div class="price_ticket_4">*얼리버드 특별 50% 할인가(~8월6일까지)</div>
+                                          </div>
+                                      </div>
+                                  <?}?>
+                              </li>
+                          </ul>
+                      <?php } ?>
+                  </div>
+              </div>-->
+            <div class="section">
+              <h2 class="section-title">기본 정보</h2>
+              <div class="form-wrap">
+                <ul>
+                  <li>
+                    <span class="red-dot"><h3>이름</h3></span>
+                    <div class="wrap">
+                        <?=$obj["apply_user_name"]?>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="red-dot"><h3>이메일</h3></span>
+                    <div class="wrap">
+                        <?=$obj['apply_user_email']?>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="red-dot"><h3>연락처</h3></span>
+                    <div class="wrap">
+                        <?=$obj["apply_user_phone"]?>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="section">
+              <h2 class="section-title">추가 정보</h2>
+             
+            
+              <div class="form-wrap">
+                <ul>
+                  <li>
+                   <span class="red-dot"> <h3>소속</h3></span>
+                    <div class="wrap">
+                        <?=$obj['apply_user_job']?>
+                    </div>
+                  </li>
+                    <? if($obj['apply_user_company']){?>
+                        <li class="office">
+                            <span class="red-dot">  <h3>직장/학교/기관</h3></span>
+                            <div class="wrap">
+                                <?=$obj['apply_user_company']?>
+                            </div>
+                        </li>
+                    <?}?>
+                    <? if($obj['apply_user_depart']){?>
+                        <li class="office">
+                            <span class="red-dot">  <h3>부서/학과</h3></span>
+                            <div class="wrap">
+                                <?=$obj['apply_user_depart']?>
+                            </div>
+                        </li>
+                    <?}?>
+                    <? if($obj['apply_user_grade']){?>
+                        <li class="office">
+                            <span class="red-dot">  <h3>직무/학년/구분</h3></span>
+                            <div class="wrap">
+                                <?=$obj['apply_user_grade']?>
+                            </div>
+                        </li>
+                    <?}?>
+                    <? if($obj['apply_sector']){?>
+                        <li>
+                            <span class="red-dot"> <h3>산업/관심 분야</h3></span>
+                            <div class="wrap">
+                                <?=$obj['apply_sector']?>
+                            </div>
+                        </li>
+                    <?}?>
+                </ul>
+              </div>
+            </div>
+              <!--<div class="section">
+                  <h2 class="section-title"><span class="red-dot">관심분야</span></h2>
+                  <div class="form-wrap session">
+                      <ul>
+                          <li>
+                              <input type="checkbox" name="apply_user_ex1" disabled id="day1" value="1" <?=$obj["apply_user_ex1"]?"checked":""?>>
+                              <label for="day1" class="day1">8월 29일 (화) - 공통</label>
+                              <input type="checkbox" name="apply_user_ex2" disabled id="day2" value="2" <?=$obj["apply_user_ex2"]?"checked":""?>>
+                              <label for="day2" class="day2">8월 30일 (수) - 게임</label>
+                              <br />
+                              <input type="checkbox" name="apply_user_ex3" disabled id="day3" value="3" <?=$obj["apply_user_ex3"]?"checked":""?>>
+                              <label for="day3" style="width: 100%">8월 31일(목) - 영화&TV / 라이브 이벤트 / 애니메이션</label>
+                              <br />
+                              <input type="checkbox" name="apply_user_ex4" disabled id="day4" value="4" <?=$obj["apply_user_ex4"]?"checked":""?>>
+                              <label for="day4" style="width: 100%">9월 1일 (금) - AEC/자동차/시뮬레이션</label>
+                              <br />
+                          </li>
+                      </ul>
+                  </div>
+              </div>-->
+              <?php if($obj["free_yn"] == "Y"){ ?>
+              <!--<div class="section offline_wait">
+                  <h2 class="section-title">오프라인 대기 선택</h2>
+                  <p class="section-content">오프라인 행사 참여를 원하시면 체크해주세요.취소 발생시 우선 연락을 드립니다.</p>
+                  <div class="form-wrap session">
+                      <ul>
+                          <li>
+                              <input type="checkbox" name="wait_yn"  id="off_wait" disabled  id="wait_yn" value="Y" <?=$obj["wait_yn"] == "Y"?"checked":""?>>
+                              <label for="wait_yn" class="day1">오프라인 행사장 대기자 등록</label>
+                          </li>
+                      </ul>
+                  </div>
+
+              </div>-->
+              <?}?>
+          </div>
+
+        <?php if($obj["free_yn"] == "Y"){ ?>
+            <div class="btn-group">
+               <a href="javascript:;" onclick="home" class="lg half red" >메인으로</a>
+                <a href="javascript:;" id="btnLoginAction" class="lg half sky" >정보수정</a>
+            </div>
+        <?}else{?>
+            <div class="btn-group">
+            <!--    <a href="javascript:;" onclick="cancle_refund(<?=$obj['apply_no']?>)" class="lg half red" >결제취소</a>-->
+                <a href="javascript:;" id="btnLoginAction" class="lg half sky" >정보수정</a>
+                <a href="#n" onclick="$('#qrform').submit()"  class="lg half gray" >QR코드확인</a>
+            </div>
+        <?}?>
+      </div>
+    </form>
+      <form id="qrform" name="qrform" action="application_qrcode_result.html" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="inputEmail" value="<?=$apply_user_email?>" />
+          <input type="hidden" name="apply_user_phone" value="<?=$apply_user_phone?>" />
+      </form>
+  </div>
+<script>
+function home(val) {
+    if(confirm('메인페이지로 이동합니다.')){
+        location.replace('https://epiclounge.co.kr/start_lsu2024.php');
+    }
+}
+    function cancle(val) {
+        if(confirm('등록을 취소하시겠습니까?')){
+            location.replace('/v3/cancel.php?mode2=del2&no='+val);
+        }
+    }
+    function cancle_refund(val) {
+        if(confirm('결제를 취소하시겠습니까?\n취소시 오프라인 행사등록이 불가능 할 수 있습니다.')){
+            location.replace('/v3/cancel.php?mode2=del3&no='+val);
+        }
+    }
+    $("#btnLoginAction").on("click", function(e) {
+
+        var form = document.forms['login-form'];
+        form.submit();
+    });
+</script>
+</body>
+  
+  </html>
+  

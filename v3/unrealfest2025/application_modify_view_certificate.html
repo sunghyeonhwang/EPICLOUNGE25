@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>언리얼 페스트 서울 2025 참가 확인증</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .certificate-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 90vh;
+      background: #f5f5f5;
+      padding: 20px;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+
+    .certificate {
+      position: relative;
+      width: 600px;
+      /* height: 800px; */
+      background: linear-gradient(135deg, rgba(0, 25, 90, 1) 0%, rgba(57, 3, 99, 1) 100%);
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .certificate::before {
+      content: '';
+      position: absolute;
+      top: -27px;
+      left: -21px;
+      width: 557.56px;
+      height: 627.55px;
+      background-size: cover;
+      opacity: 0.3;
+    }
+
+    .certificate-content {
+      position: relative;
+      background: white;
+      width: 560px;
+      height: 66vh;
+      margin: 100px auto;
+      border-radius: 4px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-section {
+      position: absolute;
+      top: -106px;
+      left: 0;
+      width: 162.23px;
+      height: 96.96px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .logo-unreal {
+      width: 18.8px;
+      height: 18.47px;
+      margin-bottom: 8px;
+    }
+
+    .logo-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #000;
+      margin-bottom: 8px;
+    }
+
+    .date-info {
+      font-size: 10px;
+      color: #000;
+      line-height: 1.2;
+    }
+
+    .title {
+      font-size: 40px;
+      font-weight: 900;
+      color: #000;
+      text-align: center;
+      margin-bottom: 50px;
+      margin-top: 20px;
+    }
+
+    .participant-info {
+      align-self: flex-start;
+      margin-bottom: 70px;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+      font-weight: 800;
+      color: #000;
+    }
+
+    .info-label {
+      min-width: 80px;
+    }
+
+    .info-input {
+      border: none;
+      /* border-bottom: 2px solid #000; */
+      background: transparent;
+      font-size: 22px;
+      font-weight: 800;
+      padding: 5px 10px;
+      margin-left: 10px;
+      min-width: 200px;
+      color: #000;
+      font-family: inherit;
+    }
+
+    .info-input:focus {
+      outline: none;
+      /* border-bottom-color: #2D42DD; */
+    }
+
+    .confirmation-text {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 500;
+      color: #000;
+      line-height: 1.5;
+      letter-spacing: -0.05em;
+      margin-bottom: 40px;
+    }
+
+    .event-details {
+      font-size: 15px;
+      font-weight: 500;
+      color: #000;
+      line-height: 1.67;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .organizer {
+      font-size: 20px;
+      font-weight: 700;
+      color: #000;
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .signature-section {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+      /* height: 220px; */
+      /* gap: 20px; */
+    }
+
+    .fest-logo {
+      width: 100%;
+      height: 100%;
+      background-image: url('https://unrealsummit16.cafe24.com/2025/unrealfest2025/fest_logo.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .epic-logo {
+      width: 150px;
+      /* 더 크게 */
+      height: 150px;
+    }
+
+    .signature {
+      justify-content: center;
+      /* 중앙 배치 */
+      /* 또는 */
+      justify-content: flex-start;
+      /* 왼쪽 배치 */
+
+      background: #f0f0f0;
+      background-image: url('https://unrealsummit16.cafe24.com/2025/unrealfest2025/epic_logo.svg');
+      background-size: cover;
+    }
+
+    .controls {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2D42DD, #AF47F6);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      /* box-shadow: 0 8px 20px rgba(45, 66, 221, 0.3); */
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #2D42DD;
+      /* border: 2px solid #2D42DD; */
+    }
+
+    .btn-secondary:hover {
+      background: #2D42DD;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .certificate {
+        width: 90vw;
+        height: auto;
+        aspect-ratio: 3/4;
+      }
+
+      .certificate-content {
+        width: 85%;
+        height: auto;
+        padding: 20px;
+      }
+
+      .title {
+        font-size: 28px;
+        margin-bottom: 30px;
+      }
+
+      .info-row {
+        font-size: 18px;
+      }
+
+      .info-input {
+        font-size: 18px;
+        min-width: 150px;
+      }
+
+      .confirmation-text {
+        font-size: 16px;
+      }
+
+      @media print {
+        .controls {
+          display: none !important;
+        }
+      }
+  </style>
+</head>
+
+<body>
+  <div class="certificate-container">
+    <div>
+      <div class="certificate" id="certificate">
+
+
+        <div class="certificate-content">
+          <div class="logo-section">
+            <div class="fest-logo"></div>
+          </div>
+          <h1 class="title">참가확인증</h1>
+
+          <div class="participant-info">
+            <div class="info-row">
+              <span class="info-label">소속 :</span>
+              <input type="text" class="info-input" id="company" placeholder="소속을 입력하세요">
+            </div>
+            <div class="info-row">
+              <span class="info-label">성명 :</span>
+              <input type="text" class="info-input" id="name" placeholder="성명을 입력하세요">
+            </div>
+          </div>
+
+          <div class="confirmation-text">
+            위 사람은 에픽게임즈 코리아에서 주관하는<br>
+            언리얼 페스트 서울 2025에 참가했음을 확인합니다.
+          </div>
+
+          <div class="event-details">
+            일시 : 2025년 8월 25일 ~ 26일<br>
+            장소 : 코엑스 그랜드 볼룸 1층<br>
+            주최 : 에픽게임즈 코리아
+          </div>
+
+          <div class="organizer"><img src="https://unrealsummit16.cafe24.com/2025/unrealfest2025/sign_ufs.svg" alt="언리얼 페스트 서울 2025 사무국" style="max-width: 240px; height: auto;" /></div>
+          <div class="signature-section">
+            <div class="epic-logo">&nbsp;</div>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+  <div class=" controls">
+    <!-- <button class="btn btn-primary" onclick="generateCertificate()">확인증 생성</button> -->
+    <!-- <button class="btn btn-secondary" onclick="downloadCertificate()">다운로드</button> -->
+    <button class="btn btn-secondary" onclick="printCertificate()">인쇄</button>
+  </div>
+  <script>
+    // 체크인 시스템과 연동될 함수
+    function loadParticipantData(participantData) {
+      if (participantData.company) {
+        document.getElementById('company').value = participantData.company;
+      }
+      if (participantData.name) {
+        document.getElementById('name').value = participantData.name;
+      }
+    }
+
+    // 확인증 생성 (체크인 완료 후 호출될 함수)
+    function generateCertificate() {
+      const name = document.getElementById('name').value.trim();
+      const company = document.getElementById('company').value.trim();
+
+      if (!name) {
+        alert('성명을 입력해주세요!');
+        document.getElementById('name').focus();
+        return;
+      }
+
+      // 입력 필드를 읽기 전용으로 변경
+      document.getElementById('name').readOnly = true;
+      document.getElementById('company').readOnly = true;
+
+      // 시각적 피드백
+      const certificate = document.getElementById('certificate');
+      certificate.style.transform = 'scale(1.02)';
+      certificate.style.transition = 'transform 0.3s ease';
+
+      setTimeout(() => {
+        certificate.style.transform = 'scale(1)';
+        alert(`${name}님의 참가 확인증이 생성되었습니다! 🎉`);
+      }, 300);
+    }
+
+    // 다운로드 기능
+    function downloadCertificate() {
+      const name = document.getElementById('name').value.trim();
+      if (!name) {
+        alert('먼저 확인증을 생성해주세요!');
+        return;
+      }
+
+      // html2canvas 같은 라이브러리를 사용하거나
+      // 서버사이드에서 PDF 생성하는 로직 구현
+      alert('다운로드 기능이 곧 추가될 예정입니다!');
+    }
+
+    // 인쇄 기능
+    function printCertificate() {
+      const name = document.getElementById('name').value.trim();
+      if (!name) {
+        alert('먼저 확인증을 생성해주세요!');
+        return;
+      }
+
+      window.print();
+    }
+
+    // API 연동 예시 (체크인 시스템과 연동)
+    async function checkParticipantStatus(participantId) {
+      try {
+        // 실제 API 엔드포인트로 교체
+        const response = await fetch(`/api/participants/${participantId}/check-in`);
+        const data = await response.json();
+
+        if (data.checkedIn) {
+          loadParticipantData(data);
+          generateCertificate();
+        } else {
+          alert('체크인이 완료되지 않았습니다.');
+        }
+      } catch (error) {
+        console.error('체크인 상태 확인 중 오류:', error);
+      }
+    }
+
+    // URL 파라미터에서 참가자 정보 로딩 - 디버깅 포함
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log('페이지 로드됨, URL 파라미터 확인 중...');
+      console.log('현재 URL:', window.location.href);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const name = urlParams.get('name');
+      const company = urlParams.get('company');
+
+      console.log('URL 파라미터:', {
+        name,
+        company
+      });
+
+      const nameInput = document.getElementById('name');
+      const companyInput = document.getElementById('company');
+
+      if (name && name.trim() !== '') {
+        console.log('이름 설정:', name);
+        nameInput.value = decodeURIComponent(name);
+        nameInput.style.backgroundColor = '#fff';
+        nameInput.style.border = '0px solid #2D42DD';
+        nameInput.readOnly = true;
+      }
+
+      if (company && company.trim() !== '') {
+        console.log('소속 설정:', company);
+        companyInput.value = decodeURIComponent(company);
+        companyInput.style.backgroundColor = '#fff';
+        companyInput.style.border = '0px solid #2D42DD';
+        companyInput.readOnly = true;
+      }
+
+      // URL 파라미터가 있으면 자동으로 확인증 생성
+      if (name && name.trim() !== '') {
+        console.log('자동 확인증 생성 시작');
+        setTimeout(() => {
+          generateCertificate();
+        }, 800);
+      }
+
+      // 디버깅용 정보 표시
+
+    });
+
+    // epiclounge.co.kr에서 호출할 수 있는 전역 함수
+    window.loadEpicloungeData = function(userData) {
+      if (userData.apply_user_name) {
+        document.getElementById('name').value = userData.apply_user_name;
+        document.getElementById('name').readOnly = true;
+      }
+      if (userData.apply_user_company) {
+        document.getElementById('company').value = userData.apply_user_company;
+        document.getElementById('company').readOnly = true;
+      }
+
+      // 자동으로 확인증 생성
+      setTimeout(() => {
+        generateCertificate();
+      }, 300);
+    };
+  </script>
+</body>
+
+</html>

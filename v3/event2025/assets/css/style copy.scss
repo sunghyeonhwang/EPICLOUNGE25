@@ -1,0 +1,445 @@
+@import "_reset.css";
+@import "common.css";
+$mint: #00FFB6;
+$gray: #747474;
+
+/************** [ Container ] **************/
+.container {
+  background-color: #333;
+  .contents-wrap {
+    position: relative;
+    width: 964px;
+    margin: 0 auto;
+    padding-top: 150px;
+    padding-bottom: 100px;
+    .logo {
+      position: absolute;
+      top: 34px;
+      left: -98px;
+    }
+    .part-title {
+      font-family: 'BrutalType';
+      font-size: 55px;
+      color: $mint;      
+      text-align: center;
+    }
+      
+    .contents-box {
+      margin-top: 31px;
+      padding: 90px 98px;
+      background-color: #fff;
+    }
+    .section {
+      &:first-of-type {
+        .section-title {
+          margin-top: 0;
+        }
+      }
+    }
+    form {
+      .content-title {
+        margin-top: 30px;
+        margin-bottom: 5px;
+        font-family: 'Spoqa Han Sans', sans-serif;
+        font-weight: 700;
+        font-size: 22px;
+      }
+      input[type="text"],
+      input[type="password"],
+      textarea {
+        width: 100%;
+        font-size: 23px;
+        outline: none;
+        &:focus::placeholder {
+          color: #fff;
+          opacity: 0;
+        }
+        border: 1px solid #CCCCCC;
+        &::placeholder {
+          font-family: "Arial", sans-serif;
+          font-weight: 300;
+          font-size: 23px;
+          color: #646464;
+        }
+      }
+      input[type="text"],
+      input[type="password"] {
+        height: 83px;
+        padding: 23px 19px;
+      }
+      textarea {
+        height: 276px;
+        padding: 26px;
+      }
+      input[type="file"] {
+        width: 100%;
+        height: 83px;
+        padding: 23px 19px;
+      }
+      input[type="password"] {
+        &:last-of-type {
+          margin-top: 7px;
+        }
+      }
+      .file-wrap {
+        position: relative;
+        width: 100%;
+        height: 83px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        .file-name {
+          padding-left: 19px;
+          padding-right: 200px;
+          font-family: "Arial", sans-serif;
+          font-weight: 300;
+          font-size: 23px;
+          line-height: 81px;
+        }
+        input[type="file"] {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 1px;
+          height: 1px;
+          opacity: 0;
+          visibility: hidden;
+        }
+        label {
+          position: absolute;
+          top: 19px;
+          right: 26px;
+          width: 154px;
+          height: 46px;
+          line-height: 40px;
+          text-align: center;
+          border: 3px solid #D9D9D9;
+          border-radius: 5px;
+          background-color: #BEBEBE;
+          font-size: 18px;
+          cursor: pointer;
+        }
+      }
+      select {
+        position: relative;
+        border: 1px solid #CCCCCC;
+        padding-left: 19px;
+        padding-right: 110px;
+        width: 766px;
+        height: 83px;
+        font-family: "Arial", sans-serif;
+        font-weight: 400;
+        font-size: 23px;
+        color: #646464;
+        outline: none;
+        background-image: url(../img/icon_select_arrow.png);
+        background-repeat: no-repeat;
+        background-position: right top;
+        -webkit-appearance: none; 
+        -moz-appearance: none;    
+        appearance: none; 
+        &::-ms-expand {
+          display: none;          
+        }
+        option {
+          
+        }
+      }
+      p {
+        margin-top: 5px;
+        font-family: 'Spoqa Han Sans', sans-serif;
+        font-weight: 400;
+        font-size: 22px;
+        &:nth-of-type(2) {
+          font-size: 15px;
+        }
+        &.text {
+          color: #3E0000;
+        }
+      }
+    }
+    .btn-wrap {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 35px;
+      a {
+        width: 452px;
+        height: 82px;
+        font-family: 'Spoqa Han Sans', sans-serif;
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 82px;
+        text-align: center;
+        cursor: pointer;
+        &.cancel {
+          color: #C6C6C6;
+          background-color: $gray;
+        }
+        &.check {
+          background-color: $mint;
+        }
+      }
+    }
+  }
+  
+  /*** 유의사항 ***/
+  .notice-part {
+    .contents-wrap {
+      .section {
+        .section-title {
+          margin-top: 35px;
+          font-family: 'Spoqa Han Sans', sans-serif;
+          font-weight: 700;
+          font-size: 50px;
+        }
+        .content {
+          margin-top: 14px;
+          padding: 28px 26px 28px 36px;
+          border: 1px solid #adadad;
+          background-color: #eeeeee;
+
+        }
+      }
+    }
+  }
+  
+  /*** 작성 ***/  
+  .write-part {
+    .contents-wrap {
+      .contents-box {
+        padding-top: 75px;
+        background-color: #F4F4F4;
+        .section {
+          .section-title {
+            margin-top: 47px;
+            font-family: 'Spoqa Han Sans', sans-serif;
+            font-weight: 700;
+            font-size: 32px;
+          }
+          .content {
+            form {
+              .number {
+                &::placeholder {
+                  color: red;
+                }
+              }
+            }
+          }
+        }
+      }
+      .btn-wrap {
+        justify-content: center;
+        .check {
+          width: 576px;
+        }
+      }
+    }
+  }
+  
+  /*** 확인 ***/
+  .confirm-part {
+    .contents-wrap {
+      .section {
+        >p {
+          font-weight: 400;
+          font-size: 25px;
+          color: #707070;
+        }
+        .section-title {
+          margin-top: 47px;
+          font-family: 'Spoqa Han Sans', sans-serif;
+          font-weight: 700;
+          font-size: 32px;
+        }
+        .content {
+          .content-title {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-family: 'Spoqa Han Sans', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+          }
+          span {
+            font-family: "Arial", sans-serif;
+            font-weight: 400;
+            font-size: 23px;
+            color: #646464;
+          }
+          p {
+            font-family: "Arial", sans-serif;
+            font-weight: 400;
+            font-size: 23px;
+            color: #646464;
+          }
+        }
+      }
+    }
+  }
+  
+  /*** 완료 ***/
+  .complete-part {
+    .contents-wrap {
+      .contents-box {
+        padding-top: 75px;
+        background-color: #F4F4F4;
+        .section {
+          .content {
+            text-align: center;
+            .content-title {
+              font-family: 'Spoqa Han Sans', sans-serif;
+              font-weight: 700;
+              font-size: 55px;
+            }
+            p {
+              margin-top: 50px;
+              font-family: 'Spoqa Han Sans', sans-serif;
+              font-weight: 400;
+              font-size: 55px;
+              line-height: 88px;
+              span {
+                margin-top: 45px;
+                display: block;
+                font-family: 'Spoqa Han Sans', sans-serif;
+                font-weight: 400;
+                font-size: 30px;
+              }
+            }
+          }
+        }
+      }      
+    }
+  }
+  
+  /*** 완료_02 ***/
+  .complete-part-02 {
+    .contents-wrap {
+      .contents-box {
+        background-color: #F4F4F4;
+        .section {
+          .section-title {
+            font-family: 'Spoqa Han Sans', sans-serif;
+            font-weight: 700;
+            font-size: 30px;
+            span {
+              color: red;
+            }
+          }
+          p {
+            margin-top: 25px;
+            font-family: 'Spoqa Han Sans', sans-serif;
+            font-weight: 400;
+            font-size: 28px;
+          }
+          .content {
+            form {
+              margin-left: 14px;
+            }
+            p {
+              margin-top: 30px;
+              text-align: center;
+            }
+          }
+        }
+      }
+      .btn-wrap {
+        justify-content: center;
+        .check {
+          width: 576px;
+        }
+      }
+      .popup {
+        display: none;
+        position: fixed;
+        left: 0; 
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 11;
+        background-color: rgba(0, 0, 0, 0.7);
+        &.active {
+          display: block;
+        }
+        .popup-wrap {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 1150px;
+          padding: 18px 18px 0 18px;
+          margin-left: -575px;
+          margin-top: -190px;
+          border-radius: 10px;
+          background-color: #fff;
+          p {
+            padding: 60px;
+            height: 263.5px;
+            font-family: 'Spoqa Han Sans', sans-serif;
+            font-weight: 400;
+            font-size: 34px;
+            line-height: 54px; 
+          }
+          .miniBtn-wrap {
+            position: relative;
+            border-top: 1px solid #707070;
+            height: 93.5px;
+            a {
+              position: absolute;
+              right: 0;
+              top: 22px;
+              font-family: 'Spoqa Han Sans', sans-serif;
+              font-weight: 400;
+              font-size: 34px;
+              color: #00B1FF;
+              &.cancel {
+                right: 152px;
+              }
+              &.check {
+                right: 52px;
+                font-weight: 700;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  /*** 수정 ***/  
+  .revise-part {
+    .contents-wrap {
+      .contents-box {
+        padding-top: 75px;
+        background-color: #F4F4F4;
+        .section {
+          .section-title {
+            margin-top: 47px;
+            font-family: 'Spoqa Han Sans', sans-serif;
+            font-weight: 700;
+            font-size: 32px;
+          }
+          .content {
+            form {
+              input {
+                color: #000;
+                &::placeholder {
+                  color: #000;
+                }
+              }
+              select {
+                color: #000;
+              }
+              p {
+                &.text {
+                  margin-left: 13px;
+                  font-size: 23px;
+                  color: #000;
+                }
+              }
+              textarea {
+                font-weight: 300;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}//container

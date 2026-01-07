@@ -1,0 +1,370 @@
+<?php
+include_once "./common.php";
+
+$_SESSION["mode"] = "pay";
+//$_SESSION["mode"] = "free";
+
+$_SESSION["prev_post"] = $_POST;
+function isMobileDevice() {
+    $userAgent = $_SERVER['HTTP_USER_AGENT'];
+    $mobileDevices = array('Android', 'iPhone', 'iPad', 'Windows Phone');
+
+    foreach ($mobileDevices as $device) {
+        if (stripos($userAgent, $device) !== false) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+if (isMobileDevice()) {
+    $device_check = "mobile";
+} else {
+    $device_check = "pc";
+}
+
+
+$apply_user_email = $_POST['inputEmail'];
+$apply_user_phone = $_POST['apply_user_phone'];
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+
+$sql = "select count(*) from cb_unreal_2024_speaker_apply where apply_user_email = '$apply_user_email' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if(!$obj[0]['count']){
+    echo '<script type="text/javascript">';
+    echo " alert('등록되지 않은 메일입니다.'); history.go(-1);";
+    echo '</script>';
+    exit();
+};
+
+$sql = "select count(*) from cb_unreal_2024_speaker_apply where apply_user_phone = '$apply_user_phone' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if(!$obj[0]['count']){
+    echo '<script type="text/javascript">';
+    echo " alert('등록되지 않은 연락처입니다.'); history.go(-1);";
+    echo '</script>';
+    exit();
+};
+
+$sql = "select 
+*
+from cb_unreal_2024_speaker_apply where apply_user_email = '$apply_user_email' and apply_user_phone = '$apply_user_phone' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if(count($obj[0])){
+}else{
+    echo '<script type="text/javascript">';
+    echo " alert('이메일 혹은 전화번호를 확인해주세요.'); history.go(-1);";
+    echo '</script>';
+    exit();
+}
+$prev_data = sql_fetch("select * from cb_unreal_2024_speaker_apply where apply_user_email = '$apply_user_email' and apply_user_phone = '$apply_user_phone' limit 1");
+
+$pass_flag = false;
+
+$mysqli -> close();
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>에픽라운지</title>
+    <!--테스트 JS--><script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+    <!--운영 JS> <script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script> -->
+
+  <!-- CSS -->
+
+
+    <link rel="stylesheet" href="./assets/css/nice-select.css">
+    <link rel="stylesheet" href="./assets/css/event_speaker.css">
+    <link rel="stylesheet" href="./assets/css/font_0626.css">
+
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/jquery.nice-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="assets/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <!--[if IE 9]>
+  <link rel="stylesheet" href="assets/js/ie9.css">
+  <![endif]-->
+
+</head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-174668456-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-174668456-1');
+</script>
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '413080733349618');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=413080733349618&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<body>
+  <header class="header">
+    <div class="inner-wrap">
+      <div class="logo">
+<a href="https://epiclounge.co.kr/"><span class="blind">로고</span></a>
+      </div>
+      <div class="confirm">
+        <p>이미 등록을 하셨나요?</p>
+        <div class="btn-group">
+          <a href="application_confirm_speak.html" class="md sky" >등록 확인</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container modify">
+<h1 class="event-title"><img src="/assets/img/unrealfest/UnrealFest_Logo_24.svg" alt="시작해요 언리얼 UEFN" /></h1>
+      <div class="contents-wrap">
+          <div class="content-box">
+
+              <div class="section">
+                  <!--  <h2 class="section-title">선택티켓</h2>-->
+
+
+              </div>
+              <div class="section">
+                  <h2 class="section-title">발표자 정보 입력</h2>
+                  <div class="form-wrap">
+                      <ul>
+                          <li>
+                              <h3><span class="red-dot">이름</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_user_name"]?>
+                              </div>
+                          </li>
+                          <li>
+                              <h3><span class="red-dot">회사</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_user_company"]?>
+                              </div>
+                          </li>
+                          
+                          <li>
+                              <h3><span class="red-dot">이메일</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_user_email"]?>
+                              </div>
+                          </li>
+                          <li>
+                              <h3><span class="red-dot">연락처</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_user_phone"]?>
+                              </div>
+                          </li>
+                          <li>
+                              <h3><span class="red-dot">약력</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_user_history"]?>
+                              </div>
+                          </li>
+                          <li>
+                              <h3><span class="red-dot">강연자<br  />사진</span></h3>
+                              <div class="wrap">
+                                  <? if(!empty($prev_data['apply_photo_path'])){?><a href="/v3/data/file/speak/<?=$prev_data['apply_photo_path']?>">세션이미지</a><?}?>
+                              </div>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="line";>
+                  <br><hr></hr>
+              </div>
+              <div class="section">
+                  <h2 class="section-title">분야</h2>
+                  <div class="form-wrap session">
+                      <?=$prev_data["apply_pt_category"]?>
+                      <?=$prev_data["etc1"]? " ".$prev_data["etc1"] :""?>
+                  </div>
+              </div>
+
+              <div class="line";>
+                  <br><hr></hr>
+              </div>
+              <div class="section">
+                  <h2 class="section-title">제품군</h2>
+                  <p class="section-content">복수 선택이 가능합니다.</p>
+
+                  <div class="form-wrap session">
+                      <?=$prev_data["apply_pt_platform"]?>
+                      <?=$prev_data["etc2"]? " ".$prev_data["etc2"] :""?>
+                  </div>
+              </div>
+              <div class="line";>
+                  <br><hr></hr>
+              </div>
+              <div class="section">
+                  <h2 class="section-title">주제</h2>
+                  <p class="section-content">복수 선택이 가능합니다.</p>
+                  <div class="form-wrap session">
+                      <?=$prev_data["apply_pt_subject"]?>
+                      <?=$prev_data["etc3"]? " ".$prev_data["etc3"] :""?>
+                  </div>
+              </div>
+              <div class="line";>
+                  <br><hr></hr>
+              </div>
+              <div class="section">
+                  <h2 class="section-title">세션 정보</h2>
+
+
+                  <div class="form-wrap">
+                      <ul>
+                          <li>
+                              <h3><span class="red-dot">소요시간</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_pt_runtime"]?>
+                              </div>
+                          </li>
+                          <li>
+                              <h3><span class="red-dot">난이도</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_pt_difficulty"]?>
+                              </div>
+                          </li>
+                          <li>
+                              <h3><span class="red-dot">플랫폼</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_add_field1"]?>
+                              </div>
+                          </li>
+                          <li>
+                              <?=$prev_data["etc4"] ? " ".$prev_data["etc4"]:""?>
+                          </li>
+                          <li class=" etc">
+                              <h3><span class="red-dot">청강대상</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_add_field2"]?>
+                              </div>
+                          </li>
+                          <li class=" etc w100_title">
+                              <div class="line";>
+                                  <br><hr></hr>
+                              </div>
+                              <div class="section">
+                                  <h2 class="section-title">발표 공개 여부</h2>
+                                  <h3 style="margin-top:10px"><span class="red-dot"> 발표자료 PDF</span></h3>
+                                  <div class="form-wrap session">
+                                      <?=$prev_data["apply_add_field3"]?>
+                                  </div>
+
+                                  <h3 style="margin-top:20px"><span class="red-dot"> 발표영상</span></h3>
+                                  <div class="form-wrap session">
+                                      <?=$prev_data["apply_add_field4"]?>
+                                  </div>
+                              </div>
+                          </li>
+                          <div class="line";>
+                              <br><hr></hr>
+                          </div>
+                          <li class=" etc w100_title">
+                              <h3><span class="red-dot">목차</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_add_field5"]?>
+                              </div>
+                          </li>
+                          <li class=" etc w100_title">
+                              <h3><span class="red-dot">세션 제목</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_pt_title"]?>
+                              </div>
+                          </li>
+                          <li class=" etc w100_title">
+                              <h3><span class="red-dot">세션에서 어떤내용을 다루실 건가요 ?</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_pt_intro"]?>
+                              </div>
+                          </li>
+                          <li class=" etc w100_title">
+                              <h3><span class="red-dot">청강자들이 발표하게 될 세션에서 어떤 이점을 얻을 수 있나요?</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_pt_intro2"]?>
+                              </div>
+                          </li>
+                          <li class=" etc w100_title">
+                              <h3>참고 링크 (선택)</h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_pt_intro3"]?>
+                              </div>
+                          </li>
+                          <li class=" etc w100_title">
+                              <h3><span class="red-dot">요청 사항</span></h3>
+                              <div class="wrap">
+                                  <?=$prev_data["apply_pt_request"]?>
+                              </div>
+                          </li>
+
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          <div class="btn-group">
+              <form method="post" action="application_modify_speak.html" id="frm_p">
+                  <input type="hidden" name="inputEmail" value="<?=$prev_data["apply_user_email"]?>">
+                  <input type="hidden" name="apply_user_phone" value="<?=$prev_data["apply_user_phone"]?>">
+
+              </form>
+              <a href="#n" onclick="$('#frm_p').submit();" id="btnLoginAction" class="lg full sky" >정보수정</a>
+          </div>
+      </div>
+    </form>
+  </div>
+<script>
+ function home(val) {
+    if(confirm('메인으로 이동하시겠습니까?')){
+        location.replace('https://epiclounge.co.kr/start_lsu2024.php');
+    }
+}
+    function cancle(val) {
+        if(confirm('등록을 취소하시겠습니까?')){
+            location.replace('/v3/cancel.php?mode2=del2&no='+val);
+        }
+    }
+    function cancle_refund(val) {
+        if(confirm('결제를 취소하시겠습니까?\n취소시 오프라인 행사등록이 불가능 할 수 있습니다.')){
+            location.replace('/v3/cancel.php?mode2=del3&no='+val);
+        }
+    }
+    $("#btnLoginAction").on("click", function(e) {
+
+        var form = document.forms['login-form'];
+        form.submit();
+    });
+</script>
+</body>
+  
+  </html>
+  

@@ -1,0 +1,175 @@
+<?
+$num = $_GET['num'];
+if(!$num){
+    echo '<script type="text/javascript">';
+    echo "location.replace('/'); alert('정상적인 접근방식이 아닙니다.');";
+    echo '</script>';
+}
+
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+$sql = "select * from cb_unreal_2023_event_apply where apply_password = '".$num."' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if(count($obj[0])){
+}else{
+  echo '<script type="text/javascript">';
+  echo "alert('등록된 정보가 존재하지 않습니다. 이메일 혹은 비밀번호를 확인해주세요.'); history.go(-1);";
+  echo '</script>';
+  exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>에픽라운지</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./assets/css/nice-select.css">
+  <link rel="stylesheet" href="./assets/css/event.css">
+  <link rel="stylesheet" href="./assets/css/font.css">
+
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/jquery.nice-select.min.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="assets/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <!--[if IE 9]>
+  <link rel="stylesheet" href="assets/js/ie9.css">
+  <![endif]-->
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="inner-wrap">
+      <div class="logo">
+<a href="https://epiclounge.co.kr/"><span class="blind">로고</span></a>
+      </div>
+      <div class="confirm blind">
+        <p>이미 등록을 하셨나요?</p>
+        <div class="btn-group">
+          <a href="application_confirm.html" class="md sky">등록 확인</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+<h1 class="event-title""><img src="https://unrealsummit16.cafe24.com/start23_R_image/visual_text_reg.svg" alt="시작해요 언리얼 2023" /></h1> 
+    <div class="contents-wrap">
+      <div class="content-head">
+        <h2>등록정보 수정 완료</h2>
+        <p>
+          </span>
+        </p>
+        <div class="info-text"><span>등록정보</span></div>
+      </div>
+      <div class="content-box">
+    <div class="top">
+
+     <p> 행사 당일 등록하신 이메일과 문자로 시청 링크를 보내드리니,
+       <span class="span pc-block">아래 등록 정보가 정확하게 입력되었는지 다시 한번 확인해 주세요.</p>
+     <p><br></p>
+        <div class="section info">
+          <h2 class="section-title">기본 정보</h2>
+          <ul>
+            <li>
+              <h3>이름</h3>
+              <p><?=$obj['apply_user_name']?></p>
+            </li>
+            <li>
+              <h3>이메일</h3>
+              <p><?=$obj['apply_user_email']?></p>
+            </li>
+            <li>
+              <h3>연락처</h3>
+              <p><?=$obj['apply_user_phone']?></p>
+            </li>
+          </ul>
+        </div>
+        <div class="section info">
+          <h2 class="section-title">추가 정보</h2>
+          <ul>
+            <li>
+              <h3>소속</h3>
+              <p><?=$obj['apply_user_job']?></p>
+            </li>
+            <li>
+              <h3>회사명</h3>
+              <p><?=$obj['apply_user_company']?></p>
+            </li>
+            <li>
+              <h3>부서</h3>
+              <p><?=$obj['apply_user_depart']?></p>
+            </li>
+            <li>
+              <h3>직무</h3>
+              <p><?=$obj['apply_user_grade']?></p>
+            </li>
+            <li>
+              <h3>산업/관심 분야</h3>
+              <p><?=$obj['apply_sector']?></p>
+            </li>
+          </ul>
+        </div>
+     <!--<div class="section info">
+          <h2 class="section-title">세션선택</h2>
+          <ul>
+            <li>
+              <h3 class="full" style="word-break:keep-all; width:150px">
+              <?
+              if ($obj['apply_user_ex1']) {
+              $arrayList[] = '09월 27일(화) - 공통';
+              }
+              if ($obj['apply_user_ex2']) {
+              $arrayList[] = '09월 28일(수) - 게임';
+              }
+              if ($obj['apply_user_ex3']) {
+              $arrayList[] = '09월 29일(목) - 영화, TV &amp; 애니메이션';
+              }
+              if ($obj['apply_user_ex4']) {
+              $arrayList[] = '09월 30일(금) - 건축 &amp; 자동차';
+              }
+              echo implode(',<br>', $arrayList);
+              ?>
+              </h3>
+            </li>
+          </ul>
+        </div>
+     <div class="section info">
+          <h2 class="section-title">선택정보</h2>
+          <ul>
+            <li>
+              <h3>카페 별명</h3>
+              <p><?=$obj['apply_user_email2']?></p>
+            </li>
+            <li>
+              <h3>상품</h3>
+              <p><?=$obj['apply_product_name']?></p>
+            </li>
+            <li>
+              <h3>결제금액</h3>
+              <p>20,000원</p>
+            </li>
+          </ul>
+        </div>-->
+      </div>
+     
+    </div>
+    <div class="btn-group">
+      <a href="javascript:history.back();" class="lg half gray" style="font-family:Spoqa Han Sans Neo; ">정보 수정</a>
+      <a href="https://epiclounge.co.kr/unrealfest2023/index.html" class="lg half center sky">확인</a>
+    </div>
+  </div>
+
+</body>
+
+</html>

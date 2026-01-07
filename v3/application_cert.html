@@ -1,0 +1,411 @@
+<?
+include_once "./common.php";
+$level = $_POST['level'];
+if($level != '1'){
+    echo '<script type="text/javascript">';
+    echo "location.replace('/'); alert('정상적인 접근방식이 아닙니다.');";
+    echo '</script>';
+}
+if($_SESSION["mode"] == "pay"){
+
+    $sql_pay_cnt = " select count(*) as cnt from cb_unreal_2023_event_apply a where (apply_pay_status = 10 or apply_pay_status = 1) and free_yn='N' ";
+    $row_pay_cnt = sql_fetch($sql_pay_cnt);
+    if($row_pay_cnt["cnt"] >= 995){
+        echo '<script type="text/javascript">';
+        echo " alert('오프라인 등록이 마감되었습니다. \\n온라인 무료등록을 이용해주세요.'); location.href='/unrealfest.php';";
+        echo '</script>';
+        exit();
+    }
+
+}
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>에픽라운지</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./assets/css/nice-select.css">
+<link rel="stylesheet" href="./assets/css/event_start25.css">
+  <link rel="stylesheet" href="./assets/css/font_start25.css">
+  <!-- JS -->
+  <script src="assets/js/jquery-1.7.2.min.js"></script>
+  <script src="assets/js/jquery.nice-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="assets/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <!--[if IE 9]>
+  <link rel="stylesheet" href="assets/js/ie9.css">
+  <![endif]-->
+
+</head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-174668456-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-174668456-1');
+</script>
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '413080733349618');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=413080733349618&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<body>
+  <header class="header">
+    <div class="inner-wrap">
+      <div class="logo">
+<a href="https://epiclounge.co.kr/"><span class="blind">로고</span></a>
+      </div>
+      <div class="confirm">
+        <p>이미 등록을 하셨나요?</p>
+        <div class="btn-group">
+<a href="application_confirm.html" class="md sky">등록 확인</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <video class=" background-video" autoplay muted loop playsinline>
+  <source src="https://unrealsummit16.cafe24.com/2025/start_twinunreal/lsu_2025_bg.mp4" type="video/mp4" />
+  브라우저가 영상을 지원하지 않습니다.
+  </video>
+  
+  <!-- 🔽 오버레이 이미지 -->
+  <div class="background-gradient"></div>
+  
+  <div class="container app_from">
+    <form id="login-form" name="login-form" action="application_form.html" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="level" value="<?=$level?>" />
+      <div class="event-header">
+        <img src="https://unrealsummit16.cafe24.com/2025/start_twinunreal/top_logo25.svg" alt="시작해요 언리얼" class="event-logo" />
+      </div>
+      <div class="contents-wrap">
+        <div class="steps">
+          <ul>
+            <li >
+              <div class="num">01</div>
+              <div class="text">약관 동의</div>
+            </li>
+            <li class="active">
+              <div class="num">02</div>
+              <div class="text">본인 인증</div>
+            </li>
+            <li>
+              <div class="num">03</div>
+              <div class="text">정보 입력</div>
+            </li>
+            <li>
+              <div class="num">04</div>
+              <div class="text">최종 확인</div>
+            </li>
+          </ul>
+        </div>
+          <div class="content-box">
+            <div class="section">
+              <h2 class="section-title">본인 인증 선택</h2>
+              <div class="btn-group ipin_btn">
+                <a href="#n" onclick="jsSubmitPin()" class="lg high purple" >아이핀 인증</a>
+                <a href="#n" onclick="jsSubmit()" id="btnLoginAction" class="lg high deep_sky">휴대폰 인증</a>
+               
+              </div>
+            </div>
+            <div class="section">
+              <div class="terms-wrap">
+                <div class="wra">
+                본인 인증은 공인 인증된 타기관(KCB인증)을 통해 진행됩니다.<br />
+입력하신 개인정보는 에픽 라운지에서 보관하지 않습니다.<br />
+등록은 만 18세 이상부터 가능합니다.<br />
+인증이 불가한 경우, 관리자에게 이메일로 문의해 주세요: <a href="mailto:info@epiclounge.co.kr" target="_blank"> info@epiclounge.co.kr</a>
+                </div>
+              </div>
+              
+          </div>
+          
+          </div>
+          <div class="btn-group">
+            <a href="https://epiclounge.co.kr/v3/application_terms.html" class="btn-cancel">취소</a>
+            <!-- <a href="javascript:;" onclick="setOK()" class="btn-next"">다음</a> -->
+          </div>
+      </div>
+    </form>
+  </div>
+  
+  <script>
+      // 세션선택
+      $("#all_session").on("change", function(){
+        if ($("#all_session").prop("checked")) {
+          $(".session input[type=checkbox]").prop("checked", true);
+        } else {
+          $(".session input[type=checkbox]").prop("checked", false);
+        }
+      });
+      
+      $('select').niceSelect();
+    </script>
+    <script>
+      $(function() {
+        setLogin();
+        // 전화번호 숫자만 입력
+        $("input:text[numberOnly]").on("keyup", function() {
+            $(this).val($(this).val().replace(/[^0-9]/g,""));
+        });
+      });
+  
+      function setLogin() {
+          $.validator.addMethod("userEmail", function(value, element) {
+              return this.optional(element) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(value);
+          }, "이메일을 형식에 맞게 입력하세요.");
+  
+          $('#login-form').validate({
+              debug: true,
+              onfocusout: function(element) {
+                  $(element).valid();
+              },
+              errorPlacement: function(error, element) {
+                  element.parent().next('.warning').show();
+              },
+              rules: {
+                  inputEmail: {
+                      required: true,
+                      maxlength: 50,
+                      userEmail: true,
+                      email: true
+                  }
+              },
+              highlight: function(element) {},
+              unhighlight: function(element) {
+                  $(element).parent().next('.warning').hide();
+              },
+              messages: {
+                  inputEmail: {
+                      required: "이메일을 입력하세요.",
+                      maxlength: $.validator.format('이메일은 {0}자 내로 입력하세요.'),
+                      email: "이메일을 형식에 맞게 입력하세요."
+                  },
+                  // inputEmail2: {
+                  //     required: "이메일을 입력하세요.",
+                  //     maxlength: $.validator.format('이메일은 {0}자 내로 입력하세요.'),
+                  //     email: "이메일을 형식에 맞게 입력하세요."
+                  // },
+              },
+              invalidHandler: function(form, validator) {
+                  var errors = validator.numberOfInvalids();
+                  if (errors) {
+                      alert(validator.errorList[0].message);
+                      validator.errorList[0].element.focus();
+                  }
+              }
+          });
+          
+          $("#btnLoginAction").on("click", function(e) {
+            var form = document.forms['login-form'];
+            if (form.apply_user_name.value == "") {
+              alert("이름을 입력해 주세요.");
+              form.apply_user_name.focus();
+              return false;
+            } else if (form.apply_user_phone.value == "") {
+              alert("연락처를 입력해 주세요.");
+              form.apply_user_phone.focus();
+              return false;
+            } else if (form.apply_user_phone.value.length != 11) {
+              alert("연락처 형식에 맞게 숫자 11자리를 입력해 주세요.");
+              form.apply_user_phone.focus();
+              return false;
+            } else if (form.apply_user_job.value == "") {
+              alert("소속을 입력해 주세요.");
+              form.apply_user_job.focus();
+              return false;
+            } else if (form.apply_sector.value == "") {
+              alert("산업/관심분야를 선택해 주세요.");
+              form.apply_user_job.focus();
+              return false;
+            //} else if (!form.apply_user_ex1.checked && !form.apply_user_ex2.checked && !form.apply_user_ex3.checked && !form.apply_user_ex4.checked) {
+              //alert("참여하실 날짜를 한가지 이상 선택해 주세요.");
+              //form.apply_user_ex1.focus();
+              //return false;
+            } else if (form.apply_user_job.value == "회사") {
+              if (form.apply_user_company1.value == "") {
+                alert("회사명을 입력해 주세요.");
+                form.apply_user_company1.focus();
+                return false;
+              } else if (form.apply_user_depart1.value == "") {
+                alert("부서를 입력해 주세요.");
+                form.apply_user_depart1.focus();
+                return false;
+              } else if (form.apply_user_grade1.value == "") {
+                alert("직무를 선택해 주세요.");
+                form.apply_user_grade1.focus();
+                return false;
+              } 
+            } else if (form.apply_user_job.value == "학생") {
+              if (form.apply_user_company2.value == "") {
+                alert("학교명을 입력해 주세요.");
+                form.apply_user_company2.focus();
+                return false;
+              } else if (form.apply_user_depart2.value == "") {
+                alert("학과명을 입력해 주세요.");
+                form.apply_user_depart2.focus();
+                return false;
+              } else if (form.apply_user_grade2.value == "") {
+                alert("학년을 선택해 주세요.");
+                form.apply_user_grade2.focus();
+                return false;
+              } 
+            } else if (form.apply_user_job.value == "교육자/교육기관") {
+              if (form.apply_user_company3.value == "") {
+                alert("학교/기관을 입력해 주세요.");
+                form.apply_user_company3.focus();
+                return false;
+              } else if (form.apply_user_depart3.value == "") {
+                alert("학과/분야를 입력해 주세요.");
+                form.apply_user_depart3.focus();
+                return false;
+              } else if (form.apply_user_grade3.value == "") {
+                alert("구분을 선택해 주세요.");
+                form.apply_user_grade3.focus();
+                return false;
+              } 
+            } else if (form.apply_user_job.value == "인디/프리랜서") {
+              if (form.apply_user_company4.value == "") {
+                alert("직장/학교를 입력해 주세요.");
+                form.apply_user_company4.focus();
+                return false;
+              } else if (form.apply_user_depart4.value == "") {
+                alert("부서/학과를 입력해 주세요.");
+                form.apply_user_depart4.focus();
+                return false;
+              } else if (form.apply_user_grade4.value == "") {
+                alert("직무를 선택해 주세요.");
+                form.apply_user_grade4.focus();
+                return false;
+              } 
+            } else if (form.apply_user_job.value == "기타") {
+              if (form.apply_user_company5.value == "") {
+                alert("추가정보를 입력해 주세요.");
+                form.apply_user_company5.focus();
+                return false;
+              } else if (form.apply_user_depart5.value == "") {
+                alert("추가정보를 입력해 주세요.");
+                form.apply_user_depart5.focus();
+                return false;
+              } else if (form.apply_user_grade5.value == "") {
+                alert("추가정보를 입력해 주세요.");
+                form.apply_user_grade5.focus();
+                return false;
+              } 
+            } 
+  //          else if (form.apply_product_name.value == "") {
+  //            alert("상품을 선택해주세요.");
+  //            form.apply_title.focus();
+  //            return false;
+  //          }
+  
+            if ($('#login-form').valid()) { // test for validity
+                form.submit();
+            } else {
+                // do stuff if form is not valid
+            }
+        });
+      }
+      function checkSpacebar(){
+        var kcode = event.keyCode;
+        if(kcode == 32) event.returnValue = false;
+       }
+      $("#apply_user_job").on("change", function() {
+        var selected = $("#apply_user_job").siblings(".nice-select").find(".selected").text();
+        switch (selected) {
+          case "직장인":
+            $(".select-category").removeClass("active");
+            $(".select-category.office").addClass("active");
+            break;
+          case "학생":
+            $(".select-category").removeClass("active");
+            $(".select-category.student").addClass("active");
+            break;
+          case "교육자/교육기관":
+            $(".select-category").removeClass("active");
+            $(".select-category.professor").addClass("active");
+            break;
+          case "인디/프리랜서":
+            $(".select-category").removeClass("active");
+            $(".select-category.other").addClass("active");
+            break;
+          default:
+            $(".select-category").removeClass("active");
+            $(".select-category.etc").addClass("active");
+            break;
+        }
+      });
+    </script>
+
+
+  <script>
+    <!--
+    function jsSubmit(){
+      window.open("/v3/real/phone_popup2.php", "auth_popup", "width=430,height=640,scrollbars=yes");
+      var form1 = document.form1;
+      form1.target = "auth_popup";
+      form1.submit();
+    }
+    //-->
+  </script>
+  <script>
+      <!--
+      function jsSubmitPin(){
+          var popupWindow = window.open("/v3/real/ipin_popup2.php", "kcbPop", "left=200, top=100, status=0, width=450, height=550");
+          popupWindow.focus()	;
+      }
+      //-->
+  </script>
+
+  <!-- 휴대폰 본인확인 팝업 처리결과 정보 = phone_popup3 에서 값 입력 -->
+  <form name="kcbResultForm" method="post" >
+    <input type="hidden" name="CP_CD" />
+    <input type="hidden" name="TX_SEQ_NO" />
+    <input type="hidden" name="RSLT_CD" />
+    <input type="hidden" name="RSLT_MSG" />
+
+    <input type="hidden" name="RSLT_NAME" />
+    <input type="hidden" name="RSLT_BIRTHDAY" />
+    <input type="hidden" name="RSLT_SEX_CD" />
+    <input type="hidden" name="RSLT_NTV_FRNR_CD" />
+
+    <input type="hidden" name="DI" />
+    <input type="hidden" name="CI" />
+    <input type="hidden" name="CI2" />
+    <input type="hidden" name="CI_UPDATE" />
+    <input type="hidden" name="TEL_COM_CD" />
+    <input type="hidden" name="TEL_NO" />
+      <input type="hidden" name="VSSN" />
+
+    <input type="hidden" name="RETURN_MSG" />
+  </form>
+
+  </body>
+  
+  </html>
+  

@@ -1,0 +1,284 @@
+@import url(_reset.css);
+@import url(common.css);.container {
+    background - color: #333 } .container .contents-wrap { position:relative; width:800px; margin:0 auto; padding-top:150px; padding-bottom:100px } .container .contents-wrap .logo { position:absolute; top:34px; left:-98px } .container .contents-wrap .part-title { font-family:'SEBANG_Gothic_Regular','BrutalType'; font-size:55px; color:# 00 FFB6;
+    text - align: center
+}.container.contents - wrap.contents - box {
+    margin - top: 31 px;
+    padding: 90 px 98 px;
+    background - color: #fff
+}.container.contents - wrap.section: first - of -type.section - title {
+    margin - top: 0
+}.container.contents - wrap form.content - title {
+    margin - top: 30 px;
+    margin - bottom: 5 px;
+    font - family: 'Spoqa Han Sans', sans - serif;
+    font - weight: 700;
+    font - size: 22 px
+}.container.contents - wrap form input[type = "text"], .container.contents - wrap form input[type = "password"], .container.contents - wrap form textarea {
+    width: 100 % ;font - size: 23 px;outline: none;border: 1 px solid #CCCCCC
+}.container.contents - wrap form input[type = "text"]: focus::placeholder, .container.contents - wrap form input[type = "password"]: focus::placeholder, .container.contents - wrap form textarea: focus::placeholder {
+    color: #fff;opacity: 0
+}.container.contents - wrap form input[type = "text"]::placeholder, .container.contents - wrap form input[type = "password"]::placeholder, .container.contents - wrap form textarea::placeholder {
+    font - family: "Arial", sans - serif;
+    font - weight: 300;
+    font - size: 23 px;
+    color: #646464 } .container .contents-wrap form input[type= "text"], .container.contents - wrap form input[type = "password"] {
+    height: 83 px;padding: 23 px 19 px
+}.container.contents - wrap form textarea {
+    height: 276 px;padding: 26 px
+}.container.contents - wrap form input[type = "file"] {
+    width: 100 % ;height: 83 px;padding: 23 px 19 px
+}.container.contents - wrap form input[type = "password"]: last - of -type {
+    margin - top: 7 px
+}.container.contents - wrap form.file - wrap {
+    position: relative;width: 100 % ;height: 83 px;border: 1 px solid #ccc;background - color: #fff
+}.container.contents - wrap form.file - wrap.file - name {
+    padding - left: 19 px;
+    padding - right: 200 px;
+    font - family: "Arial", sans - serif;
+    font - weight: 300;
+    font - size: 23 px;
+    line - height: 81 px
+}.container.contents - wrap form.file - wrap input[type = "file"] {
+    position: absolute;top: 0;left: 0;width: 1 px;height: 1 px;opacity: 0;visibility: hidden
+}.container.contents - wrap form.file - wrap label {
+    position: absolute;top: 19 px;right: 26 px;width: 154 px;height: 46 px;line - height: 40 px;text - align: center;border: 3 px solid #D9D9D9;border - radius: 5 px;background - color: #BEBEBE;font - size: 18 px;cursor: pointer
+}.container.contents - wrap form select {
+    position: relative;border: 1 px solid #CCCCCC;padding - left: 19 px;padding - right: 110 px;width: 100 % ;height: 83 px;font - family: "Arial",
+    sans - serif;font - weight: 400;font - size: 23 px;color: #646464; outline:none; background-image:url(../img/icon_select_arrow.png); background-repeat:no-repeat; background-position:right top; -webkit-appearance:none; -moz-appearance:none; appearance:none } .container .contents-wrap form select::-ms-expand { display:none } .container .contents-wrap form p { margin-top:5px; font-family:'Spoqa Han Sans', sans-serif; font-weight:400; font-size:15px } .container .contents-wrap form p.text { color:# 3E0000
+}.container.contents - wrap form p a.link {
+    text - decoration: underline;
+    color: blue
+}.container.contents - wrap.btn - wrap {
+    display: flex;justify - content: space - between;margin - top: 35 px
+}.container.contents - wrap.btn - wrap a {
+    width: 370 px;height: 82 px;font - family: 'Spoqa Han Sans',
+    sans - serif;font - weight: 700;font - size: 22 px;line - height: 82 px;text - align: center;cursor: pointer
+}.container.contents - wrap.btn - wrap a.cancel {
+    color: #C6C6C6;background - color: #747474 } .container .contents-wrap .btn-wrap a.check { background-color:# 19 F2E5
+}.container.notice - part.contents - wrap form.section {
+    position: relative
+}.container.notice - part.contents - wrap form.section.section - title {
+    margin - top: 55 px;
+    font - family: 'Spoqa Han Sans', sans - serif;
+    font - weight: 700;
+    font - size: 30 px
+}.container.notice - part.contents - wrap form.section.content {
+    margin - top: 14 px;
+    padding: 28 px 26 px 28 px 36 px;
+    border: 1 px solid #707070; background-color:# D3D3D3;
+    font - size: 0.8 rem;
+    letter - spacing: -0.5 px;
+    word -
+        break :keep - all
+}.container.notice - part.contents - wrap form.section.content p {
+    position: relative;margin - top: 20 px;padding - left: 24 px;font - size: 18 px
+}.container.notice - part.contents - wrap form.section.content p: first - of -type {
+    margin - top: 0
+}.container.notice - part.contents - wrap form.section.content p::before {
+    position: absolute;left: 0;top: 9 px;content: "";display: inline - block;width: 12 px;height: 12 px;background - color: #000 } .container .notice-part .contents-wrap form .section .checkbox { margin-top:10px; margin-left:370px } .container .notice-part .contents-wrap form .section .checkbox input[type= "checkbox"] {
+    vertical - align: baseline
+}.container.notice - part.contents - wrap form.section.checkbox label {
+    font - size: 20 px;
+    cursor: pointer
+}.container.write - part.contents - wrap.contents - box {
+    padding - top: 75 px;
+    background - color: #F4F4F4
+}.container.write - part.contents - wrap.contents - box.section.section - title {
+    margin - top: 47 px;
+    font - family: 'Spoqa Han Sans', sans - serif;
+    font - weight: 70 c0;
+    font - size: 32 px
+}.container.write - part.contents - wrap.contents - box.section.content form.number::placeholder {
+    color: red
+}.container.write - part.contents - wrap.btn - wrap {
+    justify - content: center
+}.container.write - part.contents - wrap.btn - wrap.check {
+    width: 576 px
+}.container.confirm - part.contents - wrap.section > p {
+    font - weight: 400;
+    font - size: 25 px;
+    color: #707070 } .container .confirm-part .contents-wrap .section .section-title { margin-top:47px; font-family:'Spoqa Han Sans', sans-serif; font-weight:700; font-size:32px } .container .confirm-part .contents-wrap .section .content .content-title { margin-top:30px; margin-bottom:10px; font-family:'Spoqa Han Sans', sans-serif; font-weight:700; font-size:22px } .container .confirm-part .contents-wrap .section .content span { font-family:"Arial", sans-serif; font-weight:400; font-size:23px; color:# 646464
+}.container.confirm - part.contents - wrap.section.content p {
+    font - family: "Arial", sans - serif;
+    font - weight: 400;
+    font - size: 23 px;
+    color: #646464 } .container .complete-part .contents-wrap .contents-box { padding-top:75px; background-color:# F4F4F4
+}.container.complete - part.contents - wrap.contents - box.section.content {
+    text - align: center
+}.container.complete - part.contents - wrap.contents - box.section.content.content - title {
+    font - family: 'Spoqa Han Sans', sans - serif;
+    font - weight: 700;
+    font - size: 40 px
+}.container.complete - part.contents - wrap.contents - box.section.content p {
+    margin - top: 45 px;
+    font - family: 'Spoqa Han Sans', sans - serif;
+    font - weight: 400;
+    font - size: 24 px;
+    line - height: 50 px
+}.container.complete - part - 02.contents - wrap.contents - box {
+    background - color: #F4F4F4
+}.container.complete - part - 02.contents - wrap.contents - box.section.section - title {
+    font - family: 'Spoqa Han Sans', sans - serif;
+    font - weight: 700;
+    font - size: 30 px
+}.container.complete - part - 02.contents - wrap.contents - box.section.section - title span {
+    color: red
+}.container.complete - part - 02.contents - wrap.contents - box.section p {
+    margin - top: 25 px;
+    font - family: 'Spoqa Han Sans', sans - serif;
+    font - weight: 400;
+    font - size: 28 px
+}.container.complete - part - 02.contents - wrap.contents - box.section.content form {
+    margin - left: 14 px
+}.container.complete - part - 02.contents - wrap.contents - box.section.content p {
+    margin - top: 30 px;
+    text - align: center
+}.container.complete - part - 02.contents - wrap.btn - wrap {
+    justify - content: center
+}.container.complete - part - 02.contents - wrap.btn - wrap.check {
+    width: 576 px
+}.container.complete - part - 02.contents - wrap.popup {
+    display: none;position: fixed;left: 0;top: 0;width: 100 % ;height: 100 % ;z - index: 11;background - color: rgba(0, 0, 0, 0.7)
+}.container.complete - part - 02.contents - wrap.popup.active {
+    display: block
+}.container.complete - part - 02.contents - wrap.popup.popup - wrap {
+    position: absolute;top: 50 % ;left: 50 % ;width: 1150 px;padding: 18 px 18 px 0 18 px;margin - left: -575 px;margin - top: -190 px;border - radius: 10 px;background - color: #fff
+}.container.complete - part - 02.contents - wrap.popup.popup - wrap p {
+    padding: 60 px;height: 263.5 px;font - family: 'Spoqa Han Sans',
+    sans - serif;font - weight: 400;font - size: 34 px;line - height: 54 px
+}.container.complete - part - 02.contents - wrap.popup.popup - wrap.miniBtn - wrap {
+    position: relative;border - top: 1 px solid #707070; height:93.5px } .container .complete-part-02 .contents-wrap .popup .popup-wrap .miniBtn-wrap a { position:absolute; right:0; top:22px; font-family:'Spoqa Han Sans', sans-serif; font-weight:400; font-size:34px; color:# 00 B1FF
+}.container.complete - part - 02.contents - wrap.popup.popup - wrap.miniBtn - wrap a.cancel {
+    right: 152 px
+}.container.complete - part - 02.contents - wrap.popup.popup - wrap.miniBtn - wrap a.check {
+    right: 52 px;font - weight: 700
+}.container.revise - part.contents - wrap.contents - box {
+    padding - top: 75 px;
+    background - color: #F4F4F4
+}.container.revise - part.contents - wrap.contents - box.section.section - title {
+    margin - top: 47 px;
+    font - family: 'Spoqa Han Sans', sans - serif;
+    font - weight: 700;
+    font - size: 32 px
+}.container.revise - part.contents - wrap.contents - box.section.content form input {
+    color: #000 } .container .revise-part .contents-wrap .contents-box .section .content form input::placeholder { color:# 000
+}.container.revise - part.contents - wrap.contents - box.section.content form select {
+    color: #000 } .container .revise-part .contents-wrap .contents-box .section .content form p.text { margin-left:13px; font-size:23px; color:# 000
+}.container.revise - part.contents - wrap.contents - box.section.content form textarea {
+    font - weight: 300
+}
+@media screen and(max - width: 768 px) {
+    .container.contents - wrap {
+        width: 100 % ;padding - top: 60 px;padding - bottom: 40 px
+    }.container.contents - wrap.logo {
+        top: 15 px;left: 0
+    }.container.contents - wrap.part - title {
+        font - size: 26 px;
+        padding - bottom: 25 px
+    }.container.contents - wrap.contents - box {
+        padding: 0 15 px 40 px 15 px;margin - top: 0
+    }.container.contents - wrap.btn - wrap {
+        display: flex;padding: 0 10 px
+    }.container.contents - wrap.btn - wrap a {
+        flex - grow: 1;
+        width: auto;
+        height: 50 px;
+        margin: 0 5 px;
+        font - size: 16 px;
+        line - height: 50 px
+    }.container.contents - wrap form input[type = "text"], .container.contents - wrap form input[type = "password"] {
+        height: 40 px;padding: 0 10 px;font - size: 14 px
+    }.container.contents - wrap form input[type = "text"]::placeholder, .container.contents - wrap form input[type = "password"]::placeholder {
+        font - size: 14 px
+    }.container.contents - wrap form select {
+        height: 40 px;padding - left: 10 px;padding - right: 70 px;font - size: 14 px;background - size: 40 px
+    }.container.contents - wrap form textarea {
+        height: 150 px;font - size: 14 px;padding: 10 px
+    }.container.contents - wrap form textarea::placeholder {
+        font - size: 14 px
+    }.container.contents - wrap form p {
+        font - size: 13 px!important;
+        word -
+            break :keep - all
+    }.container.contents - wrap form.file - wrap {
+        height: 40 px;border: none
+    }.container.contents - wrap form.file - wrap.file - name {
+        padding: 0 100 px 0 10 px;font - size: 14 px;line - height: 40 px
+    }.container.contents - wrap form.file - wrap label {
+        top: 0;right: 0;width: auto;padding: 0 10 px;height: 40 px;font - size: 14 px;line - height: 34 px
+    }.container.notice - part.contents - wrap form.section {
+        padding - top: 30 px
+    }.container.notice - part.contents - wrap form.section.section - title {
+        margin - top: 0;
+        font - size: 20 px
+    }.container.notice - part.contents - wrap form.section.checkbox {
+        margin - left: 0
+    }.container.notice - part.contents - wrap form.section.checkbox label {
+        font - size: 14 px
+    }.container.notice - part.contents - wrap form.section.content {
+        padding: 15 px
+    }.container.notice - part.contents - wrap form.section.content p {
+        margin - top: 10 px;
+        padding - left: 20 px;
+        font - size: 14 px
+    }.container.notice - part.contents - wrap form.section.content p::before {
+        top: 6 px
+    }.container.write - part.contents - wrap.contents - box, .container.revise - part.contents - wrap.contents - box {
+        padding - top: 30 px
+    }.container.write - part.contents - wrap.contents - box.section > p, .container.revise - part.contents - wrap.contents - box.section > p {
+        font - size: 20 px!important
+    }.container.write - part.contents - wrap.contents - box.section.section - title, .container.revise - part.contents - wrap.contents - box.section.section - title {
+        margin - top: 20 px;
+        font - size: 20 px
+    }.container.write - part.contents - wrap form.content - title, .container.revise - part.contents - wrap form.content - title {
+        margin - top: 20 px;
+        font - size: 16 px
+    }.container.complete - part.contents - wrap.contents - box {
+        padding - top: 40 px;
+        margin: 0 15 px
+    }.container.complete - part.contents - wrap.contents - box.section.content.content - title {
+        font - size: 24 px
+    }.container.complete - part.contents - wrap.contents - box.section.content p {
+        margin - top: 15 px;
+        font - size: 16 px;
+        line - height: 26 px;
+        word -
+            break :keep - all
+    }.container.complete - part - 02.contents - wrap.contents - box {
+        padding - top: 40 px;
+        margin: 0 15 px
+    }.container.complete - part - 02.contents - wrap.contents - box.section.section - title {
+        font - size: 20 px
+    }.container.complete - part - 02.contents - wrap.contents - box.section > p {
+        margin - top: 10 px
+    }.container.complete - part - 02.contents - wrap.contents - box.section.content.content - title {
+        margin - top: 20 px;
+        font - size: 16 px
+    }.container.complete - part - 02.contents - wrap.contents - box.section.content p {
+        margin - top: 20 px;
+        font - size: 16 px;
+        line - height: 30 px;
+        word -
+            break :keep - all
+    }.container.confirm - part.contents - wrap.contents - box {
+        padding - top: 40 px
+    }.container.confirm - part.contents - wrap.contents - box.section.section - title {
+        margin - top: 30 px;
+        font - size: 20 px
+    }.container.confirm - part.contents - wrap.contents - box.section.content - title {
+        margin - top: 20 px;
+        font - size: 16 px
+    }.container.confirm - part.contents - wrap.contents - box.section > p {
+        font - size: 16 px;
+        word -
+            break :keep - all
+    }.container.confirm - part.contents - wrap.contents - box.section textarea {
+        padding: 10 px!important;height: 150 px!important;font - size: 14 px!important
+    }.container.confirm - part.contents - wrap.contents - box.section textarea::placeholder {
+        font - size: 14 px!important
+    }.container.confirm - part.contents - wrap.btn - wrap a {
+        flex - grow: 0;
+        width: 50 %
+    }
+}

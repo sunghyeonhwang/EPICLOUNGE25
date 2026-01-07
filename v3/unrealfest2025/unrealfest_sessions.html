@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>언리얼 페스트 세션 목록</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #000;
+      font-family: 'Inter Tight', sans-serif;
+      margin: 0;
+      padding: 20px;
+      color: white;
+    }
+
+    .modal {
+      margin: 40px auto;
+      max-width: 800px;
+      padding: 30px;
+      background: #0d0d0d;
+      border-radius: 16px;
+    }
+
+    .tag {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    h1 {
+      color: #00ff66;
+      font-size: 24px;
+      margin: 8px 0;
+    }
+
+    .speaker {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .subtitle {
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section h2 {
+      font-size: 16px;
+      color: #00ff66;
+    }
+
+    .section p,
+    .section ul {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .category-item {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .category-item strong {
+      width: 100px;
+      display: inline-block;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sessions-container">로딩 중...</div>
+
+  <script>
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMHr0-MPM_XPxbIN7nx5QAEmfZjCd5zHQP4mHTAkFLH90Jj2yl2Yf4-JKiZ4oM4oCpgouXD5JH-LVM/pub?output=csv";
+
+    fetch(SHEET_URL)
+      .then(res => res.text())
+      .then(csv => {
+        const rows = csv.trim().split("\n").map(row => row.split(","));
+        const sessionData = rows.slice(1, 13); // 12개 세션
+
+        const container = document.getElementById("sessions-container");
+        container.innerHTML = "";
+
+        sessionData.forEach((row, i) => {
+          const [
+            title, company, speaker, role, date, start, end,
+            intro, index, target, industry, category, level, platform
+          ] = row;
+
+          const indexList = index.split("- ").filter(Boolean).map(item => `<li>${item.trim()}</li>`).join("");
+
+          const sessionHTML = `
+          <div class="modal">
+            <div class="tag">Day ${Math.floor(i / 6) + 1}. ${date} | ${start} ~ ${end}</div>
+            <h1>${title}</h1>
+            <div class="speaker">${company}, ${speaker}</div>
+            <div class="subtitle">${role}</div>
+
+            <div class="section">
+              <h2>Introduce</h2>
+              <p>${intro}</p>
+            </div>
+
+            <div class="section">
+              <h2>Index</h2>
+              <ul>${indexList}</ul>
+            </div>
+
+            <div class="section">
+              <h2>Target</h2>
+              <p>${target}</p>
+            </div>
+
+            <div class="section">
+              <h2>Category</h2>
+              <div class="category-item"><strong>Industry</strong>${industry}</div>
+              <div class="category-item"><strong>Category</strong>${category}</div>
+              <div class="category-item"><strong>Level</strong>${level}</div>
+              <div class="category-item"><strong>Platform</strong>${platform}</div>
+            </div>
+          </div>
+        `;
+          container.insertAdjacentHTML("beforeend", sessionHTML);
+        });
+      })
+      .catch(err => {
+        document.getElementById("sessions-container").innerText = "데이터를 불러오는 데 실패했어요 😢";
+        console.error(err);
+      });
+  </script>
+</body>
+
+</html>

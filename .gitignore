@@ -1,0 +1,30 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+
+# IDE files
+.vscode/
+.idea/
+
+# PHP / Gnuboard specific
+/v3/data/*
+!/v3/data/index.php
+!/v3/data/.htaccess
+/v3/data/dbconfig.php
+
+# Backup files
+/v3/* copy.php
+/v3/*_.php
+/v3/index_*.php
+/v3/unrealfest24_*.php
+/v3/unrealfest24 copy*.php
+/v3/start_lsu2024 copy.php
+/v3/start_lsu2025 copy.php
+/v3/live_channel_*.html
+/v3/application_* copy*.html
+
+# Common temp files
+*.bak
+*.tmp
+*.log

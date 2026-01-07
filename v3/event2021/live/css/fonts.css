@@ -1,0 +1,79 @@
+@font-face {
+font-family: "BrutalTypeBold"; 
+	src: url("../fonts/BrutalType-Bold.eot"); 
+	src: url("../fonts/BrutalType-Bold.eot?#iefix") format("embedded-opentype"), 
+	url("../fonts/BrutalType-Bold.woff2") format("woff2"), 
+	url("../fonts/BrutalType-Bold.woff") format("woff"), 
+	url("../fonts/BrutalType-Bold.ttf") format("truetype"), 
+	url("../fonts/BrutalType-Bold.svg#Brutal Type") format("svg"); 
+}
+
+@font-face {
+font-family: "BrutalTypeLight"; 
+	src: url("../fonts/BrutalType-Light.eot"); 
+	src: url("../fonts/BrutalType-Light.eot?#iefix") format("embedded-opentype"), 
+	url("../fonts/BrutalType-Light.woff2") format("woff2"), 
+	url("../fonts/BrutalType-Light.woff") format("woff"), 
+	url("../fonts/BrutalType-Light.ttf") format("truetype"), 
+	url("../fonts/BrutalType-Light.svg#Brutal Type") format("svg"); 
+}
+
+@font-face {
+font-family: "BrutalType"; 
+	src: url("../fonts/BrutalType.eot"); 
+	src: url("../fonts/BrutalType.eot?#iefix") format("embedded-opentype"), 
+	url("../fonts/BrutalType.woff2") format("woff2"), 
+	url("../fonts/BrutalType.woff") format("woff"), 
+	url("../fonts/BrutalType.ttf") format("truetype"), 
+	url("../fonts/BrutalType.svg#Brutal Type") format("svg"); 
+}
+
+@font-face {
+font-family: "BrutalTypeBlack"; 
+	src: url("../fonts/BrutalType-Black.eot"); 
+	src: url("../fonts/BrutalType-Black.eot?#iefix") format("embedded-opentype"), 
+	url("../fonts/BrutalType-Black.woff2") format("woff2"), 
+	url("../fonts/BrutalType-Black.woff") format("woff"), 
+	url("../fonts/BrutalType-Black.ttf") format("truetype"), 
+	url("../fonts/BrutalType-Black.svg#Brutal Type") format("svg"); 
+}
+
+@font-face {
+font-family: "BrutalTypeExtraBold"; 
+	src: url("../fonts/BrutalType-ExtraBold.eot"); 
+	src: url("../fonts/BrutalType-ExtraBold.eot?#iefix") format("embedded-opentype"), 
+	url("../fonts/BrutalType-ExtraBold.woff2") format("woff2"), 
+	url("../fonts/BrutalType-ExtraBold.woff") format("woff"), 
+	url("../fonts/BrutalType-ExtraBold.ttf") format("truetype"), 
+	url("../fonts/BrutalType-ExtraBold.svg#Brutal Type") format("svg"); 
+}
+
+@font-face {
+font-family: "BrutalTypeExtraLight"; 
+	src: url("../fonts/BrutalType-ExtraLight.eot"); 
+	src: url("../fonts/BrutalType-ExtraLight.eot?#iefix") format("embedded-opentype"), 
+	url("../fonts/BrutalType-ExtraLight.woff2") format("woff2"), 
+	url("../fonts/BrutalType-ExtraLight.woff") format("woff"), 
+	url("../fonts/BrutalType-ExtraLight.ttf") format("truetype"), 
+	url("../fonts/BrutalType-ExtraLight.svg#Brutal Type") format("svg"); 
+}
+
+@font-face {
+font-family: "BrutalTypeMedium"; 
+	src: url("../fonts/BrutalType-Medium.eot"); 
+	src: url("../fonts/BrutalType-Medium.eot?#iefix") format("embedded-opentype"), 
+	url("../fonts/BrutalType-Medium.woff2") format("woff2"), 
+	url("../fonts/BrutalType-Medium.woff") format("woff"), 
+	url("../fonts/BrutalType-Medium.ttf") format("truetype"), 
+	url("../fonts/BrutalType-Medium.svg#Brutal Type") format("svg"); 
+}
+
+@font-face {
+font-family: "BrutalTypeThin"; 
+	src: url("../fonts/BrutalType-Thin.eot"); 
+	src: url("../fonts/BrutalType-Thin.eot?#iefix") format("embedded-opentype"), 
+	url("../fonts/BrutalType-Thin.woff2") format("woff2"), 
+	url("../fonts/BrutalType-Thin.woff") format("woff"), 
+	url("../fonts/BrutalType-Thin.ttf") format("truetype"), 
+	url("../fonts/BrutalType-Thin.svg#Brutal Type") format("svg"); 
+}

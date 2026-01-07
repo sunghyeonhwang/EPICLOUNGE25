@@ -1,0 +1,238 @@
+<?
+include_once "../common.php";
+include_once "member_header.php";
+?>
+
+<script type="text/javascript">
+        document.getElementById('header_list_2').className = "active";
+
+	//	var body = document.body;
+	//	body.classList.add("modal_on");
+
+</script>
+  <div class="memeber_container">
+      <div class="wrap">
+       
+	  
+		<div class="ticket_list_box mt_120">
+			<ul>
+				
+				<li class="ticket_type1">
+					<input type="radio" checked="checked" class="" id="ticket_list_1" name="ticket_list_">
+					<label for="ticket_list_1">
+					<span class="ticket_title">일반 양일권</span>
+					<span class="price_box">
+						<span class="text_1">120,000원</span>
+						<span class="text_2">60,000<em>원</em></span>
+					</span>
+					</label>
+				</li>
+				<li class="ticket_type1">
+					<input type="radio" class="" id="ticket_list_2" name="ticket_list_">
+					<label for="ticket_list_2">
+					<span class="ticket_title">일반 28일권</span>
+					<span class="price_box">
+						<span class="text_1">60,000원</span>
+						<span class="text_2">30,000<em>원</em></span>
+					</span>
+					</label>
+				</li>
+				<li class="ticket_type1">
+					<input type="radio" class="" id="ticket_list_3" name="ticket_list_">
+					<label for="ticket_list_3">
+					<span class="ticket_title">일반 29일권</span>
+					<span class="price_box">
+
+						<span class="text_1">60,000원</span>
+						<span class="text_2">30,000<em>원</em></span>
+					</span>
+					</label>
+				</li>
+				
+			</ul>
+		</div>
+
+		<form action="" name="" id="">
+			<fieldset>
+				
+				<h3 class="h3">기본 정보</h3>
+				<div class="member_form_box">
+					<div class="member_form_list">
+						<label for="user_name">이름</label>
+						<input type="text" class="intext" name="user_name" id="user_name" placeholder="본인인증 이름" />
+					</div>
+					<div class="member_form_list">
+						<label for="user_email">이메일<em class="em_red">*</em></label>
+						<input type="text" class="intext" name="user_email" id="user_email" required placeholder="이메일을 정확히 입력해 주세요." />
+					</div>
+					
+					<div class="member_form_list">
+						<label for="user_phone">연락처</label>
+						<input type="text" class="intext" name="user_phone" id="user_phone" placeholder="본인인증 휴대전화" />
+					</div>
+				</div>
+				<span class="bd_line"></span>
+
+				
+				<h3 class="h3">추가 정보</h3>
+				<div class="member_form_box">
+					<div class="member_form_list">
+						<label for="user_company">회사명/소속<em class="em_red">*</em></label>
+						<input type="text" class="intext" name="user_company" id="user_company" required placeholder="회사명을 입력해 주세요." />
+					</div>
+					<div class="member_form_list">
+						<label for="user_part">부서<em class="em_red">*</em></label>
+						<input type="text" class="intext" name="user_part" id="user_part" required placeholder="부서명을 입력해 주세요." />
+					</div>
+					
+					<div class="member_form_list">
+						<label for="user_job">직무<em class="em_red">*</em></label>
+						<input type="text" class="intext" name="user_job" id="user_job" required placeholder="직무내용을 입력해 주세요" />
+					</div>
+					<div class="member_form_list">
+						<label for="apply_stduent_file">학생증 업로드</label>
+						<div class="file_box">
+							<input type="file" class="file_upload"  name="apply_stduent_file"  id="apply_student_file">
+                            <input type="text" class="intext file_name" name="text_file_name" id="text_file_name" readonly="true" value=""  />
+							<button type="button" class="upload-button">업로드</button>
+						</div>
+						<p class="text em_red">*학생증(온라인 포함)을 업로드하셔야 학생가로 구매하실 수 있습니다.</p>
+					</div>
+
+					<script>
+						$(document).ready(function() {
+							$('.upload-button').on('click', function() {
+								$('.file_upload').click();
+							});
+
+							$('.file_upload').on('change', function() {
+								var fileName = $(this).val().split('\\').pop();
+								$('.file_name').val(fileName);
+
+							});
+						});
+					</script>
+					<div class="member_form_list">
+						<label for="user_interest">산업/관심분야<em class="em_red">*</em></label>
+						<select class="insel" name="user_interest" id="user_interest" required>
+							<option>관심 분야를 선택해 주세요.</option>
+                        <option>비주얼아트</option>
+                        <option>프로그래밍</option>
+                        <option>프로덕션</option>
+                        <option>엔지니어링</option>
+                        <option>설계</option>
+                        <option>기획</option>
+                        <option>R&D</option>
+                        <option>>IT</option>
+                        <option>감독/PD</option>
+                        <option>비즈니스/마케팅</option>
+                        <option>C-level</option>
+						</select>
+						  <script>
+							$(document).ready(function() {
+								// Select the element using the class selector
+								var select = $('.insel');
+
+								// Apply the placeholder class to the first option
+								select.addClass('placeholder');
+
+								// Remove the placeholder class when the select element is focused
+								select.on('focus', function() {
+									$(this).removeClass('placeholder');
+								});
+
+								// Listen for change events
+								select.on('change', function() {
+									if ($(this).val() === '') {
+										$(this).addClass('placeholder');
+									} else {
+										$(this).removeClass('placeholder');
+									}
+								});
+							});
+						</script>
+					</div>
+				</div>
+				<span class="bd_line"></span>
+
+
+				<h3 class="h3">약관 동의</h3>
+				<div class="member_agree_box">
+					<div class="member_agree_list">
+						<p class="text">이용약관</p>
+						<div class="agree_box">
+							<div class="agree_wrap">
+							본 서비스 이용약관(이하 “본 약관”)은 귀하가 방문자 또는 등록된 이용자로서 EPIC LOUNGE 및 관련 회사들(이하 “에픽 라운지” 또는 “회사”)의 웹사이트 및 제공되는 콘텐츠, 기능, 제품 및 서비스(이하 총칭하여 “웹사이트”)를 이용할 때 적용됩니다. 본 약관은 본 약관을 표시하거나 포함하고 있는 기타 회사 서비스(이하 “부가서비스”)를 이용할 경우에도 적용됩니다. 본 약관에서는 웹사이트 및 부가서비스를 총칭하여 “서비스”로 지칭합니다.  서비스를 이용하기 전에 본 약관을 주의 깊게 읽어주시기 바랍니다. 귀하는 서비스를 
+							</div>
+						</div>
+						<div class="agree_ch">
+						<input type="checkbox" id="agree_se1" required name="agree_se1" />
+						<label for="agree_se1">이용약관 동의(필수)</label>
+						</div>
+					</div>
+
+					
+					<div class="member_agree_list">
+						<p class="text">개인정보 이용 동의서</p>
+						<div class="agree_box">
+							<div class="agree_wrap">
+								본 서비스 이용약관(이하 “본 약관”)은 귀하가 방문자 또는 등록된 이용자로서 EPIC LOUNGE 및 관련 회사들(이하 “에픽 라운지” 또는 “회사”)의 웹사이트 및 제공되는 콘텐츠, 기능, 제품 및 서비스(이하 총칭하여 “웹사이트”)를 이용할 때 적용됩니다. 본 약관은 본 약관을 표시하거나 포함하고 있는 기타 회사 서비스(이하 “부가서비스”)를 이용할 경우에도 적용됩니다. 본 약관에서는 웹사이트 및 부가서비스를 총칭하여 “서비스”로 지칭합니다.  서비스를 이용하기 전에 본 약관을 주의 깊게 읽어주시기 바랍니다. 귀하는 서비스를 본 서비스 이용약관(이하 “본 약관”)은 귀하가 방문자 또는 등록된 이용자로서 EPIC LOUNGE 및 관련 회사들(이하 “에픽 라운지” 또는 “회사”)의 웹사이트 및 제공되는 콘텐츠, 기능, 제품 및 서비스(이하 총칭하여 “웹사이트”)를 이용할 때 적용됩니다. 본 약관은 본 약관을 표시하거나 포함하고 있는 기타 회사 서비스(이하 “부가서비스”)를 이용할 경우에도 적용됩니다. 본 약관에서는 웹사이트 및 부가서비스를 총칭하여 “서비스”로 지칭합니다.  서비스를 이용하기 전에 본 약관을 주의 깊게 읽어주시기 바랍니다. 귀하는 서비스를 본 서비스 이용약관(이하 “본 약관”)은 귀하가 방문자 또는 등록된 이용자로서 EPIC LOUNGE 및 관련 회사들(이하 “에픽 라운지” 또는 “회사”)의 웹사이트 및 제공되는 콘텐츠, 기능, 제품 및 서비스(이하 총칭하여 “웹사이트”)를 이용할 때 적용됩니다. 본 약관은 본 약관을 표시하거나 포함하고 있는 기타 회사 서비스(이하 “부가서비스”)를 이용할 경우에도 적용됩니다. 본 약관에서는 웹사이트 및 부가서비스를 총칭하여 “서비스”로 지칭합니다.  서비스를 이용하기 전에 본 약관을 주의 깊게 읽어주시기 바랍니다. 귀하는 서비스를 본 서비스 이용약관(이하 “본 약관”)은 귀하가 방문자 또는 등록된 이용자로서 EPIC LOUNGE 및 관련 회사들(이하 “에픽 라운지” 또는 “회사”)의 웹사이트 및 제공되는 콘텐츠, 기능, 제품 및 서비스(이하 총칭하여 “웹사이트”)를 이용할 때 적용됩니다. 본 약관은 본 약관을 표시하거나 포함하고 있는 기타 회사 서비스(이하 “부가서비스”)를 이용할 경우에도 적용됩니다. 본 약관에서는 웹사이트 및 부가서비스를 총칭하여 “서비스”로 지칭합니다.  서비스를 이용하기 전에 본 약관을 주의 깊게 읽어주시기 바랍니다. 귀하는 서비스를 
+							</div>
+						</div>
+						<div class="agree_ch">
+						<input type="checkbox" id="agree_se2" required name="agree_se2" />
+						<label for="agree_se2">개인정보 제 3자 제공에 대한 동의(필수)</label>
+						</div>
+
+					</div>
+
+					
+					
+					<div class="member_agree_list">
+						<p class="text">개인정보 제 3자 제공에 대한 동의서</p>
+						<div class="agree_box">
+							<div class="agree_wrap">
+							본 서비스 이용약관(이하 “본 약관”)은 귀하가 방문자 또는 등록된 이용자로서 EPIC LOUNGE 및 관련 회사들(이하 “에픽 라운지” 또는 “회사”)의 웹사이트 및 제공되는 콘텐츠, 기능, 제품 및 서비스(이하 총칭하여 “웹사이트”)를 이용할 때 적용됩니다. 본 약관은 본 약관을 표시하거나 포함하고 있는 기타 회사 서비스(이하 “부가서비스”)를 이용할 경우에도 적용됩니다. 본 약관에서는 웹사이트 및 부가서비스를 총칭하여 “서비스”로 지칭합니다.  서비스를 이용하기 전에 본 약관을 주의 깊게 읽어주시기 바랍니다. 귀하는 서비스를 
+							</div>
+						</div>
+						<div class="agree_ch">
+						<input type="checkbox" id="agree_se3" required name="agree_se3" />
+						<label for="agree_se3">개인정보 수집 및 이용 동의(필수)</label>
+						</div>
+
+					</div>
+
+					
+					
+					<div class="member_agree_list">
+						<p class="text">이벤트 등 마케팅 정보 수신에 동의</p>
+						<div class="agree_box">
+							<div class="agree_wrap">
+							본 서비스 이용약관(이하 “본 약관”)은 귀하가 방문자 또는 등록된 이용자로서 EPIC LOUNGE 및 관련 회사들(이하 “에픽 라운지” 또는 “회사”)의 웹사이트 및 제공되는 콘텐츠, 기능, 제품 및 서비스(이하 총칭하여 “웹사이트”)를 이용할 때 적용됩니다. 본 약관은 본 약관을 표시하거나 포함하고 있는 기타 회사 서비스(이하 “부가서비스”)를 이용할 경우에도 적용됩니다. 본 약관에서는 웹사이트 및 부가서비스를 총칭하여 “서비스”로 지칭합니다.  서비스를 이용하기 전에 본 약관을 주의 깊게 읽어주시기 바랍니다. 귀하는 서비스를 
+							</div>
+						</div>
+						<div class="agree_ch">
+						<input type="checkbox" id="agree_se4" required name="agree_se4" />
+						<label for="agree_se4">이벤트 등 마케팅 정보 수신에 동의(필수)</label>
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="agree_all">
+ 
+						<input type="checkbox" id="agree_all" name="agree_all" />
+						<label for="agree_all">모두 동의합니다.</label>
+				</div>
+
+				<div class="ft_btn_box">
+					<input type="submit" name="" id="" class="btn_1" value="결제하기" />
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+</body>
+
+</html>

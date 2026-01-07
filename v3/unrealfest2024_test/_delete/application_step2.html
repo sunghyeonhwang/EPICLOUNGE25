@@ -1,0 +1,281 @@
+<?
+include_once "../common.php";
+include_once "member_header.php";
+
+
+if($_SESSION["CI"] == ""){
+    echo "<script>alert('본인인증이 필요합니다.');location.href=\"unrealfest.php\";</script>";
+    exit;
+}
+
+$_SESSION["mode"] = "pay";
+//$_SESSION["mode"] = "free";
+
+
+
+function isMobileDevice() {
+    $userAgent = $_SERVER['HTTP_USER_AGENT'];
+    $mobileDevices = array('Android', 'iPhone', 'iPad', 'Windows Phone');
+
+    foreach ($mobileDevices as $device) {
+        if (stripos($userAgent, $device) !== false) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+if (isMobileDevice()) {
+    $device_check = "mobile";
+} else {
+    $device_check = "pc";
+}
+
+
+
+$birthdate = $_SESSION["RSLT_BIRTHDAY"];
+$currentDate = date('Y-m-d');
+$age = date_diff(date_create($birthdate), date_create($currentDate))->y;
+if($age < 14){
+    echo "<script>alert('14세 이상만 신청이 가능합니다.');location.href=\"unrealfest.php\";</script>";
+    exit;
+
+}
+
+
+$ci = $_SESSION["CI"];
+
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+$sql = "select count(*) from cb_unreal_2024_event2_apply where apply_ci = '$ci' and apply_temp_yn = 'N' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if($obj[0]['count']){
+    echo '<script type="text/javascript">';
+    echo " alert('이미 등록되어 있습니다.'); location.href='unrealfest.php';";
+    echo '</script>';
+    exit();
+};
+?>
+<?php
+
+require_once('./inisis_pc/libs/INIStdPayUtil.php');
+$SignatureUtil = new INIStdPayUtil();
+
+$mid 			= "MOIepiclou";  								// 상점아이디
+$signKey 		= "Wno0S3hIQVhUZ1BKSHFYMXRIVUJpQT09"; 			// 웹 결제 signkey
+
+//$mid 			= "INIpayTest";  								// 상점아이디
+//$signKey 		= "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"; 			// 웹 결제 signkey
+
+$mKey 	= $SignatureUtil->makeHash($signKey, "sha256");
+
+$timestamp 		= $SignatureUtil->getTimestamp();   			// util에 의해서 자동생성
+$use_chkfake	= "Y";											// PC결제 보안강화 사용 ["Y" 고정]
+$orderNumber 	= $mid . "_" . $timestamp; 						// 가맹점 주문번호(가맹점에서 직접 설정)
+
+//$_REQUEST["apply_product_price"] = 1000;
+$price 			= $_REQUEST["apply_product_price"];        								// 상품가격(특수기호 제외, 가맹점에서 직접 설정)
+$product_name = $_REQUEST["apply_product_name"];
+//$price 			= "210000";        								// 상품가격(특수기호 제외, 가맹점에서 직접 설정)
+
+$params = array(
+    "oid" => $orderNumber,
+    "price" => $price,
+    "timestamp" => $timestamp
+);
+
+$sign   = $SignatureUtil->makeSignature($params);
+
+$params = array(
+    "oid" => $orderNumber,
+    "price" => $price,
+    "signKey" => $signKey,
+    "timestamp" => $timestamp
+);
+
+$sign2   = $SignatureUtil->makeSignature($params);
+
+
+
+
+$temp_data = sql_fetch("select * from cb_unreal_2024_event2_apply where apply_ci = '$ci'  limit 1");
+
+?>
+
+<!--테스트 JS--><!--<script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>-->
+<!--운영 JS--> <script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+
+<script type="text/javascript">
+        document.getElementById('header_list_2').className = "active";
+
+	//	var body = document.body;
+	//	body.classList.add("modal_on");
+
+</script>
+  <div class="memeber_container">
+      <div class="wrap">
+       
+	  
+		<div class="ticket_list_box">
+			<ul>
+
+
+                <?=$_REQUEST["apply_product_name"]?> <br />
+                <?=$_REQUEST["apply_product_price"]?> <br />
+                <?=$_REQUEST["apply_product_code"]?>
+				
+				<li class="ticket_type1">
+					<input type="radio" checked="checked" class="" id="ticket_list_1" name="ticket_list_">
+					<label for="ticket_list_1">
+					<span class="ticket_title">일반 양일권</span>
+					<span class="price_box">
+						<span class="text_1">120,000원</span>
+						<span class="text_2">60,000<em>원</em></span>
+					</span>
+					</label>
+				</li>
+				<li class="ticket_type1">
+					<input type="radio" class="" id="ticket_list_2" name="ticket_list_">
+					<label for="ticket_list_2">
+					<span class="ticket_title">일반 28일권</span>
+					<span class="price_box">
+						<span class="text_1">60,000원</span>
+						<span class="text_2">30,000<em>원</em></span>
+					</span>
+					</label>
+				</li>
+				<li class="ticket_type1">
+					<input type="radio" class="" id="ticket_list_3" name="ticket_list_">
+					<label for="ticket_list_3">
+					<span class="ticket_title">일반 29일권</span>
+					<span class="price_box">
+
+						<span class="text_1">60,000원</span>
+						<span class="text_2">30,000<em>원</em></span>
+					</span>
+					</label>
+				</li>
+				
+			</ul>
+		</div>
+
+          <form name="frm" method="post" action="application_step3_pay_noraml.html">
+            <input type="hidden" name="apply_product_name" id="apply_product_name" value="<?=$_REQUEST["apply_product_name"]?>" />
+            <input type="hidden" name="apply_product_price" id="apply_product_price" value="<?=$_REQUEST["apply_product_price"]?>" />
+            <input type="hidden" name="apply_product_code" id="apply_product_code" value="<?=$_REQUEST["apply_product_code"]?>" />
+
+            <input type="hidden" name="apply_track" id="apply_track" value="<?=$_REQUEST["apply_track"]?>" />
+			<fieldset>
+				
+				<h3 class="h3">기본 정보</h3>
+				<div class="member_form_box">
+					<div class="member_form_list">
+						<label for="user_name">이름</label>
+						<input type="text" class="intext" name="user_name" id="user_name" placeholder="본인인증 이름" />
+					</div>
+					<div class="member_form_list">
+						<label for="user_email">이메일<em class="em_red">*</em></label>
+						<input type="text" class="intext" name="user_email" id="user_email" required placeholder="이메일을 정확히 입력해 주세요." />
+					</div>
+					
+					<div class="member_form_list">
+						<label for="user_phone">연락처</label>
+						<input type="text" class="intext" name="user_phone" id="user_phone" placeholder="본인인증 휴대전화" />
+					</div>
+				</div>
+				<span class="bd_line"></span>
+
+				
+				<h3 class="h3">추가 정보</h3>
+				<div class="member_form_box">
+					<div class="member_form_list">
+						<label for="user_name">회사명/소속<em class="em_red">*</em></label>
+						<input type="text" class="intext" name="user_name" id="user_name" required placeholder="회사명을 입력해 주세요." />
+					</div>
+					<div class="member_form_list">
+						<label for="user_email">부서<em class="em_red">*</em></label>
+						<input type="text" class="intext" name="user_email" id="user_email" required placeholder="부서명을 입력해 주세요." />
+					</div>
+					
+					<div class="member_form_list">
+						<label for="user_phone">직무<em class="em_red">*</em></label>
+						<input type="text" class="intext" name="user_phone" id="user_phone" required placeholder="직무내용을 입력해 주세요" />
+					</div>
+					<div class="member_form_list">
+						<label for="user_phone">산업/관심분야<em class="em_red">*</em></label>
+						<input type="text" class="intext" name="user_phone" id="user_phone" required placeholder="관심 분야를 선택해 주세요." />
+					</div>
+				</div>
+				<span class="bd_line"></span>
+
+
+				<h3 class="h3">약관 동의</h3>
+				<div class="member_agree_box">
+					<div class="member_agree_list">
+						<p class="text">이용약관</p>
+						<div class="agree_box">
+							<div class="agree_wrap">
+							</div>
+						</div>
+						<input type="checkbox" id="agree_se1" required name="agree_se1" />
+						<label for="agree_se1">이용약관 동의(필수)</label>
+
+					</div>
+
+					
+					<div class="member_agree_list">
+						<p class="text">개인정보 이용 동의서</p>
+						<div class="agree_box">
+							<div class="agree_wrap">
+							</div>
+						</div>
+						<input type="checkbox" id="agree_se2" required name="agree_se2" />
+						<label for="agree_se2">개인정보 제 3자 제공에 대한 동의(필수)</label>
+
+					</div>
+
+					
+					
+					<div class="member_agree_list">
+						<p class="text">개인정보 제 3자 제공에 대한 동의서</p>
+						<div class="agree_box">
+							<div class="agree_wrap">
+							</div>
+						</div>
+						<input type="checkbox" id="agree_se3" required name="agree_se3" />
+						<label for="agree_se3">개인정보 수집 및 이용 동의(필수)</label>
+
+					</div>
+
+					
+					
+					<div class="member_agree_list">
+						<p class="text">이벤트 등 마케팅 정보 수신에 동의</p>
+						<div class="agree_box">
+							<div class="agree_wrap">
+							</div>
+						</div>
+						<input type="checkbox" id="agree_se4" required name="agree_se4" />
+						<label for="agree_se4">이벤트 등 마케팅 정보 수신에 동의(필수)</label>
+
+					</div>
+
+				</div>
+
+				<div class="agree_all">
+ 
+						<input type="checkbox" id="agree_all" name="agree_all" />
+						<label for="agree_all">모두 동의합니다.</label>
+				</div>
+
+				<div class="ft_btn_box">
+					<input type="submit" name="" id="" class="btn_1" value="결제하기" />
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+</body>
+
+</html>

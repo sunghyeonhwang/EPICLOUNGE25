@@ -1,0 +1,514 @@
+<?
+include_once "../common.php";
+include_once "member_header.php";
+
+if($_SESSION["CI"] == ""){
+echo "<script>alert('본인인증이 필요합니다.');location.href=\"unrealfest.php\";</script>";
+exit;
+}
+
+$_SESSION["mode"] = "pay";
+//$_SESSION["mode"] = "free";
+
+
+
+function isMobileDevice() {
+$userAgent = $_SERVER['HTTP_USER_AGENT'];
+$mobileDevices = array('Android', 'iPhone', 'iPad', 'Windows Phone');
+
+foreach ($mobileDevices as $device) {
+if (stripos($userAgent, $device) !== false) {
+return true;
+}
+}
+
+return false;
+}
+
+if (isMobileDevice()) {
+$device_check = "mobile";
+} else {
+$device_check = "pc";
+}
+
+
+
+$birthdate = $_SESSION["RSLT_BIRTHDAY"];
+$currentDate = date('Y-m-d');
+$age = date_diff(date_create($birthdate), date_create($currentDate))->y;
+if($age < 14){
+echo "<script>alert('14세 이상만 신청이 가능합니다.');location.href=\"unrealfest.php\";</script>";
+exit;
+
+}
+
+
+$ci = $_SESSION["CI"];
+
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+$sql = "select count(*) from cb_unreal_2025_event2_apply where apply_ci = '$ci' and apply_temp_yn = 'N' limit 1";
+$result = $mysqli -> query($sql);
+$obj = $result -> fetch_array();
+if($obj[0]['count']){
+echo '<script type="text/javascript">';
+    echo " alert('이미 등록되어 있습니다.'); location.href='unrealfest.php';";
+    echo '</script>';
+exit();
+};
+?>
+<?php
+
+require_once('./inisis_pc/libs/INIStdPayUtil.php');
+$SignatureUtil = new INIStdPayUtil();
+
+$mid 			= "MOIepiclou";  								// 상점아이디
+$signKey 		= "Wno0S3hIQVhUZ1BKSHFYMXRIVUJpQT09"; 			// 웹 결제 signkey
+
+//$mid 			= "INIpayTest";  								// 상점아이디
+//$signKey 		= "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"; 			// 웹 결제 signkey
+
+$mKey 	= $SignatureUtil->makeHash($signKey, "sha256");
+
+$timestamp 		= $SignatureUtil->getTimestamp();   			// util에 의해서 자동생성
+$use_chkfake	= "Y";											// PC결제 보안강화 사용 ["Y" 고정]
+$orderNumber 	= $mid . "_" . $timestamp; 						// 가맹점 주문번호(가맹점에서 직접 설정)
+
+//$_REQUEST["apply_product_price"] = 1000;
+$price 			= $_REQUEST["apply_product_price"];        								// 상품가격(특수기호 제외, 가맹점에서 직접 설정)
+$product_name = $_REQUEST["apply_product_name"];
+//$price 			= "210000";        								// 상품가격(특수기호 제외, 가맹점에서 직접 설정)
+
+$params = array(
+    "oid" => $orderNumber,
+    "price" => $price,
+    "timestamp" => $timestamp
+);
+
+$sign   = $SignatureUtil->makeSignature($params);
+
+$params = array(
+    "oid" => $orderNumber,
+    "price" => $price,
+    "signKey" => $signKey,
+    "timestamp" => $timestamp
+);
+
+$sign2   = $SignatureUtil->makeSignature($params);
+
+
+
+
+$temp_data = sql_fetch("select * from cb_unreal_2025_event2_apply where apply_ci = '$ci'  limit 1");
+
+
+
+
+
+?>
+<!--테스트 JS--><!--<script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>-->
+<!--운영 JS--> <script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+<style>
+    strike{
+        background-color: black;
+        color: gray;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+
+    }
+    button{
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+
+    }
+</style>
+<div class="container">
+    <div class="contents-wrap">
+        <div class="content-box">
+
+            <form name="frm" method="post" action="application_step3_pay_noraml.html">
+                <input type="hidden" name="apply_product_name" id="apply_product_name" value="<?=$_REQUEST["apply_product_name"]?>" />
+                <input type="hidden" name="apply_product_price" id="apply_product_price" value="<?=$_REQUEST["apply_product_price"]?>" />
+                <input type="hidden" name="apply_product_code" id="apply_product_code" value="<?=$_REQUEST["apply_product_code"]?>" />
+
+                <input type="hidden" name="apply_track" id="apply_track" value="<?=$_REQUEST["apply_track"]?>" />
+
+            <style>
+                table {
+                    width: 50%;
+                    border-collapse: collapse;
+                    margin: 25px 0;
+                    font-size: 18px;
+                    text-align: left;
+                }
+                th, td {
+                    padding: 12px;
+                    border-bottom: 1px solid #ddd;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+            </style>
+
+            <table>
+                <thead>
+                <tr>
+                    <th colspan="2">선택 티켓</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="2">
+                        <?=$_REQUEST["apply_product_name"]?> <br />
+                        <?=$_REQUEST["apply_product_price"]?> <br />
+                        <?=$_REQUEST["apply_product_code"]?>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br />
+
+
+            <table>
+                <thead>
+                <tr>
+                    <th colspan="2">기본정보</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>이름 : <input type="text" name="apply_user_name" id="apply_user_name" value="<?=$_SESSION["RSLT_NAME"]?>" readonly  /></td>
+                    <td>이메일 : <input type="text" name="apply_user_email" id="apply_user_email" value="<?=$temp_data["apply_user_email"]?>"   /></td>
+                </tr>
+                <tr>
+                    <td>연락처 : <input type="text" name="apply_user_phone" id="apply_user_phone" value="<?=$temp_data["apply_user_phone"]?>"    /></td>
+                </tr>
+                </tbody>
+            </table>
+            <br />
+            <br />
+
+            <table>
+                <thead>
+                <tr>
+                    <th colspan="2">추가정보</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>회사명/소속 : <input type="text" name="apply_user_company" id="apply_user_company" value="<?=$temp_data["apply_user_company"]?>"    /></td>
+                    <td>부서 : <input type="text" name="apply_user_depart" id="apply_user_depart" value="<?=$temp_data["apply_user_depart"]?>"    /></td>
+                </tr>
+                <tr>
+                    <td>직무 : <input type="text" name="apply_user_grade" id="apply_user_grade" value="<?=$temp_data["apply_user_grade"]?>"     /></td>
+                    <td>산업/관심분야 : <input type="text" name="apply_user_ex1" id="apply_user_ex1" value="<?=$temp_data["apply_user_ex1"]?>"    /></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <br />
+            <br />
+            <h2>약관동의</h2>
+                <?
+
+                if($device_check=="pc"){
+                    ?>
+                    <input type="button" onclick="on_pay_pc()"  name="" id="" class="btn_1" value="결제하기" />
+                    <?
+                }else{
+                    ?>
+                    <input type="button" onclick="on_pay()"  name="" id="" class="btn_1" value="결제하기" />
+                    <?
+                }
+                ?>
+
+
+
+                <script>
+                    function on_pay() {
+                        if($("#apply_user_email").val() == ""){
+                            alert("이메일을 입력해주세요.");
+                            return;
+                        }
+                        if($("#apply_user_phone").val() == ""){
+                            alert("연락처를 입력해주세요.");
+                            return;
+                        }
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/v3/unrealfest2025/_applicaiton_pay_ajax.php",
+                            data: {
+                                apply_user_name: $("#apply_user_name").val(),
+                                apply_user_email:  $("#apply_user_email").val(),
+                                apply_user_phone:  $("#apply_user_phone").val(),
+                                apply_user_company:  $("#apply_user_company").val(),
+                                apply_user_depart:  $("#apply_user_depart").val(),
+                                apply_user_grade:  $("#apply_user_grade").val(),
+                                apply_user_ex1:  $("#apply_user_ex1").val(),
+                                apply_product_name:  $("#apply_product_name").val(),
+                                apply_product_price: $("#apply_product_price").val(),
+                                apply_product_code: $("#apply_product_code").val(),
+                                apply_track: $("#apply_track").val(),
+                            },
+                            success: function (data) {
+                                if(data == "중복된 신청입니다."){
+                                    alert("중복된 신청입니다");
+                                    return;
+                                }else{
+                                    $("input[name=P_INI_PAYMENT]").val($("input[name=paymethod]:checked").val());
+                                    myform = document.mobileweb;
+                                    myform.action = "https://mobile.inicis.com/smart/payment/";
+                                    myform.target = "_self";
+                                    myform.submit();
+                                }
+                            }
+                        });
+                    }
+                    function on_pay_pc() {
+
+                        if($("#apply_user_email").val() == ""){
+                            alert("이메일을 입력해주세요.");
+                            return;
+                        }
+                        if($("#apply_user_phone").val() == ""){
+                            alert("연락처를 입력해주세요.");
+                            return;
+                        }
+
+                        $("#P_MOBILE").val($("#apply_user_phone").val());
+                        $("#P_EMAIL").val($("#apply_user_email").val());
+
+                        $("#buyertel").val($("#apply_user_phone").val());
+                        $("#buyeremail").val($("#apply_user_email").val());
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/v3/unrealfest2025/_applicaiton_pay_ajax.php",
+                            data: {
+                                apply_user_name: $("#apply_user_name").val(),
+                                apply_user_email:  $("#apply_user_email").val(),
+                                apply_user_phone:  $("#apply_user_phone").val(),
+                                apply_user_company:  $("#apply_user_company").val(),
+                                apply_user_depart:  $("#apply_user_depart").val(),
+                                apply_user_grade:  $("#apply_user_grade").val(),
+                                apply_user_ex1:  $("#apply_user_ex1").val(),
+                                apply_product_name:  $("#apply_product_name").val(),
+                                apply_product_price: $("#apply_product_price").val(),
+                                apply_product_code: $("#apply_product_code").val(),
+                                apply_track: $("#apply_track").val()
+                            },
+                            success: function (data) {
+                                if(data == "중복된 신청입니다."){
+                                    alert("중복된 신청입니다");
+                                    return;
+                                }else{
+                                    var paymethod = $("input[name=paymethod]:checked").val();
+                                    if(paymethod == "CARD"){
+                                        $("input[name=gopaymethod]").val("Card");
+                                    }else if(paymethod == "KAKAOPAY"){
+                                        $("input[name=gopaymethod]").val("Card");
+                                    }else if(paymethod == "NAVERPAY"){
+                                        $("input[name=gopaymethod]").val("Card");
+                                    }else if(paymethod == "VBANK"){
+                                        $("input[name=gopaymethod]").val("vbank");
+                                    }
+                                    INIStdPay.pay('SendPayForm_id');
+                                }
+                            }
+                        });
+                    }
+                </script>
+
+
+
+                <form name="mobileweb" id="" method="post" class="mt-5" accept-charset="euc-kr" style="display: none">
+                    <div class="row g-3 justify-content-between" style="--bs-gutter-x:0rem;">
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">P_INI_PAYMENT</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="P_INI_PAYMENT" value="CARD">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">P_MID</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="P_MID" value="MOIepiclou">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">P_OID</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="P_OID" value="<?=$orderNumber?>">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">P_AMT</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="P_AMT" value="<?=$price?>">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">P_GOODS</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="P_GOODS" value="<?=$product_name?>">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">P_UNAME</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="P_UNAME" value="<?=$_SESSION["RSLT_NAME"]?>">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">P_MOBILE</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="P_MOBILE" id="P_MOBILE" value="<?=$_SESSION["TEL_NO"]?>">
+                        </label>
+                        <label class="col-10 col-sm-2 input param" style="border:none;">P_EMAIL</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="P_EMAIL" id="P_EMAIL" value="<?=$_POST['inputEmail']?>">
+                        </label>
+
+                        <input type="hidden" name="P_NEXT_URL" value="https://epiclounge.co.kr/v3/unrealfest2025/inisis/INImobile_mo_return.php">
+                        <input type="hidden" name="P_NOTI_URL" value="https://epiclounge.co.kr/v3/unrealfest2025/inisis/vbank_succ.php">
+
+                        <input type="hidden" name="P_CHARSET" value="utf8">
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">P_RESERVED</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="P_RESERVED" value="below1000=Y&vbank_receipt=Y&centerCd=Y">
+                        </label>
+
+                    </div>
+                </form>
+
+
+
+                <form name="SendPayForm_id" id="SendPayForm_id" method="post" class="mt-5" style="display: none">
+                    <div class="row g-3 justify-content-between" style="--bs-gutter-x:0rem;">
+                        <input type="hidden" name="version" value="1.0">
+                        <!--/label-->
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">gopaymethod</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="gopaymethod" value="Card:Directbank:vbank">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">mid</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="mid" value="<?php echo $mid ?>">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">oid</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="oid" value="<?php echo $orderNumber ?>">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">price</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="price" value="<?php echo $price ?>">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">timestamp</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="timestamp" value="<?php echo $timestamp ?>">
+                        </label>
+
+
+                        <input type="hidden" name="use_chkfake" value="<?php echo $use_chkfake ?>">
+                        <input type="hidden" name="signature" value="<?php echo $sign ?>">
+                        <input type="hidden" name="verification" value="<?php echo $sign2 ?>">
+                        <input type="hidden" name="mKey" value="<?php echo $mKey ?>">
+                        <input type="hidden" name="currency" value="WON">
+
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">goodname</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="goodname" value="<?=$product_name?>">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">buyername</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="buyername" value="<?=$_SESSION["RSLT_NAME"]?>">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">buyertel</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="buyertel" id="buyertel"  value="<?=$_SESSION["TEL_NO"]?>">
+                        </label>
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">buyeremail</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="buyeremail" id="buyeremail" value="<?=$_POST['inputEmail']?>">
+                        </label>
+
+                        <input type="hidden" name="returnUrl" value="https://epiclounge.co.kr/v3/unrealfest2025/inisis_pc/INIstdpay_pc_return.php">
+                        <input type="hidden" name="closeUrl" value="https://epiclounge.co.kr/v3/unrealfest2025/inisis_pc/close.php">
+
+                        <label class="col-10 col-sm-2 input param" style="border:none;">acceptmethod</label>
+                        <label class="col-10 col-sm-9 input">
+                            <input type="text" name="acceptmethod" value="HPP(1):below1000:centerCd(Y)">
+                        </label>
+
+                    </div>
+                </form>
+
+
+            <div <!--style="display: none;"-->>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Value</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($_REQUEST as $key => $value): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($key); ?></td>
+                            <td><?php echo htmlspecialchars($value); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <br />
+                <br />
+                <br />
+
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Value</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($_SESSION as $key => $value): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($key); ?></td>
+                            <td><?php echo htmlspecialchars($value); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+</form>
+</body>
+
+</html>

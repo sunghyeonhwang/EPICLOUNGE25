@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>구글시트 연동 테스트</title>
+  <script src="https://unpkg.com/tabletop@1.5.1/tabletop.js"></script>
+</head>
+<body>
+
+  <div class="tag" id="tag">불러오는 중...</div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      Tabletop.init({
+        key: '1tAOX79oH-g5i53Pr8Er7jKwzAWAMtFxk6vtq0nk6WSA', // 너의 시트 ID
+        simpleSheet: true,
+        callback: function(data, tabletop) {
+          // 예: 첫 번째 행의 B2+C3+D4를 표시 (단순 예시이므로 행 기준)
+          const row = data[0]; // 첫 번째 행
+          const text = row["날짜"] + " | " + row["시작시간"] + " ~ " + row["종료시간"];
+          document.getElementById("tag").innerText = text;
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

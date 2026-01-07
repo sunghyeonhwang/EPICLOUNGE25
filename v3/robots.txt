@@ -1,0 +1,36 @@
+user-agent: *
+allow: /
+
+Disallow: /new
+Disallow: /v2
+Disallow: /summit2022
+Disallow: /summit2020
+Disallow: /summit2021
+Disallow: /start2
+Disallow: /start19
+Disallow: /wwwdev
+Disallow: /videos
+Disallow: /webinar
+Disallow: /start
+Disallow: /qna
+
+Disallow: /new
+Disallow: /index_unrealenigne.php
+Disallow: /index_unrealenigne2.php
+Disallow: /premium
+Disallow: /logs
+Disallow: /v3/unrealsummit2022_schedule.php
+Disallow: /v3/__add.php
+Disallow: /v3/unrealsummit/
+Disallow: /new/bbs
+Disallow: /new/bbs2
+Disallow: /replay
+Disallow: /_OB
+Disallow: /_html
+Disallow: /_coding
+Disallow: /_cib
+https://epiclounge.co.kr/index_lumench_nana.html
+https://epiclounge.co.kr/summit2021/reg_form.html
+https://epiclounge.co.kr/index_twinmotion2022.html
+https://epiclounge.co.kr/summit2021/reg_terms_agree.html
+Sitemap: https://www.epiclounge.co.kr/sitemap.xml

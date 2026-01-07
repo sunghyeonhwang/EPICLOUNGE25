@@ -1,0 +1,83 @@
+<?
+include_once "../common.php";
+include_once "member_header.php";
+session_destroy();
+
+$apply_user_email = $_POST['apply_user_email'];
+$apply_user_phone = $_POST['apply_user_phone'];
+$mysqli = new mysqli("localhost","unrealengine","Good121930!@","unrealengine");
+if($apply_user_email != "" && $apply_user_phone != "" ){
+    $sql = "select * from cb_unreal_2024_event2_apply where apply_user_email = '$apply_user_email' and apply_user_phone = '$apply_user_phone' limit 1";
+    $result = $mysqli -> query($sql);
+    $obj = $result -> fetch_array();
+}else{
+    $sql = "select * from cb_unreal_2024_event2_apply where apply_no = ".$_SESSION["final_idx"]." limit 1";
+    $result = $mysqli -> query($sql);
+    $obj = $result -> fetch_array();
+}
+
+?>
+
+<script type="text/javascript">
+        document.getElementById('header_list_3').className = "active";
+
+	//	var body = document.body;
+	//	body.classList.add("modal_on");
+
+</script>
+  <div class="memeber_container">
+      <div class="wrap">
+		<p class="complete_title2">
+			<em class="em_blue"><?=$obj["apply_product_name"]?></em>
+            <?
+            if($obj["apply_track"] == "쿠폰"){
+
+            }else{
+            ?><em class="em_red"><?=$obj["apply_track"]?></em><?
+            }?>
+            <br />오프라인 등록이 완료되었습니다.
+		</p>
+		<div class="qrcode_box">
+            <?
+
+
+            if(empty($obj)){
+                ?>
+                <p class="qr_img"><img src="https://epiclounge.co.kr/v3/unrealfest2024/qrdata/<?=$_SESSION["final_idx"]?>.jpg" alt="QR 코드" /></p><?
+            }else{
+                ?>
+                <p class="qr_img"><img src="https://epiclounge.co.kr/v3/unrealfest2024/qrdata/<?=$obj["apply_no"]?>.jpg" alt="QR 코드" /></p><?
+            }
+            ?>
+
+
+
+
+			<p class="qr_text">QR 코드는 문자로 발송되었습니다.</p>
+		</div>	
+
+		<div class="gray_box">
+			<h4 class="h4">안내</h4>
+			<ul class="bu">
+				<li>QR 코드는 문자로 발송되며 행사 1일 전 한번 더 발송 될 예정입니다.</li>
+				<li>오프라인 티켓을 구매하시면, 추가로 등록하실 필요 없이 온라인 중계도 시청하실 수 있습니다.</li>
+				<li>등록정보 변경 및 취소는 <a href="https://epiclounge.co.kr/v3/unrealfest2024/index.html#event_cont_6"><em class="em_blue">FAQs</em></a>를 참조해 주세요.</li>
+				<li>문의  <a href="mailto:info@epiclounge.co.kr" target="_blank" style="color: #00C2E8; font-weight: bold;">메일</a> 및  <a href="tel:023263701" target="_blank" style="color: #00C2E8; font-weight: bold;">전화(02-326-3701)</a></li>
+			</ul>
+			<h4 class="h4">환불 및 취소 규정</h4>
+			<ul class="bu">
+				<li>행사 1일 전(2024년 8월 27일, 09시 00분까지 환불 신청 시): 전액 환불</li>
+				<li>행사 당일 : 환불 불가</li>
+				<li>취소 및 환불은 신청 후 5일 이내로 진행됩니다(카드사 사정으로 다소 시간이 소요될 수 있습니다).</li>
+			</ul>
+		</div>	
+
+		<div class="ft_btn_box">
+              <a href="https://epiclounge.co.kr/v3/unrealfest2024/index.html" class="btn_1">확인</a>
+		</div>
+
+	</div>
+</div>
+</body>
+
+</html>
