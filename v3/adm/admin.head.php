@@ -196,6 +196,58 @@ jQuery(function($){
         $(this).parent().addClass("on").siblings().removeClass("on");
     });
 
+    // 서브메뉴 그룹 접기/펴기 기능 (UE57, 시작해요 25 등)
+    $(document).on("click", ".gnb_2da.gnb_grp_style", function(e) {
+        var $headerA = $(this);
+        var $headerLi = $headerA.parent();
+        var $nextItems = $headerLi.nextUntil('li:has(.gnb_grp_style)');
+
+        if ($nextItems.length > 0) {
+            e.preventDefault();
+            $nextItems.slideToggle(150);
+            $headerA.find('.gnb_grp_arrow').toggleClass('fa-angle-down fa-angle-up');
+        }
+    });
+
+    // 초기 상태 설정 및 화살표 추가
+    function init_menu_groups() {
+        $(".gnb_2da.gnb_grp_style").each(function() {
+            var $headerA = $(this);
+            var $headerLi = $headerA.parent();
+            var $nextItems = $headerLi.nextUntil('li:has(.gnb_grp_style)');
+
+            if ($nextItems.length > 0) {
+                $headerA.css({
+                    "position": "relative",
+                    "padding-right": "30px",
+                    "display": "block",
+                    "cursor": "pointer"
+                });
+
+                if ($headerA.find('.gnb_grp_arrow').length === 0) {
+                    var $arrow = $('<i class="fa fa-angle-down gnb_grp_arrow" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:14px; color:#555;"></i>');
+                    $headerA.append($arrow);
+                }
+
+                // 현재 활성화된 메뉴가 포함된 그룹이 아니면 닫기
+                var hasOn = $nextItems.find("a.on").length > 0 || $headerA.hasClass("on");
+                if (!hasOn) {
+                    $nextItems.hide();
+                    $headerA.find('.gnb_grp_arrow').removeClass('fa-angle-up').addClass('fa-angle-down');
+                } else {
+                    $nextItems.show();
+                    $headerA.find('.gnb_grp_arrow').removeClass('fa-angle-down').addClass('fa-angle-up');
+                }
+            }
+        });
+    }
+
+    // 메뉴가 열릴 때마다 초기화 (Gnuboard gnb는 동적으로 노출될 수 있음)
+    $(".btn_op").click(function() {
+        setTimeout(init_menu_groups, 10);
+    });
+    init_menu_groups();
+
 });
 </script>
 
