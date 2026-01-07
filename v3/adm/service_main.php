@@ -36,6 +36,12 @@ $bitly_token = '';
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="memo">내용(메모)</label></th>
+                    <td>
+                        <textarea name="memo" id="memo" class="frm_input" style="width:100%; height:80px;" placeholder="URL에 대한 설명을 입력하세요."></textarea>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row">단축 도메인</th>
                     <td>
                         <select name="domain" id="domain" class="frm_input">
@@ -71,6 +77,7 @@ $(function() {
 
         var long_url = $("#long_url").val();
         var domain = $("#domain").val();
+        var memo = $("#memo").val();
         
         if(!long_url) {
             alert("URL을 입력해주세요.");
@@ -85,7 +92,8 @@ $(function() {
             type: "POST",
             data: { 
                 long_url: long_url,
-                domain: domain
+                domain: domain,
+                memo: memo
             },
             dataType: "json",
             success: function(data) {
