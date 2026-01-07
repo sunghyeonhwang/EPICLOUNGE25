@@ -105,10 +105,11 @@ $num = $total_count - ($page - 1) * $rows;
         <tr>
             <th scope="col">No</th>
             <th scope="col">변환 날짜/시간</th>
+            <th scope="col">변환 주소</th>
+            <th scope="col">주소복사</th>
             <th scope="col">내용(메모)</th>
             <th scope="col">원본 긴 주소</th>
-            <th scope="col">변환 주소</th>
-            <th scope="col">관리</th>
+            <th scope="col">삭제</th>
         </tr>
         </thead>
         <tbody id="bitly_log_list">
@@ -121,13 +122,15 @@ $num = $total_count - ($page - 1) * $rows;
         <tr class="<?php echo $bg; ?>" data-id="<?php echo $row['bl_id']; ?>">
             <td class="td_num"><?php echo $num--; ?></td>
             <td class="td_datetime"><?php echo $row['bl_datetime']; ?></td>
-            <td style="padding-left:10px;"><?php echo get_text($row['bl_memo']); ?></td>
-            <td style="padding-left:10px; font-size:0.9em; color:#666; max-width:300px; word-wrap:break-word; word-break:break-all;"><?php echo get_text($row['bl_long_url']); ?></td>
             <td class="td_url">
                 <a href="<?php echo $row['bl_short_url']; ?>" target="_blank" class="short_url"><?php echo $row['bl_short_url']; ?></a>
             </td>
             <td class="td_mng td_show" style="text-align:center;">
                 <button type="button" class="btn_03 btn_copy_list" data-url="<?php echo $row['bl_short_url']; ?>">복사</button>
+            </td>
+            <td style="padding-left:10px;"><?php echo get_text($row['bl_memo']); ?></td>
+            <td style="padding-left:10px; font-size:0.9em; color:#666; max-width:250px; word-wrap:break-word; word-break:break-all;"><?php echo get_text($row['bl_long_url']); ?></td>
+            <td class="td_mng td_show" style="text-align:center;">
                 <button type="button" class="btn_02 btn_del_list" data-id="<?php echo $row['bl_id']; ?>" style="background:#ff4747; color:#fff; border:none;">삭제</button>
             </td>
         </tr>
@@ -136,7 +139,7 @@ $num = $total_count - ($page - 1) * $rows;
         }
 
         if ($i == 0)
-            echo '<tr><td colspan="6" class="empty_table">내역이 없습니다.</td></tr>';
+            echo '<tr><td colspan="7" class="empty_table">내역이 없습니다.</td></tr>';
         ?>
         </tbody>
     </table>
@@ -196,11 +199,11 @@ $(function() {
                     var new_row = '<tr class="bg0" data-id="' + data.bl_id + '">' +
                         '<td class="td_num">New</td>' +
                         '<td class="td_datetime">' + datetime + '</td>' +
-                        '<td style="padding-left:10px;">' + memo + '</td>' +
-                        '<td style="padding-left:10px; font-size:0.9em; color:#666; max-width:300px; word-wrap:break-word; word-break:break-all;">' + long_url + '</td>' +
                         '<td class="td_url"><a href="' + data.short_url + '" target="_blank" class="short_url">' + data.short_url + '</a></td>' +
+                        '<td class="td_mng td_show" style="text-align:center;"><button type="button" class="btn_03 btn_copy_list" data-url="' + data.short_url + '">복사</button></td>' +
+                        '<td style="padding-left:10px;">' + memo + '</td>' +
+                        '<td style="padding-left:10px; font-size:0.9em; color:#666; max-width:250px; word-wrap:break-word; word-break:break-all;">' + long_url + '</td>' +
                         '<td class="td_mng td_show" style="text-align:center;">' + 
-                        '<button type="button" class="btn_03 btn_copy_list" data-url="' + data.short_url + '">복사</button> ' +
                         '<button type="button" class="btn_02 btn_del_list" data-id="' + data.bl_id + '" style="background:#ff4747; color:#fff; border:none;">삭제</button>' +
                         '</td>' +
                         '</tr>';
