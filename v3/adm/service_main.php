@@ -7,7 +7,7 @@ auth_check_menu($auth, $sub_menu, 'r');
 $g5['title'] = 'Bit.ly 주소 변환 관리';
 include_once('./admin.head.php');
 
-// DB 테이블 생성 (없을 경우를 대비)
+// DB 테이블 생성
 $table_name = G5_TABLE_PREFIX . 'bitly_logs';
 $table_exists = sql_query(" select 1 from $table_name limit 1 ", false);
 if(!$table_exists) {
@@ -27,14 +27,17 @@ $row = sql_fetch(" select count(*) as cnt $sql_common ");
 $total_count = isset($row['cnt']) ? $row['cnt'] : 0;
 
 $rows = 25;
-$total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
-if ($page < 1) { $page = 1; } // 페이지가 없으면 첫 페이지 (1페이지)
-$from_record = ($page - 1) * $rows; // 시작 열을 구함
+$total_page  = ceil($total_count / $rows);
+if ($page < 1) { $page = 1; }
+$from_record = ($page - 1) * $rows;
 
 if($total_count > 0) {
     $sql = " select * $sql_common order by bl_id desc limit $from_record, $rows ";
     $result = sql_query($sql);
 }
+
+// 순번 계산용
+$num = $total_count - ($page - 1) * $rows;
 ?>
 
 <div class="local_desc01 local_desc">
@@ -100,7 +103,7 @@ if($total_count > 0) {
         <caption>변환 내역 리스트</caption>
         <thead>
         <tr>
-            <th scope="col">고유번호</th>
+            <th scope="col">No</th>
             <th scope="col">변환 날짜/시간</th>
             <th scope="col">내용(메모)</th>
             <th scope="col">원본 긴 주소</th>
@@ -115,16 +118,17 @@ if($total_count > 0) {
             for ($i=0; $row=sql_fetch_array($result); $i++) {
                 $bg = 'bg'.($i%2);
         ?>
-        <tr class="<?php echo $bg; ?>">
-            <td class="td_num"><?php echo $row['bl_id']; ?></td>
+        <tr class="<?php echo $bg; ?>" data-id="<?php echo $row['bl_id']; ?>">
+            <td class="td_num"><?php echo $num--; ?></td>
             <td class="td_datetime"><?php echo $row['bl_datetime']; ?></td>
             <td style="padding-left:10px;"><?php echo get_text($row['bl_memo']); ?></td>
             <td style="padding-left:10px; font-size:0.9em; color:#666; max-width:300px; word-wrap:break-word; word-break:break-all;"><?php echo get_text($row['bl_long_url']); ?></td>
             <td class="td_url">
                 <a href="<?php echo $row['bl_short_url']; ?>" target="_blank" class="short_url"><?php echo $row['bl_short_url']; ?></a>
             </td>
-            <td class="td_mng td_show">
+            <td class="td_mng td_show" style="text-align:center;">
                 <button type="button" class="btn_03 btn_copy_list" data-url="<?php echo $row['bl_short_url']; ?>">복사</button>
+                <button type="button" class="btn_02 btn_del_list" data-id="<?php echo $row['bl_id']; ?>" style="background:#ff4747; color:#fff; border:none;">삭제</button>
             </td>
         </tr>
         <?php
@@ -139,7 +143,6 @@ if($total_count > 0) {
 </div>
 
 <?php 
-// 페이징 함수 호출 (그누보드 기본 함수 사용)
 include_once(G5_LIB_PATH.'/common.lib.php');
 echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?page=');
 ?>
@@ -159,7 +162,6 @@ $(function() {
             return false;
         }
 
-        // Bitly API는 반드시 http:// 또는 https:// 가 포함되어야 합니다.
         if(!long_url.match(/^(http|https):\/\//i)) {
             if(confirm("입력하신 URL에 http:// 또는 https:// 가 빠져있습니다.\nhttps:// 를 자동으로 붙여서 변환할까요?")) {
                 long_url = "https://" + long_url;
@@ -183,31 +185,28 @@ $(function() {
             dataType: "json",
             success: function(data) {
                 if(data.success) {
-                    // 결과 영역 표시
                     $("#bitly_result").text(data.short_url);
                     $("#btn_copy_main").attr("data-url", data.short_url);
                     $("#tr_result").fadeIn();
                     
-                    // 리스트에 즉시 추가 (비새로고침)
+                    // 리스트 상단에 즉시 추가
                     var now = new Date();
-                    var datetime = now.getFullYear() + "-" + 
-                                   ("0" + (now.getMonth() + 1)).slice(-2) + "-" + 
-                                   ("0" + now.getDate()).slice(-2) + " " + 
-                                   ("0" + now.getHours()).slice(-2) + ":" + 
-                                   ("0" + now.getMinutes()).slice(-2) + ":" + 
-                                   ("0" + now.getSeconds()).slice(-2);
+                    var datetime = now.getFullYear() + "-" + ("0" + (now.getMonth() + 1)).slice(-2) + "-" + ("0" + now.getDate()).slice(-2) + " " + ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + ":" + ("0" + now.getSeconds()).slice(-2);
                     
-                    var new_row = '<tr class="bg0">' +
-                        '<td class="td_num">새글</td>' +
+                    var new_row = '<tr class="bg0" data-id="' + data.bl_id + '">' +
+                        '<td class="td_num">New</td>' +
                         '<td class="td_datetime">' + datetime + '</td>' +
                         '<td style="padding-left:10px;">' + memo + '</td>' +
                         '<td style="padding-left:10px; font-size:0.9em; color:#666; max-width:300px; word-wrap:break-word; word-break:break-all;">' + long_url + '</td>' +
                         '<td class="td_url"><a href="' + data.short_url + '" target="_blank" class="short_url">' + data.short_url + '</a></td>' +
-                        '<td class="td_mng td_show"><button type="button" class="btn_03 btn_copy_list" data-url="' + data.short_url + '">복사</button></td>' +
+                        '<td class="td_mng td_show" style="text-align:center;">' + 
+                        '<button type="button" class="btn_03 btn_copy_list" data-url="' + data.short_url + '">복사</button> ' +
+                        '<button type="button" class="btn_02 btn_del_list" data-id="' + data.bl_id + '" style="background:#ff4747; color:#fff; border:none;">삭제</button>' +
+                        '</td>' +
                         '</tr>';
                     
                     $("#bitly_log_list").prepend(new_row);
-                    $(".empty_table").closest("tr").remove(); // '내역이 없습니다' 삭제
+                    $(".empty_table").closest("tr").remove();
                 } else {
                     alert("에러: " + data.error);
                 }
@@ -218,7 +217,32 @@ $(function() {
         });
     });
 
-    // 복사 버튼 이벤트 (메인 결과)
+    // 삭제 버튼 클릭
+    $(document).on("click", ".btn_del_list", function() {
+        if(!confirm("정말 이 내역을 삭제하시겠습니까?")) return;
+
+        var bl_id = $(this).data("id");
+        var $tr = $(this).closest("tr");
+
+        $.ajax({
+            url: "./service_bitly_ajax.php",
+            type: "POST",
+            data: { mode: "delete", bl_id: bl_id },
+            dataType: "json",
+            success: function(data) {
+                if(data.success) {
+                    $tr.fadeOut(function() { $(this).remove(); });
+                } else {
+                    alert("에러: " + data.error);
+                }
+            },
+            error: function() {
+                alert("서버 통신 중 에러가 발생했습니다.");
+            }
+        });
+    });
+
+    // 복사 버튼 이벤트
     $(document).on("click", "#btn_copy_main, .btn_copy_list", function() {
         var text = $(this).attr("data-url") || $("#bitly_result").text();
         if(!text || text.indexOf("http") !== 0) return;
