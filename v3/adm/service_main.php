@@ -67,7 +67,7 @@ $result = sql_query($sql);
                     <td>
                         <select name="domain" id="domain" class="frm_input">
                             <option value="bit.ly">bit.ly (기본)</option>
-                            <option value="link.epiclounge.co.kr">link.epiclounge.co.kr (커스텀)</option>
+                            <option value="link.epiclounge.co.kr" selected>link.epiclounge.co.kr (커스텀)</option>
                         </select>
                     </td>
                 </tr>
@@ -142,13 +142,23 @@ $(function() {
     $("#fbitly").on("submit", function(e) {
         e.preventDefault();
 
-        var long_url = $("#long_url").val();
+        var long_url = $("#long_url").val().trim();
         var domain = $("#domain").val();
         var memo = $("#memo").val();
         
         if(!long_url) {
             alert("URL을 입력해주세요.");
             return false;
+        }
+
+        // Bitly API는 반드시 http:// 또는 https:// 가 포함되어야 합니다.
+        if(!long_url.match(/^(http|https):\/\//i)) {
+            if(confirm("입력하신 URL에 http:// 또는 https:// 가 빠져있습니다.\nhttp:// 를 자동으로 붙여서 변환할까요?")) {
+                long_url = "http://" + long_url;
+                $("#long_url").val(long_url);
+            } else {
+                return false;
+            }
         }
 
         $("#bitly_result").text("변환 중...").css("color", "#666");
