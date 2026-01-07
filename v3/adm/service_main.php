@@ -36,6 +36,16 @@ $bitly_token = '';
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row">단축 도메인</th>
+                    <td>
+                        <input type="radio" name="domain" value="bit.ly" id="dom_bitly" checked> <label for="dom_bitly">bit.ly (기본)</label>
+                        &nbsp;&nbsp;
+                        <input type="radio" name="domain" value="custom" id="dom_custom"> <label for="dom_custom">커스텀 도메인 사용</label>
+                        <input type="text" name="custom_domain_val" id="custom_domain_val" class="frm_input" size="30" placeholder="예: link.epiclounge.co.kr" style="display:none; margin-left:10px;">
+                        <div class="frm_info">Bitly 계정에 연결된 브랜디드 도메인만 사용 가능합니다.</div>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row">변환 결과</th>
                     <td>
                         <div id="bitly_result" style="font-weight:bold; color:#0055ff; font-size:1.2em; min-height: 30px;">
@@ -56,10 +66,29 @@ $bitly_token = '';
 
 <script>
 $(function() {
+    $("input[name='domain']").on("change", function() {
+        if($(this).val() == 'custom') {
+            $("#custom_domain_val").show().focus();
+        } else {
+            $("#custom_domain_val").hide();
+        }
+    });
+
     $("#fbitly").on("submit", function(e) {
         e.preventDefault();
 
         var long_url = $("#long_url").val();
+        var domain = $("input[name='domain']:checked").val();
+        
+        if(domain == 'custom') {
+            domain = $("#custom_domain_val").val();
+            if(!domain) {
+                alert("커스텀 도메인을 입력해주세요.");
+                $("#custom_domain_val").focus();
+                return false;
+            }
+        }
+
         if(!long_url) {
             alert("URL을 입력해주세요.");
             return false;
@@ -71,7 +100,10 @@ $(function() {
         $.ajax({
             url: "./service_bitly_ajax.php",
             type: "POST",
-            data: { long_url: long_url },
+            data: { 
+                long_url: long_url,
+                domain: domain
+            },
             dataType: "json",
             success: function(data) {
                 if(data.success) {

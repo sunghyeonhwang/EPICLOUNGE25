@@ -6,6 +6,9 @@ if ($is_admin != 'super' && !auth_check($auth[$sub_menu], 'r', true)) {
 }
 
 $long_url = trim($_POST['long_url']);
+$domain   = trim($_POST['domain']);
+
+if (!$domain) $domain = 'bit.ly';
 
 if (!$long_url) {
     die(json_encode(array('success' => false, 'error' => 'URL을 입력해주세요.')));
@@ -22,7 +25,7 @@ $api_url = 'https://api-ssl.bitly.com/v4/shorten';
 
 $data = array(
     'long_url' => $long_url,
-    'domain'   => 'bit.ly'
+    'domain'   => $domain
 );
 
 $ch = curl_init($api_url);
