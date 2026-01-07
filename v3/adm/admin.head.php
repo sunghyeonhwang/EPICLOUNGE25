@@ -237,6 +237,7 @@ jQuery(function($){
             var $headerA = $(this);
             var $headerLi = $headerA.closest('li');
             var $nextItems = $headerLi.nextUntil('li:has(.gnb_grp_style)');
+            var menuKeyClass = $headerLi.closest('.gnb_li').find('.btn_op').attr('class');
 
             if ($nextItems.length > 0) {
                 // 헤더 LI 스타일 설정
@@ -247,11 +248,27 @@ jQuery(function($){
 
                 // 현재 상태에 따라 초기 노출 여부 결정
                 var hasOn = $nextItems.find("a.on").length > 0 || $headerA.hasClass("on");
+
+                // 특정 메뉴 자동 펼침 처리
+                if (menuKeyClass) {
+                    // 리소스 관리 (600)는 모두 펼침
+                    if (menuKeyClass.indexOf('menu-600') > -1) {
+                        hasOn = true;
+                    }
+                    // 이벤트 관리 (700)는 첫 번째만 펼침
+                    if (menuKeyClass.indexOf('menu-700') > -1) {
+                        var $allGrpsInOparea = $headerLi.closest('ul').find('.gnb_2da.gnb_grp_style');
+                        if ($allGrpsInOparea.first().is($headerA)) {
+                            hasOn = true;
+                        }
+                    }
+                }
+
                 if (hasOn) {
                     $headerLi.addClass('on');
                     $nextItems.show();
                 } else {
-                    $headerLi.removeClass('on');
+                    $headerLi.removeClass('on').addClass('collapsed');
                     $nextItems.hide();
                 }
             }
