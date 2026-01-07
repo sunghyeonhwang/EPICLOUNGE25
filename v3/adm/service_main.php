@@ -9,7 +9,8 @@ include_once('./admin.head.php');
 
 // DB 테이블 생성 (없을 경우를 대비)
 $table_name = G5_TABLE_PREFIX . 'bitly_logs';
-if(!sql_query(" DESC $table_name ", false)) {
+$table_exists = sql_query(" select 1 from $table_name limit 1 ", false);
+if(!$table_exists) {
     sql_query(" CREATE TABLE IF NOT EXISTS `$table_name` (
         `bl_id` int(11) NOT NULL AUTO_INCREMENT,
         `bl_long_url` text NOT NULL,
@@ -23,15 +24,17 @@ if(!sql_query(" DESC $table_name ", false)) {
 // 페이징 설정
 $sql_common = " from $table_name ";
 $row = sql_fetch(" select count(*) as cnt $sql_common ");
-$total_count = $row['cnt'];
+$total_count = isset($row['cnt']) ? $row['cnt'] : 0;
 
 $rows = 25;
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) { $page = 1; } // 페이지가 없으면 첫 페이지 (1페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
-$sql = " select * $sql_common order by bl_id desc limit $from_record, $rows ";
-$result = sql_query($sql);
+if($total_count > 0) {
+    $sql = " select * $sql_common order by bl_id desc limit $from_record, $rows ";
+    $result = sql_query($sql);
+}
 ?>
 
 <div class="local_desc01 local_desc">
@@ -71,13 +74,14 @@ $result = sql_query($sql);
                         </select>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row">변환 결과</th>
+                <tr id="tr_result" style="display:none; background-color: #f8faff; border:2px solid #0055ff;">
+                    <th scope="row" style="color:#0055ff;">변환 성공!</th>
                     <td>
-                        <div id="bitly_result" style="font-weight:bold; color:#0055ff; font-size:1.2em; min-height: 30px; display:inline-block; vertical-align:middle;">
-                            변환된 주소가 여기에 표시됩니다.
-                        </div>
-                        <button type="button" id="btn_copy_main" class="btn_02" style="display:none; margin-left:10px;">주소 복사하기</button>
+                        <span style="font-weight:bold; color:#333;">복사해서 사용하세요</span>
+                        <span style="margin:0 15px; color:#ccc;">|</span>
+                        <span id="bitly_result" style="font-weight:bold; color:#0055ff; font-size:1.2em; vertical-align: middle;"></span>
+                        <span style="margin:0 15px; color:#ccc;">|</span>
+                        <button type="button" id="btn_copy_main" class="btn_02" style="vertical-align: middle;">복사하기</button>
                     </td>
                 </tr>
                 </tbody>
@@ -106,14 +110,16 @@ $result = sql_query($sql);
         </thead>
         <tbody id="bitly_log_list">
         <?php
-        for ($i=0; $row=sql_fetch_array($result); $i++) {
-            $bg = 'bg'.($i%2);
+        $i = 0;
+        if (isset($result) && $result) {
+            for ($i=0; $row=sql_fetch_array($result); $i++) {
+                $bg = 'bg'.($i%2);
         ?>
         <tr class="<?php echo $bg; ?>">
             <td class="td_num"><?php echo $row['bl_id']; ?></td>
             <td class="td_datetime"><?php echo $row['bl_datetime']; ?></td>
             <td style="padding-left:10px;"><?php echo get_text($row['bl_memo']); ?></td>
-            <td style="padding-left:10px; font-size:0.9em; color:#666; max-width:300px; word-break:break-all;"><?php echo get_text($row['bl_long_url']); ?></td>
+            <td style="padding-left:10px; font-size:0.9em; color:#666; max-width:300px; word-wrap:break-word; word-break:break-all;"><?php echo get_text($row['bl_long_url']); ?></td>
             <td class="td_url">
                 <a href="<?php echo $row['bl_short_url']; ?>" target="_blank" class="short_url"><?php echo $row['bl_short_url']; ?></a>
             </td>
@@ -122,7 +128,9 @@ $result = sql_query($sql);
             </td>
         </tr>
         <?php
+            }
         }
+
         if ($i == 0)
             echo '<tr><td colspan="6" class="empty_table">내역이 없습니다.</td></tr>';
         ?>
@@ -162,7 +170,7 @@ $(function() {
         }
 
         $("#bitly_result").text("변환 중...").css("color", "#666");
-        $("#btn_copy_main").hide();
+        $("#tr_result").hide();
 
         $.ajax({
             url: "./service_bitly_ajax.php",
@@ -175,20 +183,37 @@ $(function() {
             dataType: "json",
             success: function(data) {
                 if(data.success) {
-                    $("#bitly_result").text(data.short_url).css("color", "#0055ff");
-                    $("#btn_copy_main").attr("data-url", data.short_url).show();
+                    // 결과 영역 표시
+                    $("#bitly_result").text(data.short_url);
+                    $("#btn_copy_main").attr("data-url", data.short_url);
+                    $("#tr_result").fadeIn();
                     
-                    // 리스트 새로고침 (간단하게 페이지 새로고침 또는 목록 맨 위에 추가 가능)
-                    // 여기서는 깔끔하게 페이지를 새로고침하여 최신 내역을 보여줍니다.
-                    if(confirm("변환되었습니다. 리스트에서 확인하시겠습니까?")) {
-                        location.reload();
-                    }
+                    // 리스트에 즉시 추가 (비새로고침)
+                    var now = new Date();
+                    var datetime = now.getFullYear() + "-" + 
+                                   ("0" + (now.getMonth() + 1)).slice(-2) + "-" + 
+                                   ("0" + now.getDate()).slice(-2) + " " + 
+                                   ("0" + now.getHours()).slice(-2) + ":" + 
+                                   ("0" + now.getMinutes()).slice(-2) + ":" + 
+                                   ("0" + now.getSeconds()).slice(-2);
+                    
+                    var new_row = '<tr class="bg0">' +
+                        '<td class="td_num">새글</td>' +
+                        '<td class="td_datetime">' + datetime + '</td>' +
+                        '<td style="padding-left:10px;">' + memo + '</td>' +
+                        '<td style="padding-left:10px; font-size:0.9em; color:#666; max-width:300px; word-wrap:break-word; word-break:break-all;">' + long_url + '</td>' +
+                        '<td class="td_url"><a href="' + data.short_url + '" target="_blank" class="short_url">' + data.short_url + '</a></td>' +
+                        '<td class="td_mng td_show"><button type="button" class="btn_03 btn_copy_list" data-url="' + data.short_url + '">복사</button></td>' +
+                        '</tr>';
+                    
+                    $("#bitly_log_list").prepend(new_row);
+                    $(".empty_table").closest("tr").remove(); // '내역이 없습니다' 삭제
                 } else {
-                    $("#bitly_result").text("에러: " + data.error).css("color", "#ff0000");
+                    alert("에러: " + data.error);
                 }
             },
             error: function() {
-                $("#bitly_result").text("서버 통신 에러가 발생했습니다.").css("color", "#ff0000");
+                alert("서버 통신 에러가 발생했습니다.");
             }
         });
     });

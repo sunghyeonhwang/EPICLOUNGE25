@@ -24,7 +24,8 @@ if (!$access_token) {
 
 // DB 테이블 생성 (없을 경우)
 $table_name = G5_TABLE_PREFIX . 'bitly_logs';
-if(!sql_query(" DESC $table_name ", false)) {
+$table_exists = sql_query(" select 1 from $table_name limit 1 ", false);
+if(!$table_exists) {
     sql_query(" CREATE TABLE IF NOT EXISTS `$table_name` (
         `bl_id` int(11) NOT NULL AUTO_INCREMENT,
         `bl_long_url` text NOT NULL,
