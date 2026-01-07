@@ -1,5 +1,9 @@
 <?php
-$sub_menu = "700520";
+if (isset($_GET['sub_menu'])) {
+    $sub_menu = $_GET['sub_menu'];
+} else {
+    $sub_menu = "700520";
+}
 include_once('./_common.php');
 
 $g5['title'] = '이벤트 관리';
