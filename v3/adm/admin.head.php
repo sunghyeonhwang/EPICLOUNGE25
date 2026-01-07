@@ -16,6 +16,7 @@ if (is_array($files)) {
         add_stylesheet('<link rel="stylesheet" href="'.$css_file.'">', $k);
     }
 }
+add_stylesheet('<link rel="stylesheet" href="'.G5_ADMIN_URL.'/css/admin_modern_sidebar.css">', 100);
 
 include_once(G5_PATH.'/head.sub.php');
 
@@ -207,8 +208,7 @@ jQuery(function($){
                 // 헤더 LI 스타일 설정
                 $headerLi.addClass('gnb_grp_header').css({
                     "position": "relative",
-                    "cursor": "pointer",
-                    "border-bottom": "none"
+                    "cursor": "pointer"
                 });
 
                 // 현재 상태에 따라 초기 노출 여부 결정
@@ -229,16 +229,14 @@ jQuery(function($){
         var $headerLi = $(this);
         var $nextItems = $headerLi.nextUntil('li:has(.gnb_grp_style)');
         
-        // <a> 태그나 그 자식을 직접 클릭한 경우 페이지 이동 방지 (접기/펴기 우선)
-        if ($(e.target).closest('a').length > 0) {
-            e.preventDefault();
-        }
+        // a 태그 클릭 시 기본 동작(페이지 이동) 방지
+        e.preventDefault();
 
         if ($nextItems.length > 0) {
             $nextItems.slideToggle(150);
             $headerLi.toggleClass('collapsed');
             
-            // 화살표 방향 변경을 위한 클래스 토글링
+            // 화살표 방향 변경
             var $icon = $headerLi.find('.grp_arrow');
             if ($icon.hasClass('fa-angle-up')) {
                 $icon.removeClass('fa-angle-up').addClass('fa-angle-down');
@@ -248,13 +246,13 @@ jQuery(function($){
         }
     });
 
-    // 화살표 아이콘을 JS로 한 번만 강제 삽입 (CSS와 폰트어썸 조합)
+    // 화살표 아이콘 주입
     function inject_arrows() {
         $(".gnb_grp_header").each(function() {
             if ($(this).find('.grp_arrow').length === 0) {
                 var isVisible = $(this).next().is(':visible');
                 var arrowClass = isVisible ? 'fa-angle-up' : 'fa-angle-down';
-                $(this).append('<i class="fa ' + arrowClass + ' grp_arrow" style="position:absolute; right:12px; top:50%; margin-top:-7px; font-size:16px; color:#555; pointer-events:none;"></i>');
+                $(this).append('<i class="fa ' + arrowClass + ' grp_arrow" style="position:absolute; right:15px; top:50%; margin-top:-7px; font-size:14px; color:#64748b; pointer-events:none;"></i>');
             }
         });
     }
