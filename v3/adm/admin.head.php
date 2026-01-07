@@ -197,15 +197,18 @@ jQuery(function($){
     });
 
     // 서브메뉴 그룹 접기/펴기 기능 (UE57, 시작해요 25 등)
-    $(document).on("click", ".gnb_2da.gnb_grp_style", function(e) {
-        var $headerA = $(this);
-        var $headerLi = $headerA.parent();
+    $(document).on("click", ".gnb_grp_style, .gnb_grp_arrow", function(e) {
+        var $target = $(e.target);
+        var $headerLi = $target.closest('li');
         var $nextItems = $headerLi.nextUntil('li:has(.gnb_grp_style)');
 
         if ($nextItems.length > 0) {
-            e.preventDefault();
+            // a 태그 클릭 시 페이지 이동 방지
+            if ($target.is('a') || $target.parent().is('a')) {
+                e.preventDefault();
+            }
             $nextItems.slideToggle(150);
-            $headerA.find('.gnb_grp_arrow').toggleClass('fa-angle-down fa-angle-up');
+            $headerLi.find('.gnb_grp_arrow').toggleClass('fa-angle-down fa-angle-up');
         }
     });
 
@@ -217,26 +220,25 @@ jQuery(function($){
             var $nextItems = $headerLi.nextUntil('li:has(.gnb_grp_style)');
 
             if ($nextItems.length > 0) {
-                $headerA.css({
+                // li를 상대 위치로 설정하여 화살표 고정
+                $headerLi.css({
                     "position": "relative",
-                    "padding-right": "30px",
-                    "display": "block",
                     "cursor": "pointer"
                 });
 
-                if ($headerA.find('.gnb_grp_arrow').length === 0) {
-                    var $arrow = $('<i class="fa fa-angle-down gnb_grp_arrow" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:14px; color:#555;"></i>');
-                    $headerA.append($arrow);
+                if ($headerLi.find('.gnb_grp_arrow').length === 0) {
+                    var $arrow = $('<i class="fa fa-angle-down gnb_grp_arrow" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); font-size:14px; color:#555; pointer-events:none;"></i>');
+                    $headerLi.append($arrow);
                 }
 
                 // 현재 활성화된 메뉴가 포함된 그룹이 아니면 닫기
                 var hasOn = $nextItems.find("a.on").length > 0 || $headerA.hasClass("on");
                 if (!hasOn) {
                     $nextItems.hide();
-                    $headerA.find('.gnb_grp_arrow').removeClass('fa-angle-up').addClass('fa-angle-down');
+                    $headerLi.find('.gnb_grp_arrow').removeClass('fa-angle-up').addClass('fa-angle-down');
                 } else {
                     $nextItems.show();
-                    $headerA.find('.gnb_grp_arrow').removeClass('fa-angle-down').addClass('fa-angle-up');
+                    $headerLi.find('.gnb_grp_arrow').removeClass('fa-angle-down').addClass('fa-angle-up');
                 }
             }
         });
