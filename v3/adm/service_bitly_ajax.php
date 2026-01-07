@@ -11,10 +11,10 @@ if (!$long_url) {
     die(json_encode(array('success' => false, 'error' => 'URL을 입력해주세요.')));
 }
 
-// TODO: 여기에 본인의 Bitly Access Token을 입력하세요.
-$access_token = 'YOUR_BITLY_ACCESS_TOKEN_HERE'; 
+// Bitly Access Token
+$access_token = '625f1a9db7f70628960d953cebf68d24c754e5b6'; 
 
-if ($access_token == 'YOUR_BITLY_ACCESS_TOKEN_HERE') {
+if (!$access_token) {
     die(json_encode(array('success' => false, 'error' => 'Bitly Access Token이 설정되지 않았습니다. 관리자에게 문의하세요.')));
 }
 
