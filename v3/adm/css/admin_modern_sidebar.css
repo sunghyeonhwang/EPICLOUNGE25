@@ -1,6 +1,10 @@
 @charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Noto+Sans+KR:wght@100..900&display=swap');
 
 /* Modern Admin Sidebar Design */
+body, h1, h2, h3, h4, h5, h6, input, button, textarea, select {
+    font-family: 'Inter Tight', 'Noto Sans KR', sans-serif !important;
+}
 
 /* GNB Container */
 #gnb {
@@ -22,6 +26,13 @@
     background-color: transparent !important;
     color: #94a3b8 !important;
     transition: all 0.2s ease;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 60px !important;
+    height: 50px !important;
+    padding: 0 !important;
+    border: none !important;
 }
 
 #gnb .gnb_li button.btn_op:hover {
@@ -32,6 +43,10 @@
 #gnb .gnb_li.on button.btn_op {
     background-color: #2563eb !important; /* Blue 600 */
     color: #fff !important;
+}
+
+#gnb .gnb_li button.btn_op svg {
+    display: block !important;
 }
 
 /* Submenu Area (Open Area) */
