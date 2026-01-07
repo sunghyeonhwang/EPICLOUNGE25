@@ -257,12 +257,9 @@ jQuery(function($){
                     if (menuKeyClass.indexOf('menu-600') > -1) {
                         hasOn = true;
                     }
-                    // 이벤트 관리 (700)는 첫 번째만 펼침
+                    // 이벤트 관리 (700)는 모두 펼침
                     if (menuKeyClass.indexOf('menu-700') > -1) {
-                        var $allGrpsInOparea = $headerLi.closest('ul').find('.gnb_2da.gnb_grp_style');
-                        if ($allGrpsInOparea.first().is($headerA)) {
-                            hasOn = true;
-                        }
+                        hasOn = true;
                     }
                 }
 
