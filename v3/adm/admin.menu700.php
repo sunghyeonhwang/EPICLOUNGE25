@@ -4,8 +4,9 @@ $menu["menu700"] = array (
 
     // 언리얼챌린지 (맨 위로 이동)
     array('700800', '언리얼챌린지', ''.G5_ADMIN_URL.'/event_list2.php', 'event_list2', 1),
-    array('700810', '24 언리얼챌린지', ''.G5_ADMIN_URL.'/event_list2.php', 'event_list2'),
+    
     array('700820', '25 언리얼챌린지', ''.G5_ADMIN_URL.'/event_list3.php', 'event_list3'),
+    array('700810', '24 언리얼챌린지', ''.G5_ADMIN_URL.'/event_list2.php', 'event_list2'),
 
     // UE57 메뉴 (주석처리)
     /*
