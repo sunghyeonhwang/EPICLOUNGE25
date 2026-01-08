@@ -51,9 +51,15 @@ if (strpos($detected_type, 'image') !== false || in_array($file_ext, ['jpg', 'jp
 $filename = $sub_path . time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', basename($file['name']));
 $file_path = $file['tmp_name'];
 
+// SVG 파일의 경우 명시적으로 Content-Type 설정
+$upload_content_type = $detected_type;
+if ($file_ext === 'svg') {
+    $upload_content_type = 'image/svg+xml';
+}
+
 // R2 Upload logic (S3 API compatible)
 try {
-    $result_url = r2_upload_file($file_path, $filename, $detected_type);
+    $result_url = r2_upload_file($file_path, $filename, $upload_content_type);
     echo json_encode(['url' => $result_url]);
 } catch (Exception $e) {
     // 디버깅을 위해 임시로 에러 메시지 노출

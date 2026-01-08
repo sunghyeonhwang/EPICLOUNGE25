@@ -205,14 +205,14 @@
 
 
 #header {
-	opacity: 0;
+	opacity: 1;
 	position: relative;
-	top: -90px;
-	-webkit-transition: all 0.75s ease 0s;
+	top: 0px;
+	/* -webkit-transition: all 0.75s ease 0s;
 	-moz-transition: all 0.75s ease 0s;
 	-ms-transition: all 0.75s ease 0s;
 	-o-transition: all 0.75s ease 0s;
-	transition: all 0.75s ease 0s;
+	transition: all 0.75s ease 0s; */
 }
 
 .body_active #header {
@@ -225,11 +225,15 @@
 /* Header */
 #header {
 	position: fixed;
-	background: #fff;
+	background: rgba(255, 255, 255, 0.90);
+	/* Glassmorphism: 메인 헤더 블러 효과 (10px) */
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 	z-index: 1000;
 	height: 90px;
 	width: 100%;
 	transition: all 0.75s ease 0s;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 #header .link_set li {
@@ -437,9 +441,10 @@
 	line-height: 1.35em;
 	width: 100%;
 	box-sizing: border-box;
-	background: rgba(255, 255, 255, 0.90);
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
+	background: rgba(255, 255, 255, 0.94);
+	/* Glassmorphism: 서브메뉴 블러 효과 (77px) - 메인 헤더 위에 겹쳐서 표시 */
+	backdrop-filter: blur(77px) brightness(1.15) saturate(0.9);
+	-webkit-backdrop-filter: blur(77px) brightness(1.15) saturate(0.9);
 	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 	border-top: 1px solid rgba(238, 238, 238, 0.5);
 }
