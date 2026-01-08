@@ -1,16 +1,16 @@
 <?php
-$sub_menu = '900100';
-include_once('./_common.php');
+$sub_menu = '900210';
+include_once ('./_common.php');
 
 auth_check_menu($auth, $sub_menu, 'r');
 
 $g5['title'] = 'Bit.ly 주소 변환 관리';
-include_once('./admin.head.php');
+include_once ('./admin.head.php');
 
 // DB 테이블 생성
 $table_name = G5_TABLE_PREFIX . 'bitly_logs';
 $table_exists = sql_query(" select 1 from $table_name limit 1 ", false);
-if(!$table_exists) {
+if (!$table_exists) {
     sql_query(" CREATE TABLE IF NOT EXISTS `$table_name` (
         `bl_id` int(11) NOT NULL AUTO_INCREMENT,
         `bl_long_url` text NOT NULL,
@@ -27,11 +27,13 @@ $row = sql_fetch(" select count(*) as cnt $sql_common ");
 $total_count = isset($row['cnt']) ? $row['cnt'] : 0;
 
 $rows = 25;
-$total_page  = ceil($total_count / $rows);
-if ($page < 1) { $page = 1; }
+$total_page = ceil($total_count / $rows);
+if ($page < 1) {
+    $page = 1;
+}
 $from_record = ($page - 1) * $rows;
 
-if($total_count > 0) {
+if ($total_count > 0) {
     $sql = " select * $sql_common order by bl_id desc limit $from_record, $rows ";
     $result = sql_query($sql);
 }
@@ -116,9 +118,9 @@ $num = $total_count - ($page - 1) * $rows;
         <?php
         $i = 0;
         if (isset($result) && $result) {
-            for ($i=0; $row=sql_fetch_array($result); $i++) {
-                $bg = 'bg'.($i%2);
-        ?>
+            for ($i = 0; $row = sql_fetch_array($result); $i++) {
+                $bg = 'bg' . ($i % 2);
+                ?>
         <tr class="<?php echo $bg; ?>" data-id="<?php echo $row['bl_id']; ?>">
             <td class="td_num"><?php echo $num--; ?></td>
             <td class="td_datetime"><?php echo $row['bl_datetime']; ?></td>
@@ -145,9 +147,9 @@ $num = $total_count - ($page - 1) * $rows;
     </table>
 </div>
 
-<?php 
-include_once(G5_LIB_PATH.'/common.lib.php');
-echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?page=');
+<?php
+include_once (G5_LIB_PATH . '/common.lib.php');
+echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'] . '?page=');
 ?>
 
 <script>
@@ -261,5 +263,5 @@ $(function() {
 </script>
 
 <?php
-include_once('./admin.tail.php');
+include_once ('./admin.tail.php');
 ?>
