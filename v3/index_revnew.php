@@ -118,7 +118,7 @@ include_once ('board/lib/latest.lib.php');
       display: none
     }
   </style>
-  <link rel="stylesheet" href="/v3/resource/css/main2.css">
+  <link rel="stylesheet" href="/v3/resource/css/main26.css">
 
   <script src="/v3/resource/js/jquery-3.4.1.min.js"></script>
   <script src="/v3/resource/js/slick.min.js"></script>
@@ -306,19 +306,30 @@ if (defined('_INDEX_')) {  // index에서만 실행
     <section class="bg_slide_box">
       <div class="bg_slide_list_box">
 
-        <?
-        $visual_result = sql_query("select * from v3_main_banner where bn_use_at = 'Y' order by bn_id asc ");
-
-        foreach ($visual_result as $visual) {
-            ?>
-        <div class="bg_slide_list bg_slide_list1" style="background-image:url('/data/main_banner/<?php echo $visual['bn_id']; ?>');">
-          <p class="bg_slide_title"><?= $visual['bn_txt_top'] ?></p>
-          <p class="bg_slide_text"><?= $visual['bn_txt_bot_color_btn'] ?></p>
-          <p class="bg_slide_btn"><a href="<?= $visual['bn_url'] ?>" target="_blank"><?= $visual['bn_btn_txt'] ?></a></p>
+        <!-- Slide 1 -->
+        <div class="bg_slide_list bg_slide_list1">
+          <video autoplay muted loop playsinline class="bg_video">
+            <source src="https://unrealsummit16.cafe24.com/2025/ue57/ue57bh.mp4" type="video/mp4">
+          </video>
+          <div class="txt_wrap">
+            <p class="bg_slide_title">에픽 메가그랜트</p>
+            <p class="bg_slide_text">에픽 메가그랜트는 리얼타임 3D 개발을 새로운 차원으로 혁신하는<br>커뮤니티의 유망한 신규 프로젝트에 투자하는 프로그램입니다.</p>
+            <p class="bg_slide_btn"><a href="#" target="_blank">바로가기</a></p>
+          </div>
         </div>
-        <?
-        }
-        ?>
+
+        <!-- Slide 2 -->
+        <div class="bg_slide_list bg_slide_list2">
+          <video autoplay muted loop playsinline class="bg_video">
+            <source src="https://unrealsummit16.cafe24.com/2025/ufest25/3_fusion_2_re2.mp4" type="video/mp4">
+          </video>
+          <div class="txt_wrap">
+            <p class="bg_slide_title">언리얼 엔진 5</p>
+            <p class="bg_slide_text">언리얼 엔진은 개발자에 의한, 개발자를 위한, 모두에게 공평한 조건으로 제작되었습니다.<br>누구나 세계에서 가장 개방적이고 진보된 리얼타임 제작 툴을 사용하여 아이디어를 실현할 수 있습니다.</p>
+            <p class="bg_slide_btn"><a href="#" target="_blank">다운로드</a></p>
+          </div>
+        </div>
+
       </div>
       <div class="slider-dots-box"></div>
 
@@ -366,6 +377,8 @@ foreach ($main_rsc_result as $rsc) {
         dots: true,
         appendDots: $('.slider-dots-box'),
         dotsClass: 'slider-dots',
+        autoplay: true,
+        autoplaySpeed: 6000,
       });
 
 
