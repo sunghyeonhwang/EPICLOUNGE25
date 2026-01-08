@@ -309,7 +309,7 @@ if (defined('_INDEX_')) {  // index에서만 실행
         <!-- Slide 1 -->
         <div class="bg_slide_list bg_slide_list1">
           <video autoplay muted loop playsinline class="bg_video">
-            <source src="https://unrealsummit16.cafe24.com/2025/ue57/ue57bh.mp4" type="video/mp4">
+            <source src="https://cms-assets.unrealengine.com/AiKUh5PQCTaOFnmJDZJBfz/d66nnRxEQpatoaaSG3ww" type="video/mp4">
           </video>
           <div class="txt_wrap">
             <p class="bg_slide_title">에픽 메가그랜트</p>
@@ -321,7 +321,7 @@ if (defined('_INDEX_')) {  // index에서만 실행
         <!-- Slide 2 -->
         <div class="bg_slide_list bg_slide_list2">
           <video autoplay muted loop playsinline class="bg_video">
-            <source src="https://unrealsummit16.cafe24.com/2025/ufest25/3_fusion_2_re2.mp4" type="video/mp4">
+            <source src="https://cms-assets.unrealengine.com/AiKUh5PQCTaOFnmJDZJBfz/d66nnRxEQpatoaaSG3ww" type="video/mp4">
           </video>
           <div class="txt_wrap">
             <p class="bg_slide_title">언리얼 엔진 5</p>
