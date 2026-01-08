@@ -15,8 +15,6 @@ Thumbs.db
 
 # Backup files
 /v3/* copy.php
-/v3/*_.php
-/v3/index_*.php
 /v3/unrealfest24_*.php
 /v3/unrealfest24 copy*.php
 /v3/start_lsu2024 copy.php
