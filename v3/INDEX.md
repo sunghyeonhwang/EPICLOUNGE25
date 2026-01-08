@@ -90,3 +90,4 @@
   - **[Fix]** 텍스트 콘텐츠(메가그랜트 등)를 섹션 상하 기준으로 완벽하게 중앙 정렬 (상단 불필요 여백 제거).
   - **[Fix]** `main26.css`에서 잘못된 CSS import 수정 및 `.bg_slide_list_box` 높이 조정 (1px 이슈 해결).
   - **[Fix]** `main_layout26.css` 내부 문법 오류(`//` 주석) 수정 및 모바일/태블릿 높이 반응형 조정 (600px/640px).
+  - **[Design]** `.news_sec` 섹션 하단 여백(`margin-bottom: 50px`) 추가.
