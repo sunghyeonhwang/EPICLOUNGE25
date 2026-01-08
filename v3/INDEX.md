@@ -81,9 +81,9 @@
 
 - **파일**: `v3/index_revnew.php`, `v3/resource/css/main_layout26.css`
 - **내용**:
-  - `.bg_slide_box` 높이 **800px**로 변경.
+  - `.bg_slide_box` 높이 **600px**로 변경.
   - 기존 DB 연동 슬라이드를 **하드코딩된 비디오 슬라이드 2개**로 대체.
-  - 배경 영상(`.bg_video`), 텍스트 래퍼(`.txt_wrap`) 스타일 추가.
+  - 배경 영상(`.bg_video`) 암전 처리 강화 (rgba 0.7) 및 텍스트 래퍼(`.txt_wrap`) 스타일 추가.
   - 슬라이드 자동 재생(6초) 설정 추가.
   - **[Fix]** `main26.css`에서 잘못된 CSS import 수정 및 `.bg_slide_list_box` 높이 조정 (1px 이슈 해결).
   - **[Fix]** `main_layout26.css` 내부 문법 오류(`//` 주석) 수정 및 모바일/태블릿 높이 반응형 조정 (600px/640px).
