@@ -19,7 +19,6 @@ Thumbs.db
 /v3/unrealfest24 copy*.php
 /v3/start_lsu2024 copy.php
 /v3/start_lsu2025 copy.php
-/v3/live_channel_*.html
 /v3/application_* copy*.html
 
 # Common temp files
