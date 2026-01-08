@@ -1256,16 +1256,18 @@ img {
 	position: absolute;
 	top: 5px;
 	right: 0px;
-	border: 1px solid rgb(0, 220, 255);
-	border-radius: 0px;
-	padding: 7px 20px;
-	transition: all 0.75s ease 0s;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	padding: 5px 15px;
+	font-size: 14px;
+	color: #888;
+	transition: all 0.3s ease;
 }
 
 .news_sec .sec_title a:hover {
-	color: #565656;
-	border: 2px solid #00E0FF;
-	box-shadow: 0 0 12px rgb(0, 220, 255);
+	color: #333;
+	border: 1px solid #ccc;
+	background: #f9f9f9;
 }
 
 .news_sec .con {
@@ -1284,29 +1286,29 @@ img {
 
 .news_sec .con .list_box:nth-child(2) {}
 
-.news_sec .con .list_box .news_img {
+.news_sec .con .list_box .img_box {
 	position: relative;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 	display: inline-block;
-	border-radius: 15px
+	border-radius: 24px; /* 곡률 증가 */
 }
 
-.news_sec .con .list_box .news_img img {
+.news_sec .con .list_box .img_box img {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 	transform: scale(1.0);
-	transition: all 0.75s ease 0s;
+	transition: all 0.4s ease-in-out;
 }
 
-.news_sec .con .list_box a:hover .news_img img {
-	transform: scale(1.1);
-	transition: all 0.75s ease 0s;
+.news_sec .con .list_box a:hover .img_box img {
+	transform: scale(1.08); /* 약간 커짐 */
+	filter: contrast(1.15) brightness(0.85); /* 진해짐(콘트라스트 강화) */
 }
 
-.news_sec .con .list_box .news_img:before {
+.news_sec .con .list_box .img_box:before {
 	width: 100%;
 	height: 100%;
 	display: inline-block;
@@ -1315,7 +1317,7 @@ img {
 	left: 0px;
 	opacity: 0.3;
 	z-index: 2;
-	transition: all 0.75s ease 0s;
+	transition: all 0.4s ease-in-out;
 }
 
 /* .news_sec .con .list_box .news_img:before {background: rgb(0,50,80); background: linear-gradient(180deg, rgba(0,50,80,1) 0%, rgba(160,150,220,1) 100%); width:100%; height:100%; display:inline-block; position:absolute; top:0px; left:0px; opacity:0.3; z-index:2; transition: all 0.75s ease 0s;} */
@@ -1591,16 +1593,18 @@ img {
 	position: absolute;
 	top: 5px;
 	right: 0px;
-	border: 1px solid rgb(0, 220, 255);
-	border-radius: 0px;
-	padding: 7px 20px;
-	transition: all 0.75s ease 0s;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	padding: 5px 15px;
+	font-size: 14px;
+	color: #888;
+	transition: all 0.3s ease;
 }
 
 .resource_list .resource_title a:hover {
-	color: #565656;
-	border: 2px solid #00E0FF;
-	box-shadow: 0 0 12px rgb(0, 220, 255);
+	color: #333;
+	border: 1px solid #ccc;
+	background: #f9f9f9;
 }
 
 .resource_list .con {
@@ -1661,7 +1665,7 @@ img {
 }
 
 .resource_list .con .list_box .text_box .title {
-	font-size: 16px;
+	font-size: 18px;
 	color: #000;
 	font-weight: bold;
 	margin: 5px 0 10px

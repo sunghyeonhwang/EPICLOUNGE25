@@ -283,6 +283,8 @@
 	width: 224px;
 	height: 36px;
 	border: 1px solid #d7d7d7;
+	border-radius: 20px;
+	overflow: hidden;
 }
 
 #header .top_search_btn_box form input {
@@ -292,7 +294,8 @@
 	float: left;
 	border: none;
 	line-height: 32px;
-	padding: 0 10px
+	padding: 0 10px;
+	outline: none;
 }
 
 #header .top_search_btn_box form button {
@@ -837,13 +840,16 @@
 		display: inline-block;
 		background: #fff;
 		padding: 10px 10px;
+		border-radius: 20px;
+		border: 1px solid #eee;
 	}
 
 	.m_top_search_btn_box .top_search_box input {
 		width: calc(100% - 30px);
 		vertical-align: top;
 		border: none;
-		display: inline-block
+		display: inline-block;
+		outline: none;
 	}
 
 	.m_top_search_btn_box .top_search_box button img {

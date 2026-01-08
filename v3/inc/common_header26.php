@@ -6,7 +6,7 @@ $url = 'http://' . $http_host . $request_uri;
 <div class="accessibility"><a href="#n">본문 바로가기</a></div>
 <header id="header">
 	<div class="wrap">
-		<h1 class="logo"><a class="logo_img" href="/index.php"><img src="/resource/images/common/logo.svg" /></a></h1>
+		<h1 class="logo"><a class="logo_img" href="/index.php"><img src="/resource/images/common/logo_new.svg" /></a></h1>
 		
 		<div class="top_search_btn_box">
 			<form action="/contents/total_search.php" name="frm_total_sc" id="frm_total_sc">
@@ -68,13 +68,13 @@ $url = 'http://' . $http_host . $request_uri;
 
 					<div class="lnb_banner">
 		<?
-			$rsc_banner_result = sql_query("select * from v3_shop_banner where bn_position = '상단-새소식' order by bn_id desc limit 1");
-			foreach($rsc_banner_result as $banner_row){
-				$bn_img = G5_DATA_URL.'/banner/'.$banner_row['bn_id'];
-		?>
-							<a href="<?=$banner_row["bn_url"]?>"><img src="<?=$bn_img?>" width="500" height="170" /></a>
+		$rsc_banner_result = sql_query("select * from v3_shop_banner where bn_position = '상단-새소식' order by bn_id desc limit 1");
+		foreach ($rsc_banner_result as $banner_row) {
+			$bn_img = G5_DATA_URL . '/banner/' . $banner_row['bn_id'];
+			?>
+							<a href="<?= $banner_row['bn_url'] ?>"><img src="<?= $bn_img ?>" width="500" height="170" /></a>
 		<?
-			}
+		}
 		?>
 					</div>
 				</div>
@@ -97,13 +97,13 @@ $url = 'http://' . $http_host . $request_uri;
 					</div>
 					<div class="lnb_banner">
 		<?
-			$rsc_banner_result = sql_query("select * from v3_shop_banner where bn_position = '상단-이벤트' order by bn_id desc limit 1");
-			foreach($rsc_banner_result as $banner_row){
-				$bn_img = G5_DATA_URL.'/banner/'.$banner_row['bn_id'];
-		?>
-							<a href="<?=$banner_row["bn_url"]?>"><img src="<?=$bn_img?>" width="500" height="170" /></a>
+		$rsc_banner_result = sql_query("select * from v3_shop_banner where bn_position = '상단-이벤트' order by bn_id desc limit 1");
+		foreach ($rsc_banner_result as $banner_row) {
+			$bn_img = G5_DATA_URL . '/banner/' . $banner_row['bn_id'];
+			?>
+							<a href="<?= $banner_row['bn_url'] ?>"><img src="<?= $bn_img ?>" width="500" height="170" /></a>
 		<?
-			}
+		}
 		?>
 					</div>
 				</div>
@@ -129,13 +129,13 @@ $url = 'http://' . $http_host . $request_uri;
 					</div>
 					<div class="lnb_banner">
 		<?
-			$rsc_banner_result = sql_query("select * from v3_shop_banner where bn_position = '상단-리소스' order by bn_id desc limit 1");
-			foreach($rsc_banner_result as $banner_row){
-				$bn_img = G5_DATA_URL.'/banner/'.$banner_row['bn_id'];
-		?>
-							<a href="<?=$banner_row["bn_url"]?>"><img src="<?=$bn_img?>" width="500" height="170" /></a>
+		$rsc_banner_result = sql_query("select * from v3_shop_banner where bn_position = '상단-리소스' order by bn_id desc limit 1");
+		foreach ($rsc_banner_result as $banner_row) {
+			$bn_img = G5_DATA_URL . '/banner/' . $banner_row['bn_id'];
+			?>
+							<a href="<?= $banner_row['bn_url'] ?>"><img src="<?= $bn_img ?>" width="500" height="170" /></a>
 		<?
-			}
+		}
 		?>
 					</div>
 				</div>

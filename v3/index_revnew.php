@@ -2,10 +2,10 @@
 
 // 현재 호스트명이 www.epiclounge.co.kr 인지 확인
 if ($_SERVER['HTTP_HOST'] === 'www.epiclounge.co.kr') {
-    // 강제로 epiclounge.co.kr로 301 리디렉션
-    $redirect = 'https://epiclounge.co.kr' . $_SERVER['REQUEST_URI'];
-    header('Location: ' . $redirect, true, 301);
-    exit();
+  // 강제로 epiclounge.co.kr로 301 리디렉션
+  $redirect = 'https://epiclounge.co.kr' . $_SERVER['REQUEST_URI'];
+  header('Location: ' . $redirect, true, 301);
+  exit();
 }
 
 $g5_path = 'board';
@@ -119,6 +119,14 @@ include_once ('board/lib/latest.lib.php');
     }
   </style>
   <link rel="stylesheet" href="/v3/resource/css/main26.css">
+  <style>
+    /* Prevent SplitText flicker */
+    .bg_slide_box .bg_slide_title, 
+    .bg_slide_box .bg_slide_text {
+      visibility: hidden;
+      opacity: 0;
+    }
+  </style>
 
   <script src="/v3/resource/js/jquery-3.4.1.min.js"></script>
   <script src="/v3/resource/js/slick.min.js"></script>
@@ -130,12 +138,12 @@ include_once ('board/lib/latest.lib.php');
 
 
   <?php
-include_once ('./_common.php');
+  include_once ('./_common.php');
 
-define('_INDEX_', true);
-if (!defined('_GNUBOARD_'))
+  define('_INDEX_', true);
+  if (!defined('_GNUBOARD_'))
     exit;  // 개별 페이지 접근 불가
-?>
+  ?>
 
 
   <!-- <div id="quick_banner">
@@ -150,10 +158,10 @@ if (!defined('_GNUBOARD_'))
 
 
   <?php
-if (defined('_INDEX_')) {  // index에서만 실행
+  if (defined('_INDEX_')) {  // index에서만 실행
     include G5_BBS_PATH . '/newwin.inc.php';  // 팝업레이어
-}
-?>
+  }
+  ?>
   <?php include 'inc/common_header26.php'; ?>
   <!-- container -->
   <div class="container">
@@ -283,7 +291,7 @@ if (defined('_INDEX_')) {  // index에서만 실행
 
             $main_news_result = sql_query("select * from v3_main_banner_news where bn_use_at = 'Y' order by bn_id desc limit 3");
             foreach ($main_news_result as $news) {
-                ?>
+              ?>
             <div class="list_box">
               <a href="<?= $news['bn_url'] ?>" target="_blank">
                 <div class="img_box">
@@ -346,9 +354,9 @@ if (defined('_INDEX_')) {  // index에서만 실행
         <div class="con">
           <?
 
-$main_rsc_result = sql_query("select * from v3_main_banner_rsc where bn_use_at = 'Y' order by bn_id desc limit 6");
-foreach ($main_rsc_result as $rsc) {
-    ?>
+          $main_rsc_result = sql_query("select * from v3_main_banner_rsc where bn_use_at = 'Y' order by bn_id desc limit 6");
+          foreach ($main_rsc_result as $rsc) {
+            ?>
           <div class="list_box">
             <a href="<?= $rsc['bn_url'] ?>" target="_blank">
               <div class="img_box">
@@ -362,15 +370,82 @@ foreach ($main_rsc_result as $rsc) {
             </a>
           </div>
           <?
-}
-?>
+          }
+          ?>
         </div>
       </div>
     </section>
 
 
+    <!-- GSAP 3 & SplitText Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Note: SplitText is a paid plugin. Use your licensed version here. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
+
     <script>
-      $('.bg_slide_list_box').slick({
+      let splitTitle, splitText;
+
+      function animateBgSlideText(activeSlide) {
+        const title = activeSlide.find('.bg_slide_title');
+        const text = activeSlide.find('.bg_slide_text');
+
+        // Kill any ongoing tweens
+        gsap.killTweensOf([title, text]);
+        if (splitTitle) { splitTitle.revert(); splitTitle = null; }
+        if (splitText) { splitText.revert(); splitText = null; }
+
+        // Initial setup for the SplitText or animation
+        gsap.set([title, text], { autoAlpha: 0, visibility: "visible" });
+
+        // Force a small delay to ensure DOM is ready and styles are applied
+        requestAnimationFrame(() => {
+          if (window.SplitText) {
+            splitTitle = new SplitText(title, { type: "chars, words" });
+            splitText = new SplitText(text, { type: "words" });
+
+            gsap.set([title, text], { autoAlpha: 1 });
+
+            gsap.from(splitTitle.chars, {
+              duration: 0.8,
+              y: 50,
+              autoAlpha: 0,
+              stagger: 0.04,
+              ease: "power4.out",
+              overwrite: "auto"
+            });
+
+            gsap.from(splitText.words, {
+              duration: 0.8,
+              autoAlpha: 0,
+              y: 30,
+              stagger: 0.08,
+              ease: "power2.out",
+              delay: 0.4,
+              overwrite: "auto"
+            });
+          } else {
+            // Fallback if SplitText is missing
+            gsap.to([title, text], { 
+              duration: 0.8, 
+              y: 0, 
+              autoAlpha: 1, 
+              stagger: 0.2,
+              ease: "power2.out",
+              startAt: { y: 20, autoAlpha: 0 }
+            });
+          }
+        });
+      }
+
+      const $bgSlider = $('.bg_slide_list_box');
+
+      $bgSlider.on('init', function(event, slick) {
+        const firstSlide = $(slick.$slides[0]);
+        // Slight delay to wait for initial page load/CSS
+        setTimeout(() => animateBgSlideText(firstSlide), 600);
+      });
+
+      $bgSlider.slick({
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: true,
@@ -379,8 +454,23 @@ foreach ($main_rsc_result as $rsc) {
         dotsClass: 'slider-dots',
         autoplay: true,
         autoplaySpeed: 6000,
+        fade: true,
+        cssEase: 'cubic-bezier(0.7, 0, 0.3, 1)',
+        speed: 800
       });
 
+      $bgSlider.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+        // Hide currently active slide's text immediately when transition starts
+        const currentSlideElem = $(slick.$slides[currentSlide]);
+        const nextSlideElem = $(slick.$slides[nextSlide]);
+        gsap.set(currentSlideElem.find('.bg_slide_title, .bg_slide_text'), { autoAlpha: 0 });
+        gsap.set(nextSlideElem.find('.bg_slide_title, .bg_slide_text'), { autoAlpha: 0 });
+      });
+
+      $bgSlider.on('afterChange', function(event, slick, currentSlide) {
+        const activeSlide = $(slick.$slides[currentSlide]);
+        animateBgSlideText(activeSlide);
+      });
 
       $(".visual_slide").slick({
         slidesToShow: 1,
