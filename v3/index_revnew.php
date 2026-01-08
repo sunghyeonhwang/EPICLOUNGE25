@@ -137,7 +137,7 @@ include_once ('board/lib/latest.lib.php');
   <script src="/v3/resource/js/jquery.menu.min.js"></script>
   <script src="/v3/resource/js/jquery.responsive.min.js"></script>
   <script src="/v3/resource/js/common.js"></script>
-  <script src="/v3/resource/js/main.js"></script>
+  <script src="/v3/resource/js/main26.js"></script>
 
   <style>
     /* Cinematic Hero Styles */
@@ -202,6 +202,10 @@ include_once ('board/lib/latest.lib.php');
       letter-spacing: -2px;
       line-height: 1.1;
       opacity: 0;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .hero-title img {
@@ -216,9 +220,10 @@ include_once ('board/lib/latest.lib.php');
 
     .hero-cta a {
       display: inline-block;
-      padding: 16px 45px;
-      border-radius: 50px;
-      background: linear-gradient(90deg, #00D3C3, #2842E6);
+      padding: 14px 60px;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid #A7A7A7;
       color: #fff;
       font-weight: 700;
       text-decoration: none;
@@ -226,6 +231,8 @@ include_once ('board/lib/latest.lib.php');
     }
     
     .hero-cta a:hover {
+      background: #fff;
+      color: #000;
       transform: translateY(-3px);
     }
 
@@ -237,13 +244,31 @@ include_once ('board/lib/latest.lib.php');
     }
     .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
     
-    .swiper-pagination-bullet {
-      background: #fff;
-      opacity: 0.3;
+    /* Custom Pagination (Simple Dots) */
+    .swiper-custom-pagination {
+      position: absolute;
+      bottom: 50px !important;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      z-index: 1000;
+      pointer-events: none;
     }
-    .swiper-pagination-bullet-active {
+    .swiper-custom-pagination .swiper-pagination-bullet {
+      width: 12px;
+      height: 12px;
+      background: #888; /* 회색 */
+      border-radius: 50%;
       opacity: 1;
-      background: #00D3C3;
+      margin: 0 8px !important;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: background-color 0.3s ease;
+    }
+    .swiper-custom-pagination .swiper-pagination-bullet:hover,
+    .swiper-custom-pagination .swiper-pagination-bullet-active {
+      background: #fff; /* 호버 및 활성 시 흰색 */
     }
 
     @media (max-width: 768px) {
@@ -286,7 +311,7 @@ include_once ('board/lib/latest.lib.php');
       <div class="swiper-wrapper">
         
         <!-- Slide 1: UE57 -->
-        <div class="swiper-slide">
+        <div class="swiper-slide" data-swiper-autoplay="12000">
           <div class="hero-bg">
             <video autoplay loop muted playsinline>
               <source src="https://unrealsummit16.cafe24.com/2025/ue57/ue57bh.mp4" type="video/mp4">
@@ -295,15 +320,15 @@ include_once ('board/lib/latest.lib.php');
           </div>
           <div class="hero-content">
             <div class="hero-title">
-              <img src="https://unrealsummit16.cafe24.com/2025/ue57/ue57img_text.png" alt="UE57" style="width: 560px;">
+              <img src="https://unrealsummit16.cafe24.com/main_visual_image_2026/main_visual_new1.svg" alt="UE57" style="width: 800px;">
             </div>
-            <div class="hero-cta" style="margin-top: 40px;">
+            <div class="hero-cta" style="margin-top: 0;">
               <a href="https://epiclounge.co.kr/ue57.php" target="_blank">다시보기</a>
             </div>
           </div>
         </div>
         <!-- Slide 2: Epic Lounge Replay -->
-        <div class="swiper-slide">
+        <div class="swiper-slide" data-swiper-autoplay="7000">
           <div class="hero-bg">
             <video autoplay loop muted playsinline style="filter: brightness(0.6) contrast(1.2);">
               <source src="https://unrealsummit16.cafe24.com/2025/ufest25/3_fusion_2_re2.mp4" type="video/mp4">
@@ -312,15 +337,15 @@ include_once ('board/lib/latest.lib.php');
           </div>
           <div class="hero-content">
             <div class="hero-title">
-              <img src="https://unrealsummit16.cafe24.com/2025/ufest25/main_visual_lounge_re1215.svg" alt="Lounge Replay" style="width: 800px;">
+              <img src="https://unrealsummit16.cafe24.com/main_visual_image_2026/main_visual_new2.svg" alt="Lounge Replay" style="width: 800px;">
             </div>
-            <div class="hero-cta" style="margin-top: 40px;">
-              <a href="https://epiclounge.co.kr/contents/replay.php" target="_blank" style="background: linear-gradient(231deg, #FFC481, #00D3C3, #2842E6);">다시보기</a>
+            <div class="hero-cta" style="margin-top: 0;">
+              <a href="https://epiclounge.co.kr/contents/replay.php" target="_blank">다시보기</a>
             </div>
           </div>
         </div>
         <!-- Slide 3: Start Twin Unreal -->
-        <div class="swiper-slide">
+        <div class="swiper-slide" data-swiper-autoplay="7000">
           <div class="hero-bg">
             <video autoplay loop muted playsinline>
               <source src="https://unrealsummit16.cafe24.com/2025/start_twinunreal/lsu_2025_bg.mp4" type="video/mp4">
@@ -329,9 +354,9 @@ include_once ('board/lib/latest.lib.php');
           </div>
           <div class="hero-content">
             <div class="hero-title">
-              <img src="https://unrealsummit16.cafe24.com/2025/sou/start_twue_lounge_3.svg" alt="Start Twin Unreal" style="width: 800px;">
+              <img src="https://unrealsummit16.cafe24.com/main_visual_image_2026/main_visual_new3.svg" alt="Start Twin Unreal" style="width: 800px;">
             </div>
-            <div class="hero-cta" style="margin-top: 40px;">
+            <div class="hero-cta" style="margin-top: 0;">
               <a href="http://epiclounge.co.kr/start_lsu2025.php" target="_blank">다시보기</a>
             </div>
           </div>
@@ -339,7 +364,7 @@ include_once ('board/lib/latest.lib.php');
 
       </div>
       <!-- Controls -->
-      <div class="swiper-pagination"></div>
+      <div class="swiper-custom-pagination"></div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
     </section>
@@ -593,7 +618,7 @@ include_once ('board/lib/latest.lib.php');
           disableOnInteraction: false,
         },
         pagination: {
-          el: '.swiper-pagination',
+          el: '.swiper-custom-pagination',
           clickable: true,
         },
         navigation: {
