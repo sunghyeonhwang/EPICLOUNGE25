@@ -1391,7 +1391,7 @@ img {
 	width: 100%;
 	display: inline-block;
 	vertical-align: top;
-	height: 600px !important;
+	height: 540px !important;
 	padding-top: 0px;
 	background-color: #fff;
 	background-repeat: no-repeat;
@@ -1437,7 +1437,7 @@ img {
 }
 
 .bg_slide_box .slick-slide {
-	height: 600px !important;
+	height: 540px !important;
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -1787,7 +1787,7 @@ img {
 	}
 
 	.bg_slide_list_box {
-		height: 640px
+		height: 500px
 	}
 
 	.bg_slide_box .slider-dots-box .slider-dots li {
@@ -1800,7 +1800,7 @@ img {
 	}
 
 	.bg_slide_box .slick-slide {
-		height: 600px
+		height: 500px
 	}
 
 	.bg_slide_box .bg_slide_list1 .bg_slide_title,
