@@ -12,6 +12,7 @@ Thumbs.db
 !/v3/data/index.php
 !/v3/data/.htaccess
 /v3/data/dbconfig.php
+/v3/adm/r2_config.php
 
 # Backup files
 /v3/* copy.php

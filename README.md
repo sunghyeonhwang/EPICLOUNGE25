@@ -109,6 +109,102 @@
   - CSS Scope를 `.vm-container`로 제한하여 관리자 공통 디자인(로그인 등) 간섭 원천 차단.
   - `admin.menu900.php` 메뉴 하이라이트 오류(ID 불일치) 수정.
 
+### 6. Cloudflare R2 통합 및 파일 업로드 시스템 구축 (2026.01.09)
+
+- **Cloudflare R2 Object Storage 통합**:
+  - **AWS S3 호환 API 연동**: Cloudflare R2 버킷(`epiclounge-assets`)을 AWS S3 Signature Version 4 인증 방식으로 연동하여 안전하게 파일 업로드.
+  - **r2_config.php 설정 파일**:
+    - Account ID, Access Key, Secret Key 등 R2 API 인증 정보 중앙 관리.
+    - 커스텀 도메인(`files.epiclounge.co.kr`) 및 기본 경로(`mainvisual`) 설정.
+    - `.gitignore`에 등록하여 보안 유지.
+  - **r2_uploader.php 업로드 핸들러**:
+    - PHP 7 호환 cURL 기반 S3 API 직접 구현 (AWS SDK 불사용).
+    - MIME 타입 검증(`finfo`) 및 파일 확장자 이중 체크로 보안 강화.
+    - 이미지(`main_image/`), 영상(`main_movie/`), 기타(`others/`) 자동 분류 업로드.
+    - 파일 크기 제한 (100MB) 및 허용 파일 타입 화이트리스트 검증.
+    - S3 Virtual-Hosted-Style 엔드포인트 구조 적용 (`bucket.account_id.r2.cloudflarestorage.com`).
+
+- **비주얼 관리 UI 파일 업로드 기능 통합**:
+  - **AJAX 기반 R2 업로드**:
+    - `visual_main.php`에서 "R2 업로드" 버튼 클릭 시 파일 선택 후 즉시 R2 버킷에 업로드.
+    - 업로드 완료 시 URL을 입력 필드에 자동 입력하고 초록색 하이라이트 피드백 제공.
+    - 페이지 리로드 없이 미리보기 영역을 동적으로 업데이트 (`update_preview()` 함수).
+  - **동적 미리보기 시스템**:
+    - 업로드한 이미지/영상을 즉시 미리보기 영역에 렌더링.
+    - 영상의 경우 재생/일시정지 컨트롤 버튼 제공 (`toggle_vid()` 함수).
+    - 파일 확장자 기반 타입 판별 (mp4, webm, jpg, png, gif, webp, svg 등).
+
+- **데이터베이스 구조 자동 검증 및 복구**:
+  - **동적 스키마 검증**:
+    - `visual_main.php` 로드 시 `v3_visual_main` 테이블 존재 여부 확인 (`SHOW TABLES`).
+    - 테이블이 없으면 전체 구조를 자동 생성 (11개 컬럼 포함).
+  - **누락 컬럼 자동 추가**:
+    - `SHOW COLUMNS`로 현재 테이블 구조 확인.
+    - `vm_bg_type`, `vm_title_img`, `vm_title_text`, `vm_reg_dt` 등 누락된 컬럼 자동 `ALTER TABLE` 실행.
+    - 기존 데이터 보존하면서 스키마 업그레이드 가능.
+  - **에러 처리**:
+    - ERROR 1050 (테이블 중복 생성) 및 ERROR 1054 (Unknown column) 완전 해결.
+    - `@sql_query()`로 경고 억제 처리.
+
+- **슬라이드 추가 프로세스 개선**:
+  - **AJAX 기반 슬라이드 추가**:
+    - 기존 GET 방식의 페이지 리다이렉트 제거.
+    - `visual_main_process.php` 생성하여 POST 기반 AJAX 엔드포인트 구현.
+    - JSON 응답 (`success`, `message`, `vm_id`) 반환.
+  - **페이지 깜박임 제거**:
+    - `add_new_slide()` 함수에서 AJAX 요청 후 `location.reload()`로 새 슬라이드 표시.
+    - 기존 GET 방식의 `alert()` 팝업 및 페이지 전환 깜박임 완전 제거.
+  - **순서 자동 관리**:
+    - 새 슬라이드 추가 시 기존 슬라이드의 `vm_order`를 +1씩 자동 증가.
+    - 신규 슬라이드는 항상 첫 번째(`vm_order = 1`) 위치에 삽입.
+
+- **보안 및 에러 처리**:
+  - **XSS/SQL Injection 방지**:
+    - 파일명 sanitize (`preg_replace('/[^a-zA-Z0-9._-]/', '')`).
+    - URL 파라미터 검증 및 `clean_xss_tags()` 활용.
+  - **상세 에러 로깅**:
+    - R2 업로드 실패 시 HTTP 상태 코드 및 응답 본문 로깅 (`error_log()`).
+    - MySQL 에러 번호 및 메시지를 JSON 응답에 포함하여 디버깅 용이.
+  - **권한 체크**:
+    - 모든 관리자 페이지에서 로그인 여부 확인 (`$member['mb_id']`).
+    - AJAX 엔드포인트에서도 동일한 권한 검증 수행.
+
+- **Cafe24 DNS 연동 및 커스텀 도메인 설정**:
+  - **DNS CNAME 레코드 설정**:
+    - Cafe24 호스팅 DNS에 `files` 서브도메인 추가.
+    - CNAME 값: `pub-e146610a86e7463197d2876a9fc65330.r2.dev` (R2 Public Development URL).
+  - **Cloudflare R2 Custom Domain 연결**:
+    - R2 버킷 설정에서 `files.epiclounge.co.kr` 커스텀 도메인 연결.
+    - DNS 전파 후 `https://files.epiclounge.co.kr/mainvisual/...` 형식으로 파일 접근 가능.
+  - **Public Access 설정**:
+    - R2 버킷의 Public Access 허용 및 CORS 정책 설정 완료.
+
+- **파일 경로 체계**:
+  - **R2 버킷 구조**:
+    ```
+    epiclounge-assets/
+    └── mainvisual/
+        ├── main_image/     # 이미지 파일 (jpg, png, gif, webp, svg)
+        ├── main_movie/     # 영상 파일 (mp4, webm, mov, avi)
+        └── others/         # 기타 파일
+    ```
+  - **타임스탬프 파일명**:
+    - 업로드 시 파일명 앞에 Unix timestamp 추가 (`time() . '_' . filename`).
+    - 동일 파일명 충돌 방지 및 버전 관리 용이.
+
+- **신규 파일**:
+  - `v3/adm/r2_config.php`: R2 API 인증 정보 및 커스텀 도메인 설정.
+  - `v3/adm/r2_uploader.php`: R2 S3 API 업로드 핸들러 (cURL 기반).
+  - `v3/adm/visual_main_process.php`: 슬라이드 추가 AJAX 엔드포인트.
+
+- **수정된 파일**:
+  - `v3/adm/visual_main.php`:
+    - DB 스키마 자동 검증 및 복구 로직 추가 (라인 28-68).
+    - R2 업로드 AJAX 통합 (라인 569-642).
+    - 동적 미리보기 업데이트 함수 추가 (라인 647-695).
+    - 슬라이드 추가 AJAX 함수 구현 (라인 612-634).
+  - `.gitignore`: `v3/adm/r2_config.php` 추가하여 API 키 보안 유지.
+
 ---
 
 ## /v3/adm 디렉토리 및 메뉴 구조

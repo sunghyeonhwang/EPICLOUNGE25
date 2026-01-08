@@ -1,25 +1,71 @@
 <?php
+// 에러 표시 활성화 (임시 디버깅)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $sub_menu = '900100';
 include_once ('./_common.php');
 
-auth_check($auth[$sub_menu], 'w');
+// 권한 체크 (배열이 없을 경우 대비)
+if (isset($auth[$sub_menu])) {
+    auth_check($auth[$sub_menu], 'w');
+} else {
+    // 로그인 여부만 체크
+    if (!isset($member['mb_id']) || $member['mb_id'] == '') {
+        alert('로그인이 필요합니다.');
+    }
+}
 
-// 테이블 생성 (없을 경우)
-$sql = " CREATE TABLE IF NOT EXISTS v3_visual_main (
-    vm_id int(11) NOT NULL AUTO_INCREMENT,
-    vm_bg_type varchar(10) NOT NULL DEFAULT 'video',
-    vm_bg_url text NOT NULL,
-    vm_title_img text NOT NULL,
-    vm_title_text text NOT NULL,
-    vm_btn_text varchar(255) NOT NULL,
-    vm_link_url text NOT NULL,
-    vm_display tinyint(4) NOT NULL DEFAULT '1',
-    vm_order int(11) NOT NULL DEFAULT '0',
-    vm_duration int(11) NOT NULL DEFAULT '5000',
-    vm_reg_dt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (vm_id)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ";
-sql_query($sql);
+$w = isset($_REQUEST['w']) ? $_REQUEST['w'] : '';
+$vm_id = isset($_REQUEST['vm_id']) ? (int) $_REQUEST['vm_id'] : 0;
+
+// 디버깅 (임시)
+if ($w == 'add_form') {
+    error_log('Visual Main: add_form 요청 받음');
+}
+
+// 테이블 구조 확인 및 재생성
+$check_table = sql_query("SHOW TABLES LIKE 'v3_visual_main'", false);
+if (!sql_num_rows($check_table)) {
+    // 테이블이 없으면 생성
+    $sql = " CREATE TABLE v3_visual_main (
+        vm_id int(11) NOT NULL AUTO_INCREMENT,
+        vm_bg_type varchar(10) NOT NULL DEFAULT 'video',
+        vm_bg_url text NOT NULL,
+        vm_title_img text NOT NULL,
+        vm_title_text text NOT NULL,
+        vm_btn_text varchar(255) NOT NULL,
+        vm_link_url text NOT NULL,
+        vm_display tinyint(4) NOT NULL DEFAULT '1',
+        vm_order int(11) NOT NULL DEFAULT '0',
+        vm_duration int(11) NOT NULL DEFAULT '5000',
+        vm_reg_dt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (vm_id)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ";
+    sql_query($sql);
+} else {
+    // 테이블이 있으면 구조 확인 (누락된 컬럼 추가)
+    $columns = [];
+    $result = sql_query("SHOW COLUMNS FROM v3_visual_main", false);
+    while ($row = sql_fetch_array($result)) {
+        $columns[] = $row['Field'];
+    }
+
+    // 필요한 컬럼들이 있는지 확인하고 없으면 추가
+    if (!in_array('vm_bg_type', $columns)) {
+        @sql_query("ALTER TABLE v3_visual_main ADD vm_bg_type varchar(10) NOT NULL DEFAULT 'video'");
+    }
+    if (!in_array('vm_title_img', $columns)) {
+        @sql_query("ALTER TABLE v3_visual_main ADD vm_title_img text NOT NULL");
+    }
+    if (!in_array('vm_title_text', $columns)) {
+        @sql_query("ALTER TABLE v3_visual_main ADD vm_title_text text NOT NULL");
+    }
+    if (!in_array('vm_reg_dt', $columns)) {
+        @sql_query("ALTER TABLE v3_visual_main ADD vm_reg_dt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP");
+    }
+}
 
 // 초기 데이터 (테이블이 비어있을 경우만)
 $row = sql_fetch(' select count(*) as cnt from v3_visual_main ');
@@ -40,7 +86,16 @@ if ($row['cnt'] == 0) {
     }
 }
 
-// 폼 처리
+// 새 슬라이드 추가는 visual_main_process.php에서 AJAX로 처리
+
+// 개별 삭제 (GET 방식)
+if ($w == 'd' && $vm_id) {
+    sql_query(" delete from v3_visual_main where vm_id = '{$vm_id}' ");
+    alert('삭제되었습니다.', './visual_main.php');
+    exit; // 스크립트 종료
+}
+
+// 폼 처리 (POST 방식)
 if ($_POST['w'] == 'u') {
     // 선택 삭제
     if ($_POST['act_button'] == '선택삭제') {
@@ -52,6 +107,7 @@ if ($_POST['w'] == 'u') {
             sql_query($sql);
         }
         alert('선택한 슬라이드가 삭제되었습니다.', './visual_main.php');
+        exit; // 스크립트 종료
     }
     // 일괄 수정/저장
     else {
@@ -83,34 +139,8 @@ if ($_POST['w'] == 'u') {
             sql_query($sql);
         }
         alert('성공적으로 저장되었습니다.', './visual_main.php');
+        exit; // 스크립트 종료
     }
-} else if ($_POST['w'] == 'd') {
-    // 개별 삭제
-    $vm_id = $_POST['vm_id'];  // GET 변수명이 아니라 input hidden값이 안넘어올수도 있으므로 확인 필요. 보통은 GET으로 처리.
-}
-
-if ($_GET['w'] == 'd' && $_GET['vm_id']) {
-    $del_id = $_GET['vm_id'];
-    sql_query(" delete from v3_visual_main where vm_id = '{$del_id}' ");
-    alert('삭제되었습니다.', './visual_main.php');
-}
-
-if ($_GET['w'] == 'add_form') {
-    sql_query(' UPDATE v3_visual_main SET vm_order = vm_order + 1 ');
-    $sql = " insert into v3_visual_main set 
-            vm_bg_type = 'video',
-            vm_bg_url = '',
-            vm_title_img = '',
-            vm_title_text = '',
-            vm_btn_text = '',
-            vm_link_url = '',
-            vm_display = 1,
-            vm_order = 1,
-            vm_duration = 5000,
-            vm_reg_dt = '" . G5_TIME_YMDHIS . "'
-    ";
-    sql_query($sql);
-    goto_url('./visual_main.php');
 }
 
 // 목록 조회
@@ -144,7 +174,8 @@ include_once (G5_ADMIN_PATH . '/admin.head.php');
         --input-bg: #F3F4F6;
     }
 
-    .vm-container { font-family: 'Pretendard', sans-serif; color: var(--text-main); padding: 20px; max-width: 1400px; margin: 0 auto; }
+    #wrapper { height: auto !important; min-height: 100%; }
+    .vm-container { font-family: 'Pretendard', sans-serif; color: var(--text-main); padding: 20px; max-width: 1400px; margin: 0 auto; min-height: 800px; padding-bottom: 150px; }
     
     /* 카드 관리자 내 통제 */
     .vm-container * { box-sizing: border-box; }
@@ -285,8 +316,22 @@ include_once (G5_ADMIN_PATH . '/admin.head.php');
         display: flex; align-items: center; justify-content: center;
         overflow: hidden; position: relative;
     }
-    .preview-thumb { max-height: 90%; max-width: 90%; object-fit: contain; }
-    .preview-placeholder { font-size: 13px; color: #777; }
+    .preview-area video { width: 100%; height: 100%; object-fit: contain; }
+    
+    /* Video Controls Overlay */
+    .video-overlay {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.2s;
+        pointer-events: none;
+    }
+    .preview-area:hover .video-overlay { opacity: 1; pointer-events: auto; }
+    .vid-ctrl-btn {
+        width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.9);
+        color: #333; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; border: none; font-size: 18px; transition: all 0.2s;
+    }
+    .vid-ctrl-btn:hover { transform: scale(1.1); background: #fff; }
 
     /* Delete Action */
     .card-actions {
@@ -368,10 +413,10 @@ include_once (G5_ADMIN_PATH . '/admin.head.php');
 
         <div class="action-bar">
              <div class="action-left">
-                 <a href="./visual_main.php?w=add_form" class="btn-lg btn-new">+ 새 슬라이드 추가</a>
-                 <button type="button" class="btn-lg btn-del" onclick="if(confirm('선택한 항목을 삭제하시겠습니까?')) document.fvisualmain.submit();">선택 삭제</button>
+                 <button type="button" class="btn-lg btn-new" onclick="add_new_slide()">+ 새 슬라이드 추가</button>
+                 <button type="button" class="btn-lg btn-del" onclick="if(confirm('선택한 항목을 삭제하시겠습니까?')) { document.getElementById('act_button').value = '선택삭제'; document.fvisualmain.submit(); }">선택 삭제</button>
              </div>
-             <button type="button" class="btn-lg btn-save" onclick="document.fvisualmain.submit();">변경사항 저장</button>
+             <button type="submit" form="fvisualmain" class="btn-lg btn-save">변경사항 저장</button>
         </div>
     </header>
 
@@ -393,7 +438,7 @@ include_once (G5_ADMIN_PATH . '/admin.head.php');
                 <input type="checkbox" name="chk[]" value="<?php echo $i; ?>" class="chk-box">
                 <div style="flex:1;"></div>
                 <i class="fa-solid fa-grip-vertical drag-icon"></i>
-                <span class="seq-num"><?php echo $row['vm_order']; ?></span>
+                <span class="seq-num"><?php echo $i + 1; ?></span>
                 <div style="flex:1;"></div>
                 <input type="hidden" name="vm_order[<?php echo $i; ?>]" value="<?php echo $row['vm_order']; ?>">
             </div>
@@ -429,6 +474,12 @@ include_once (G5_ADMIN_PATH . '/admin.head.php');
                         <span class="control-label">링크 URL</span>
                         <input type="text" name="vm_link_url[<?php echo $i; ?>]" value="<?php echo $row['vm_link_url']; ?>" class="vm-input full-width" placeholder="https://...">
                     </div>
+
+                    <!-- 타이틀 텍스트 -->
+                    <div class="control-item" style="flex:2; min-width:200px;">
+                        <span class="control-label">타이틀 텍스트</span>
+                        <input type="text" name="vm_title_text[<?php echo $i; ?>]" value="<?php echo $row['vm_title_text']; ?>" class="vm-input full-width" placeholder="비주얼 타이틀 입력">
+                    </div>
                     
                     <!-- 미디어 타입 (hidden) -->
                     <input type="hidden" name="vm_bg_type[<?php echo $i; ?>]" value="video">
@@ -445,15 +496,24 @@ include_once (G5_ADMIN_PATH . '/admin.head.php');
                                 <i class="fa-solid fa-cloud-arrow-up"></i>
                             </button>
                         </div>
-                        <?php if ($row['vm_bg_type'] == 'image' && $row['vm_bg_url']) { ?>
+                        <?php if ($row['vm_bg_url']) { ?>
                              <div class="preview-area">
-                                <img src="<?php echo $row['vm_bg_url']; ?>" class="preview-thumb">
+                                <?php if (preg_match('/\.(mp4|webm|ogg)$/i', $row['vm_bg_url'])) { ?>
+                                    <video id="vid_<?php echo $i; ?>" src="<?php echo $row['vm_bg_url']; ?>" class="preview-thumb" muted loop preload="none" playsinline></video>
+                                    <div class="video-overlay" style="opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.1);">
+                                        <button type="button" class="vid-ctrl-btn" onclick="toggle_vid('vid_<?php echo $i; ?>', this)">
+                                            <i class="fa-solid fa-play"></i>
+                                        </button>
+                                    </div>
+                                <?php } else { ?>
+                                    <img src="<?php echo $row['vm_bg_url']; ?>" class="preview-thumb">
+                                <?php } ?>
                             </div>
                         <?php } else { ?>
                              <!-- 비디오일 경우 썸네일 표시가 어려우므로 패스하거나 아이콘 표시 -->
                              <div class="preview-area" style="background:#333; color:#666; font-size:12px; flex-direction:column; border:1px solid #444;">
-                                <i class="fa-solid fa-video" style="font-size:24px; margin-bottom:5px;"></i>
-                                <span>Video Preview</span>
+                                <i class="fa-solid fa-play-circle" style="font-size:32px; margin-bottom:10px;"></i>
+                                <span>No Media Asset</span>
                              </div>
                         <?php } ?>
                     </div>
@@ -493,6 +553,9 @@ include_once (G5_ADMIN_PATH . '/admin.head.php');
     </div>
 
     </form>
+    
+    <!-- R2 업로드를 위한 히든 파일 인풋 -->
+    <input type="file" id="r2_file_input" style="display:none;" accept="image/*,video/*">
 </div>
 
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
@@ -505,25 +568,179 @@ $(function() {
         axis: "y",
         update: function(event, ui) {
             $("#vm-list .slide-card").each(function(index) {
-                // 순서 번호 UI 업데이트
                 $(this).find(".seq-num").text(index + 1);
-                // hidden input 값 업데이트
                 $(this).find("input[name^='vm_order']").val(index + 1);
             });
         }
     });
+
+    // 파일 선택 이벤트
+    $('#r2_file_input').on('change', function() {
+        var file = this.files[0];
+        if (!file) return;
+
+        var targetInput = $(this).data('target');
+        var formData = new FormData();
+        formData.append('file', file);
+
+        var $btn = $(this).data('btn');
+        var originalHtml = $btn.html();
+        
+        // 로딩 표시
+        $btn.html('<i class="fa-solid fa-spinner fa-spin"></i>').prop('disabled', true);
+
+        $.ajax({
+            url: './r2_uploader.php',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                try {
+                    var data = JSON.parse(res);
+                    if (data.url) {
+                        // URL 입력
+                        $(targetInput).val(data.url);
+
+                        // 성공 메시지
+                        alert('업로드 완료!\n\nURL: ' + data.url + '\n\n변경사항을 저장하려면 "변경사항 저장" 버튼을 클릭하세요.');
+
+                        // 페이지 리로드 대신 입력창 하이라이트
+                        $(targetInput).css('background-color', '#d4edda').css('border-color', '#28a745');
+                        setTimeout(function() {
+                            $(targetInput).css('background-color', '').css('border-color', '');
+                        }, 2000);
+
+                        // 미리보기 동적 업데이트
+                        var $card = $('#r2_file_input').data('card');
+                        update_preview($card, data.url);
+                    } else if (data.error) {
+                        alert('에러: ' + data.error);
+                    }
+                } catch (e) {
+                    alert('응답 파싱 에러: ' + e.message + '\n\n응답: ' + res);
+                }
+            },
+            error: function() {
+                alert('업로드 중 통신 에러가 발생했습니다.');
+            },
+            complete: function() {
+                $btn.html(originalHtml).prop('disabled', false);
+            }
+        });
+    });
 });
 
+// 새 슬라이드 추가 (AJAX)
+function add_new_slide() {
+    if (!confirm('새 슬라이드를 추가하시겠습니까?')) return;
+
+    $.ajax({
+        url: './visual_main_process.php',
+        type: 'POST',
+        data: { action: 'add_slide' },
+        dataType: 'json',
+        success: function(res) {
+            if (res.success) {
+                alert(res.message);
+                // 페이지 리로드 (새 슬라이드를 보여주기 위함)
+                location.reload();
+            } else {
+                alert('오류: ' + res.message);
+            }
+        },
+        error: function() {
+            alert('슬라이드 추가 중 통신 오류가 발생했습니다.');
+        }
+    });
+}
+
 function upload_r2(btn) {
-    alert("Cloudflare R2 버킷 연동 준비중입니다. (comming soon)");
+    var $btn = $(btn);
+    var $input = $btn.closest('.input-with-btn').find('input');
+    var $card = $btn.closest('.slide-card');
+
+    $('#r2_file_input').data('target', $input).data('btn', $btn).data('card', $card).click();
+}
+
+/**
+ * 미리보기 동적 업데이트
+ */
+function update_preview($card, url) {
+    if (!$card || !url) return;
+
+    // 파일 확장자로 타입 판단
+    var ext = url.split('.').pop().toLowerCase();
+    var isVideo = ['mp4', 'webm', 'ogg'].indexOf(ext) !== -1;
+    var isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].indexOf(ext) !== -1;
+
+    // input의 name으로 어느 미리보기 영역인지 판단
+    var inputName = $('#r2_file_input').data('target').attr('name');
+    var $previewArea;
+
+    if (inputName && inputName.indexOf('vm_bg_url') !== -1) {
+        // 배경 미디어 미리보기
+        $previewArea = $card.find('.media-grid .input-block:first .preview-area');
+    } else if (inputName && inputName.indexOf('vm_title_img') !== -1) {
+        // 타이틀 이미지 미리보기
+        $previewArea = $card.find('.media-grid .input-block:last .preview-area');
+    }
+
+    if (!$previewArea || $previewArea.length === 0) return;
+
+    // 기존 내용 제거
+    $previewArea.empty();
+
+    // 새 미리보기 추가
+    if (isVideo) {
+        var videoId = 'vid_' + Date.now();
+        var videoHtml = '<video id="' + videoId + '" src="' + url + '" class="preview-thumb" muted loop preload="none" playsinline></video>';
+        videoHtml += '<div class="video-overlay" style="opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.1);">';
+        videoHtml += '<button type="button" class="vid-ctrl-btn" onclick="toggle_vid(\'' + videoId + '\', this)">';
+        videoHtml += '<i class="fa-solid fa-play"></i>';
+        videoHtml += '</button></div>';
+        $previewArea.html(videoHtml);
+    } else if (isImage) {
+        $previewArea.html('<img src="' + url + '" class="preview-thumb">');
+    } else {
+        $previewArea.html('<span class="preview-placeholder">미리보기 불가</span>');
+    }
+
+    // 스타일 초기화 (No Media Asset 스타일 제거)
+    $previewArea.css({
+        'background': '',
+        'color': '',
+        'font-size': '',
+        'flex-direction': '',
+        'border': ''
+    });
+}
+
+/**
+ * 비디오 재생/일시정지 토글
+ */
+function toggle_vid(vid_id, btn) {
+    var vid = document.getElementById(vid_id);
+    var $icon = $(btn).find('i');
+    if (vid.paused) {
+        vid.play();
+        $icon.removeClass('fa-play').addClass('fa-pause');
+    } else {
+        vid.pause();
+        $icon.removeClass('fa-pause').addClass('fa-play');
+    }
 }
 
 function fvisualmain_submit(f) {
-    // 폼 제출 전 검증 로직이 필요하다면 여기에 작성
-    var act = document.getElementById('act_button').value;
-    if(act == '선택삭제') {
-         // 선택삭제 로직은 버튼 onclick에서 이미 submit처리됨.
+    // 디버깅: 폼 데이터 확인
+    console.log('폼 제출:', f);
+    console.log('w 값:', f.w.value);
+
+    // act_button이 설정되지 않았다면 일반 저장
+    if (!f.act_button.value) {
+        f.act_button.value = '';
     }
+
     return true;
 }
 </script>
