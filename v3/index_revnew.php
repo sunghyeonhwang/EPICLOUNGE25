@@ -130,11 +130,128 @@ include_once ('board/lib/latest.lib.php');
 
   <script src="/v3/resource/js/jquery-3.4.1.min.js"></script>
   <script src="/v3/resource/js/slick.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="/v3/resource/js/ScrollTrigger.min.js"></script>
   <script src="/v3/resource/js/jquery.menu.min.js"></script>
   <script src="/v3/resource/js/jquery.responsive.min.js"></script>
   <script src="/v3/resource/js/common.js"></script>
   <script src="/v3/resource/js/main.js"></script>
+
+  <style>
+    /* Cinematic Hero Styles */
+    .cinematic-hero {
+      position: relative;
+      width: 100%;
+      height: 765px; /* 815px - 50px */
+      margin-top: 80px;
+      overflow: hidden;
+      background: #000;
+      z-index: 1;
+    }
+
+    .swiper-slide {
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .hero-bg video, .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1);
+    }
+
+
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      color: #fff;
+      max-width: 900px;
+      padding: 0 20px;
+    }
+
+    .hero-title {
+      font-size: 80px;
+      font-weight: 900;
+      margin-bottom: 20px;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      opacity: 0;
+    }
+
+    .hero-title img {
+        height: auto;
+    }
+
+
+
+    .hero-cta {
+      opacity: 0;
+    }
+
+    .hero-cta a {
+      display: inline-block;
+      padding: 16px 45px;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #00D3C3, #2842E6);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .hero-cta a:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Navigation Custom */
+    .swiper-button-next, .swiper-button-prev {
+      color: #fff;
+      opacity: 0.5;
+      transition: 0.3s;
+    }
+    .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
+    
+    .swiper-pagination-bullet {
+      background: #fff;
+      opacity: 0.3;
+    }
+    .swiper-pagination-bullet-active {
+      opacity: 1;
+      background: #00D3C3;
+    }
+
+    @media (max-width: 768px) {
+      .cinematic-hero { height: 600px; }
+      .hero-title { font-size: 40px; }
+      .hero-title img { max-width: 300px; }
+    }
+  </style>
 
 
   <?php
@@ -165,114 +282,68 @@ include_once ('board/lib/latest.lib.php');
   <?php include 'inc/common_header26.php'; ?>
   <!-- container -->
   <div class="container">
-    <section class="visual_slide visual_slide_1">
-      <!-- <div class="visual_slide_list main_slide_13" data-v="1">
-        <div class="visual_mp4" style="opacity:0.5">
-          <video autoplay muted loop playsinline class="video w_video">
-            <source src="https://unrealsummit16.cafe24.com/2025/challange25/unrealchallange25_movie_hq.webm" type="video/webm" >
-            <source src="https://unrealsummit16.cafe24.com/2025/challange25/unrealchallange25_movie_hq.mp4" type="video/mp4" >
-          </video>
-        </div>
-        <div class="visual_text_box">
-          <div class="text_box1">
-            <p class="num_text">
-              <img src="https://unrealsummit16.cafe24.com/site/main_num_text_blank.png" />
-      
-            </p>
-            <p class="info_text">
-              <span class="eng_text"><img src="https://unrealsummit16.cafe24.com/2025/challange25/lg5_ix.svg" /></span>
-      
-            </p>
+    <section class="swiper cinematic-hero">
+      <div class="swiper-wrapper">
+        
+        <!-- Slide 1: UE57 -->
+        <div class="swiper-slide">
+          <div class="hero-bg">
+            <video autoplay loop muted playsinline>
+              <source src="https://unrealsummit16.cafe24.com/2025/ue57/ue57bh.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
           </div>
-          <div class="text_box2">
-      
-            <span class="text"></span>
-            <a href="https://epiclounge.co.kr/event_challenge25.php" target="_blank" class="btn_6">자세히 보기</a>
+          <div class="hero-content">
+            <div class="hero-title">
+              <img src="https://unrealsummit16.cafe24.com/2025/ue57/ue57img_text.png" alt="UE57" style="width: 560px;">
+            </div>
+            <div class="hero-cta" style="margin-top: 40px;">
+              <a href="https://epiclounge.co.kr/ue57.php" target="_blank">다시보기</a>
+            </div>
           </div>
         </div>
-      </div> -->
-       <div class="visual_slide_list main_slide_13" data-v="1">
-        <div class="visual_mp4" style="opacity:1">
-          <video autoplay loop muted class="video w_video">
-            <source src="https://unrealsummit16.cafe24.com/2025/ue57/ue57bh.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="visual_text_box">
-          <div class="text_box1">
-            <p class="num_text">
-              <img src="https://unrealsummit16.cafe24.com/site/main_num_text_blank.png" />
-      
-            </p>
-            <p class="info_text">
-              <span class="eng_text"><img src="https://unrealsummit16.cafe24.com/2025/ue57/ue57img_text.png" /></span>
-      
-            </p>
+        <!-- Slide 2: Epic Lounge Replay -->
+        <div class="swiper-slide">
+          <div class="hero-bg">
+            <video autoplay loop muted playsinline style="filter: brightness(0.6) contrast(1.2);">
+              <source src="https://unrealsummit16.cafe24.com/2025/ufest25/3_fusion_2_re2.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
           </div>
-          <div class="text_box2">
-      
-            <span class="text"></span>
-            <a href="https://epiclounge.co.kr/ue57.php" target="_blank" class="btn_6">다시보기</a>
+          <div class="hero-content">
+            <div class="hero-title">
+              <img src="https://unrealsummit16.cafe24.com/2025/ufest25/main_visual_lounge_re1215.svg" alt="Lounge Replay" style="width: 800px;">
+            </div>
+            <div class="hero-cta" style="margin-top: 40px;">
+              <a href="https://epiclounge.co.kr/contents/replay.php" target="_blank" style="background: linear-gradient(231deg, #FFC481, #00D3C3, #2842E6);">다시보기</a>
+            </div>
           </div>
         </div>
+        <!-- Slide 3: Start Twin Unreal -->
+        <div class="swiper-slide">
+          <div class="hero-bg">
+            <video autoplay loop muted playsinline>
+              <source src="https://unrealsummit16.cafe24.com/2025/start_twinunreal/lsu_2025_bg.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+          </div>
+          <div class="hero-content">
+            <div class="hero-title">
+              <img src="https://unrealsummit16.cafe24.com/2025/sou/start_twue_lounge_3.svg" alt="Start Twin Unreal" style="width: 800px;">
+            </div>
+            <div class="hero-cta" style="margin-top: 40px;">
+              <a href="http://epiclounge.co.kr/start_lsu2025.php" target="_blank">다시보기</a>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="visual_slide_list main_slide_13" data-v="1">
-      
-        <div class="visual_mp4" style="opacity:1">
-        <video autoplay loop muted class="video w_video" style="filter: brightness(0.6) contrast(1.2);">
-            <source src="https://unrealsummit16.cafe24.com/2025/ufest25/3_fusion_2_re2.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="visual_text_box">
-          <div class="text_box1">
-            <p class="num_text">
-              <img src="https://unrealsummit16.cafe24.com/site/main_num_text_blank.png" />
-      
-            </p>
-            <p class="info_text">
-              <span class="eng_text"><img src="https://unrealsummit16.cafe24.com/2025/ufest25/main_visual_lounge_re1215.svg" /></span>
-      
-            </p>
-          </div>
-          <div class="text_box2">
-      
-            <span class="text"></span>
-            <a href="https://epiclounge.co.kr/contents/replay.php" target="_blank" class="btn_6" style="border-radius: 5px;
-            background: var(--guide1, linear-gradient(231deg, #FFC481 -32.52%, #00D3C3 35.3%, #2842E6 149.1%)); color:#000; font-weight: 800; padding:15px 40px;">다시보기</a>
-          </div>
-        </div>
-      </div>
-      <div class="visual_slide_list main_slide_13" data-v="1">
-
-        <div class="visual_mp4" style="opacity:1">
-          <video autoplay loop muted class="video w_video">
-            <source src="https://unrealsummit16.cafe24.com/2025/start_twinunreal/lsu_2025_bg.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="visual_text_box">
-          <div class="text_box1">
-            <p class="num_text">
-              <img src="https://unrealsummit16.cafe24.com/site/main_num_text_blank.png" />
-
-            </p>
-            <p class="info_text">
-              <span class="eng_text"><img src="https://unrealsummit16.cafe24.com/2025/sou/start_twue_lounge_3.svg" /></span>
-
-            </p>
-          </div>
-          <div class="text_box2">
-
-            <span class="text"></span>
-            <a href="http://epiclounge.co.kr/start_lsu2025.php" target="_blank" class="btn_6">다시보기</a>
-          </div>
-        </div>
-      </div>
-
-
-
-
-
-
+      <!-- Controls -->
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
     </section>
+
 
 
 
@@ -472,20 +543,71 @@ include_once ('board/lib/latest.lib.php');
         animateBgSlideText(activeSlide);
       });
 
-      $(".visual_slide").slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        infinite: true,
-        autoplay: true,
-        autoplaySpeed: 6000,
-        arrows: true,
-        dots: true,
-      }).on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-        for (i = 0; i < 10; i++) {
-          $(".visual_slide").removeClass("visual_slide_" + i);
+      // Cinematic Swiper Initialization
+      // Cinematic Swiper Initialization
+      const animateSlide = (swiper) => {
+        const activeSlide = swiper.slides[swiper.activeIndex];
+        if (!activeSlide) return;
+
+        const title = activeSlide.querySelector('.hero-title');
+        const cta = activeSlide.querySelector('.hero-cta');
+        const bgMedia = activeSlide.querySelector('.hero-bg video, .hero-bg img');
+
+        // GSAP Reset & Animation
+        if (title && cta) {
+          gsap.killTweensOf([title, cta]);
+          gsap.set([title, cta], { autoAlpha: 0, y: 0 });
         }
-        $(".visual_slide").addClass("visual_slide_" + $(".visual_slide div.slick-active").data("v"));
-        $(".visual_slide div.slick-active").data("v");
+        
+        if (bgMedia) {
+          gsap.killTweensOf(bgMedia);
+          gsap.set(bgMedia, { scale: 1 });
+        }
+
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1 } });
+        
+        // Text Fade In
+        if (title && cta) {
+          tl.to(title, { autoAlpha: 1, y: 0 })
+            .to(cta, { autoAlpha: 1, y: 0 }, '-=0.7');
+        }
+
+        // Ken Burns Effect via GSAP
+        if (bgMedia) {
+          gsap.fromTo(bgMedia, 
+            { scale: 1 },
+            { scale: 1.15, duration: 10, ease: 'none', overwrite: 'auto' }
+          );
+        }
+      };
+
+      const heroSwiper = new Swiper('.cinematic-hero', {
+        effect: 'fade',
+        fadeEffect: { crossFade: true },
+        loop: true,
+        loopAdditionalSlides: 2,
+        speed: 1500,
+        watchSlidesProgress: true,
+        autoplay: {
+          delay: 6000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        on: {
+          init: function () {
+            animateSlide(this);
+          },
+          transitionStart: function () {
+            animateSlide(this);
+          }
+        }
       });;
     </script>
   </div>
