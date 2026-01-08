@@ -154,7 +154,7 @@ if (defined('_INDEX_')) {  // index에서만 실행
     include G5_BBS_PATH . '/newwin.inc.php';  // 팝업레이어
 }
 ?>
-  <?php include 'inc/common_header.php'; ?>
+  <?php include 'inc/common_header26.php'; ?>
   <!-- container -->
   <div class="container">
     <section class="visual_slide visual_slide_1">
@@ -309,7 +309,7 @@ if (defined('_INDEX_')) {  // index에서만 실행
         <!-- Slide 1 -->
         <div class="bg_slide_list bg_slide_list1">
           <video autoplay muted loop playsinline class="bg_video">
-            <source src="https://cms-assets.unrealengine.com/AiKUh5PQCTaOFnmJDZJBfz/d66nnRxEQpatoaaSG3ww" type="video/mp4">
+            <source src="https://cms-assets.unrealengine.com/AiKUh5PQCTaOFnmJDZJBfz/AFmdAcaBROOy9YytjJ3a" type="video/mp4">
           </video>
           <div class="txt_wrap">
             <p class="bg_slide_title">에픽 메가그랜트</p>
