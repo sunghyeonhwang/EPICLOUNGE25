@@ -112,6 +112,7 @@
 ### 6. Cloudflare R2 통합 및 파일 업로드 시스템 구축 (2026.01.09)
 
 - **Cloudflare R2 Object Storage 통합**:
+
   - **AWS S3 호환 API 연동**: Cloudflare R2 버킷(`epiclounge-assets`)을 AWS S3 Signature Version 4 인증 방식으로 연동하여 안전하게 파일 업로드.
   - **r2_config.php 설정 파일**:
     - Account ID, Access Key, Secret Key 등 R2 API 인증 정보 중앙 관리.
@@ -125,6 +126,7 @@
     - S3 Virtual-Hosted-Style 엔드포인트 구조 적용 (`bucket.account_id.r2.cloudflarestorage.com`).
 
 - **비주얼 관리 UI 파일 업로드 기능 통합**:
+
   - **AJAX 기반 R2 업로드**:
     - `visual_main.php`에서 "R2 업로드" 버튼 클릭 시 파일 선택 후 즉시 R2 버킷에 업로드.
     - 업로드 완료 시 URL을 입력 필드에 자동 입력하고 초록색 하이라이트 피드백 제공.
@@ -135,6 +137,7 @@
     - 파일 확장자 기반 타입 판별 (mp4, webm, jpg, png, gif, webp, svg 등).
 
 - **데이터베이스 구조 자동 검증 및 복구**:
+
   - **동적 스키마 검증**:
     - `visual_main.php` 로드 시 `v3_visual_main` 테이블 존재 여부 확인 (`SHOW TABLES`).
     - 테이블이 없으면 전체 구조를 자동 생성 (11개 컬럼 포함).
@@ -147,6 +150,7 @@
     - `@sql_query()`로 경고 억제 처리.
 
 - **슬라이드 추가 프로세스 개선**:
+
   - **AJAX 기반 슬라이드 추가**:
     - 기존 GET 방식의 페이지 리다이렉트 제거.
     - `visual_main_process.php` 생성하여 POST 기반 AJAX 엔드포인트 구현.
@@ -159,6 +163,7 @@
     - 신규 슬라이드는 항상 첫 번째(`vm_order = 1`) 위치에 삽입.
 
 - **보안 및 에러 처리**:
+
   - **XSS/SQL Injection 방지**:
     - 파일명 sanitize (`preg_replace('/[^a-zA-Z0-9._-]/', '')`).
     - URL 파라미터 검증 및 `clean_xss_tags()` 활용.
@@ -170,6 +175,7 @@
     - AJAX 엔드포인트에서도 동일한 권한 검증 수행.
 
 - **Cafe24 DNS 연동 및 커스텀 도메인 설정**:
+
   - **DNS CNAME 레코드 설정**:
     - Cafe24 호스팅 DNS에 `files` 서브도메인 추가.
     - CNAME 값: `pub-e146610a86e7463197d2876a9fc65330.r2.dev` (R2 Public Development URL).
@@ -180,6 +186,7 @@
     - R2 버킷의 Public Access 허용 및 CORS 정책 설정 완료.
 
 - **파일 경로 체계**:
+
   - **R2 버킷 구조**:
     ```
     epiclounge-assets/
@@ -193,6 +200,7 @@
     - 동일 파일명 충돌 방지 및 버전 관리 용이.
 
 - **신규 파일**:
+
   - `v3/adm/r2_config.php`: R2 API 인증 정보 및 커스텀 도메인 설정.
   - `v3/adm/r2_uploader.php`: R2 S3 API 업로드 핸들러 (cURL 기반).
   - `v3/adm/visual_main_process.php`: 슬라이드 추가 AJAX 엔드포인트.
@@ -204,6 +212,20 @@
     - 동적 미리보기 업데이트 함수 추가 (라인 647-695).
     - 슬라이드 추가 AJAX 함수 구현 (라인 612-634).
   - `.gitignore`: `v3/adm/r2_config.php` 추가하여 API 키 보안 유지.
+
+### 7. 메인 비주얼 슬라이드 고도화 및 최적화 (2026.01.09)
+
+- **UX/UI 사용성 개선**:
+
+  - **반응성 강화**: 슬라이드 전환 속도(`speed: 800ms`)와 텍스트 등장 애니메이션(`duration: 0.5s`)을 대폭 단축하여 쾌적한 조작감 제공.
+  - **네비게이션 클릭 수정**: 헤더와 겹침 현상으로 인해 클릭되지 않던 좌우 화살표 버튼의 `z-index` 레이어링 문제 해결.
+  - **페이지네이션 개선**:
+    - 하단 도트(Bullets)의 클릭 감도 향상: `pointer-events: auto` 적용 및 투명 패딩(Transparent Border) 기법으로 클릭 유효 영역(Hit Area) 확장.
+    - 활성 상태(Active) 시 도트 크기가 비정상적으로 커지는 렌더링 오류 수정 (`background-clip` 속성 보존).
+
+- **디자인 및 타이포그래피 리파인**:
+  - **메인 타이틀 폰트 교체**: `High1Daylily` 서체 적용 (Weight: 700, Size: 48px)으로 브랜드 아이덴티티 강화 및 가독성 확보.
+  - **서브메뉴 스타일링**: Glassmorphism 효과를 위한 백그라운드 불투명도 및 블러 처리 최적화.
 
 ---
 
