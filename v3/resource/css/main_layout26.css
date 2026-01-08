@@ -1391,7 +1391,7 @@ img {
 	width: 100%;
 	display: inline-block;
 	vertical-align: top;
-	height: 800px;
+	height: 800px !important;
 	padding-top: 70px;
 	background-color: #fff;
 	background-repeat: no-repeat;
@@ -1437,13 +1437,24 @@ img {
 }
 
 .bg_slide_box .slick-slide {
-	height: 800px;
+	height: 800px !important;
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
 	position: relative;
 	overflow: hidden;
+}
+
+.bg_slide_box .bg_slide_list::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 1;
 }
 
 .bg_slide_box .bg_video {
@@ -1470,16 +1481,16 @@ img {
 	left: 0;
 	width: 100%;
 	transform: translateY(-50%);
-	z-index: 10;
+	z-index: 2;
 	text-align: center;
 }
 
 .bg_slide_box .bg_slide_list1 {
-	background-image: url('https://unrealsummit16.cafe24.com/site/sec_2_bot_img.png');
+	background-image: none;
 }
 
 .bg_slide_box .bg_slide_list2 {
-	background-image: url('https://unrealsummit16.cafe24.com/site/event_sec_3_bg.png');
+	background-image: none;
 }
 
 
@@ -1533,11 +1544,12 @@ img {
 }
 
 .bg_slide_box .bg_slide_list2 .bg_slide_text {
-	font-size: 52px;
-	line-height: 1.3em;
+	font-size: 32px;
+	letter-spacing: -0.05em;
+	line-height: 1.25em;
+	font-weight: 100;
 	color: #fff;
 	font-family: 'Noto Sans KR', sans-serif;
-	font-weight: 100;
 	text-align: center;
 }
 
