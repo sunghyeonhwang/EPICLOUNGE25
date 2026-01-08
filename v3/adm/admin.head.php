@@ -120,7 +120,7 @@ function imageview(id, w, h)
                  <li class="tnb_li"><a href="<?php echo G5_URL ?>/" class="tnb_community" target="_blank" title="커뮤니티 바로가기">커뮤니티 바로가기</a></li>
                  <li class="tnb_li"><a href="<?php echo G5_ADMIN_URL ?>/service.php" class="tnb_service">부가서비스</a></li> */
                 ?>
-                <li class="tnb_li"><a href="<?php echo G5_BBS_URL ?>/logout.php?url=<?php echo urlencode(G5_ADMIN_URL) ?>" class="tnb_mb_btn" style="color:#fff; font-weight:700; text-decoration:none;">로그아웃</a>
+                <li class="tnb_li"><a href="<?php echo G5_BBS_URL ?>/logout.php?url=<?php echo urlencode('/v3/adm') ?>" class="tnb_mb_btn" style="color:#fff; font-weight:700; text-decoration:none;">로그아웃</a>
                 </li>
             </ul>
         </div>
