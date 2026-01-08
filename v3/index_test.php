@@ -253,7 +253,7 @@ include_once ('board/lib/latest.lib.php');
       display: flex;
       justify-content: center;
       z-index: 1000;
-      pointer-events: none;
+      pointer-events: auto; /* 클릭 차단 해제 */
     }
     .swiper-custom-pagination .swiper-pagination-bullet {
       width: 12px;
@@ -261,14 +261,17 @@ include_once ('board/lib/latest.lib.php');
       background: #888; /* 회색 */
       border-radius: 50%;
       opacity: 1;
-      margin: 0 8px !important;
+      margin: 0 4px !important;
       cursor: pointer;
-      pointer-events: auto;
       transition: background-color 0.3s ease;
+      /* 클릭 영역 확장: 투명 테두리를 주어 실제 클릭 가능한 범위를 넓힘 */
+      border: 8px solid transparent;
+      background-clip: padding-box;
     }
     .swiper-custom-pagination .swiper-pagination-bullet:hover,
     .swiper-custom-pagination .swiper-pagination-bullet-active {
-      background: #fff; /* 호버 및 활성 시 흰색 */
+      background-color: #fff; /* background 단축 속성 대신 background-color 사용으로 clip 속성 유지 */
+      opacity: 1;
     }
 
     @media (max-width: 768px) {
@@ -567,12 +570,12 @@ include_once ('board/lib/latest.lib.php');
           gsap.set(bgMedia, { scale: 1 });
         }
 
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1 } });
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.5 } }); // GSAP 애니메이션 속도 0.5초로 단축
         
         // Text Fade In
         if (title && cta) {
           tl.to(title, { autoAlpha: 1, y: 0 })
-            .to(cta, { autoAlpha: 1, y: 0 }, '-=0.7');
+            .to(cta, { autoAlpha: 1, y: 0 }, '-=0.3'); // 겹치는 시간 조정
         }
 
         // Ken Burns Effect via GSAP
@@ -589,7 +592,7 @@ include_once ('board/lib/latest.lib.php');
         fadeEffect: { crossFade: true },
         loop: true,
         loopAdditionalSlides: 2,
-        speed: 1500,
+        speed: 800, // 슬라이드 전환 속도 0.8초로 단축 (반응성 향상)
         watchSlidesProgress: true,
         autoplay: {
           delay: 6000,

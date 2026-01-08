@@ -1492,11 +1492,11 @@ img {
 
 
 .bg_slide_box .bg_slide_list1 .bg_slide_title {
-	font-size: 42px;
-	font-family: 'Pretendard', sans-serif;
+	font-size: 48px; /* 42px에서 상향 */
+	font-family: 'High1Daylily', sans-serif; /* 새로운 서체 적용 */
 	color: #fff;
-	font-weight: 900;
-	margin: 0 auto 10px
+	font-weight: 700; /* 700 웨이트 적용 */
+	margin: 0 auto 15px; /* 아래 간격 미세 조정 */
 }
 
 .bg_slide_box .bg_slide_list1 .bg_slide_text {
@@ -1532,11 +1532,11 @@ img {
 
 
 .bg_slide_box .bg_slide_list2 .bg_slide_title {
-	font-size: 40px;	
-	font-family: 'Pretendard', sans-serif;
+	font-size: 48px; /* 40px에서 상향 */
+	font-family: 'High1Daylily', sans-serif;
 	color: #fff;
-	font-weight: 900;
-	margin: 0 auto 10px
+	font-weight: 700;
+	margin: 0 auto 15px
 }
 
 .bg_slide_box .bg_slide_list2 .bg_slide_text {

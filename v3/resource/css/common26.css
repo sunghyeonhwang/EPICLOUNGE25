@@ -89,6 +89,20 @@
 		url('font/Freesentation-9Black.woff') format('woff');
 }
 
+@font-face {
+	font-family: 'High1Daylily';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-2@1.0/high1WonchuriBodyR.woff2') format('woff2');
+	font-weight: 400;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'High1Daylily';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-2@1.0/high1WonchuriBodyB.woff2') format('woff2');
+	font-weight: 700;
+	font-display: swap;
+}
+
 .wrap {
 	width: 1240px;
 	position: relative;
@@ -225,15 +239,16 @@
 /* Header */
 #header {
 	position: fixed;
-	background: rgba(255, 255, 255, 0.90);
-	/* Glassmorphism: 메인 헤더 블러 효과 (10px) */
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
-	z-index: 1000;
+	background: rgba(255, 255, 255, 0.85);
+	/* Glassmorphism: 프리미엄 메인 헤더 블러 효과 */
+	backdrop-filter: blur(20px) saturate(180%);
+	-webkit-backdrop-filter: blur(20px) saturate(180%);
+	z-index: 100; /* 슬라이드 네비게이션 클릭을 위해 z-index 조정 (기존 1000) */
 	height: 90px;
 	width: 100%;
-	transition: all 0.75s ease 0s;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 #header .link_set li {
@@ -247,10 +262,10 @@
 
 #header .top_search_btn_box {
 	position: absolute;
-	top: 28px;
+	top: 25px; /* 90px 헤더에서 40px 검색창 수직 중앙 정렬 (90-40)/2 */
 	right: 0px;
 	z-index: 999;
-	transition: all 0.75s ease 0s;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #header .top_search_btn_box .top_search_box button img {
@@ -284,27 +299,42 @@
 #header .top_search_btn_box form {
 	display: inline-block;
 	vertical-align: top;
-	width: 224px;
-	height: 36px;
-	border: 1px solid #d7d7d7;
+	width: 260px;
+	height: 40px;
+	background: rgba(0, 0, 0, 0.03);
+	border: 1px solid rgba(0, 0, 0, 0.05);
 	border-radius: 20px;
 	overflow: hidden;
+	transition: all 0.3s ease;
+}
+
+#header .top_search_btn_box form:focus-within {
+	background: #fff;
+	border-color: #33aeec;
+	box-shadow: 0 0 0 3px rgba(51, 174, 236, 0.15);
+	width: 300px;
 }
 
 #header .top_search_btn_box form input {
-	width: calc(100% - 30px);
-	font-size: 15px;
+	width: calc(100% - 40px);
+	font-size: 14px;
 	box-sizing: border-box;
 	float: left;
 	border: none;
-	line-height: 32px;
-	padding: 0 10px;
+	line-height: 38px;
+	padding: 0 15px;
 	outline: none;
+	background: transparent;
+	color: #333;
 }
 
 #header .top_search_btn_box form button {
 	display: inline-block;
-	margin-top: 6px
+	margin-top: 8px;
+	margin-left: 10px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
 }
 
 .top_btn2 {
@@ -348,7 +378,7 @@
 }
 
 .scroll #header .top_search_btn_box {
-	top: 22px;
+	top: 20px; /* 80px 헤더에서 40px 검색창 수직 중앙 정렬 (80-40)/2 */
 }
 
 .m_logo {
@@ -400,7 +430,7 @@
 #lnb .top1menu .depth1_ti {
 	font-family: Freesentation;
 	font-weight: bold;
-	font-size: 1.2rem;
+	font-size: 1.4rem; /* 메인 메뉴 1.4rem 조정 */
 	display: inline-block;
 	padding: 0 20px;
 	width: 100%;
@@ -412,20 +442,34 @@
 	height: 90px;
 	box-sizing: border-box;
 	display: inline-block;
-	letter-spacing: -0.025em;
-	color: #000000;
-	transition: all 0.75s ease 0s;
+	letter-spacing: -0.01em;
+	color: #1d1d1f;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	text-align: center;
 	text-decoration: none;
-	font-weight: bold;
+	font-weight: 800;
+	position: relative;
 }
 
-#lnb .top1menu .depth1.on .depth1_ti {
-	color: #333;
+#lnb .top1menu .depth1_ti span::after {
+	content: '';
+	position: absolute;
+	bottom: 25px;
+	left: 50%;
+	width: 0;
+	height: 2px;
+	background: #33aeec;
+	transition: all 0.3s ease;
+	transform: translateX(-50%);
+}
+
+#lnb .top1menu .depth1:hover .depth1_ti span::after,
+#lnb .top1menu .depth1.on .depth1_ti span::after {
+	width: 20px;
 }
 
 #lnb .top1menu .depth1.on .depth1_ti span {
-	border-bottom: 5px solid #000
+	color: #33aeec;
 }
 
 
@@ -441,12 +485,28 @@
 	line-height: 1.35em;
 	width: 100%;
 	box-sizing: border-box;
-	background: rgba(255, 255, 255, 0.94);
-	/* Glassmorphism: 서브메뉴 블러 효과 (77px) - 메인 헤더 위에 겹쳐서 표시 */
-	backdrop-filter: blur(77px) brightness(1.15) saturate(0.9);
-	-webkit-backdrop-filter: blur(77px) brightness(1.15) saturate(0.9);
-	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-	border-top: 1px solid rgba(238, 238, 238, 0.5);
+	background: rgba(255, 255, 255, 0.9);
+	/* Glassmorphism: 서브메뉴 초정밀 딥 블러 효과 (80px) */
+	backdrop-filter: blur(80px) saturate(200%) brightness(1.1);
+	-webkit-backdrop-filter: blur(80px) saturate(200%) brightness(1.1);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.23);
+	border-top: 1px solid rgba(0, 0, 0, 0.05);
+	padding: 8px 0; /* 서브메뉴 전체 패딩을 8px로 축소하여 더 조밀하게 조정 */
+}
+
+#lnb ul .top2m::before {
+	content: "";
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	right: 12px;
+	bottom: 12px;
+	background: rgba(255, 255, 255, 0.62); /* 오퍼시티를 0.4로 상향하여 더 선명하게 조정 (기존 0.23) */
+	backdrop-filter: blur(30px);
+	-webkit-backdrop-filter: blur(30px);
+	border-radius: 15px;
+	z-index: -1;
+	pointer-events: none;
 }
 
 #lnb ul .top2m .menu_bg {
@@ -454,6 +514,8 @@
 	z-index: 920;
 	width: 1240px;
 	margin: 0 auto;
+	padding-left: 100px; /* 전체 100px 우측 이동 */
+    box-sizing: border-box;
 }
 
 
@@ -469,7 +531,7 @@
 #lnb .menu_bg:before {
 	position: absolute;
 	top: 0px;
-	left: 350px;
+	left: 450px; /* 제목 박스 350px + 이동 100px */
 	width: 1px;
 	height: 100%;
 	background: #d8d8d8;
@@ -487,11 +549,12 @@
 	width: 100%;
 	display: inline-block;
 	vertical-align: top;
-	font-family: Freesentation;
-	font-size: 1.2rem;
-	font-weight: bold;
-	padding: 30px 0 10px;
-	color: #000;
+	font-family: 'High1Daylily', sans-serif; /* 새로운 폰트 적용 */
+	font-size: 1.35rem; /* 요청하신 1.35rem으로 조정 */
+	font-weight: 700; /* 700 웨이트 적용 */
+	padding: 15px 0 5px; /* 패딩 축소 */
+	color: #111;
+	letter-spacing: -0.01em;
 }
 
 #lnb .lnb_title_box .text {
@@ -499,14 +562,16 @@
 	display: inline-block;
 	vertical-align: top;
 	font-family: Freesentation;
-	font-size: 1.0rem;
+	font-size: 1.2rem; /* 1.2rem으로 키움 */
 	font-weight: 400;
-	color: #9F9F9F;
+	color: #888;
+	line-height: 1.4;
+	margin-bottom: 10px;
 }
 
 #lnb .lnb_menu_box {
 	float: left;
-	padding: 30px 0 0 50px;
+	padding: 15px 0 0 50px; /* 패딩 축소 */
 	text-align: left;
 }
 
@@ -545,16 +610,18 @@
 #lnb .depth2>li>a {
 	display: block;
 	margin: 0;
-	color: #000;
-	font-size: 1.1rem;
-	font-family: Freesentation;
-	font-weight: 400;
+	padding: 6px 0; /* 6px로 더 촘촘하게 조정 */
+	color: #000; /* 블랙으로 변경 */
+	font-size: 1.25rem; /* 1.25rem 유지 */
+	font-family: 'High1Daylily', sans-serif; /* 새로운 폰트 적용 */
+	font-weight: 700; /* 700 웨이트 유지 */
 	text-align: left;
-	letter-spacing: -0.085px;
+	letter-spacing: -0.01em;
+	transition: all 0.2s ease;
 }
 
 #lnb .depth2>li>a:hover {
-	color: #47A4F6
+	color: #00aaff; /* 선명한 스카이블루 호버 컬러 */
 }
 
 #lnb .depth2 ul {

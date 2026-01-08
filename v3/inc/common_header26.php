@@ -122,7 +122,7 @@ $url = 'http://' . $http_host . $request_uri;
 							<li class="tit02_3_1"><a href="/contents/replay.php" target="_self" class="tit02">다시보기</a></li>
 							<li class="tit02_3_3"><a href="/contents/free.php" target="_self" class="tit02">무료 콘텐츠</a></li>
 							<li class="tit02_3_2"><a href="/contents/book.php" target="_self" class="tit02">백서</a></li>
-							<li class="tit02_3_3"><a href="https://www.unrealengine.com/ko/onlinelearning-courses" target="_blank" class="tit02">에픽 디벨로퍼 커뮤니티 ↗</a></li>
+							<li class="tit02_3_3"><a href="https://www.unrealengine.com/ko/onlinelearning-courses" target="_blank" class="tit02">에픽 디벨로퍼 커뮤니티 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px; vertical-align:middle; opacity:0.8;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a></li>
 							<br  />
 							<!--<li class="tit02_3_4"><a href="https://dev.epicgames.com/community/" target="_blank" class="tit02">DEV 커뮤니티</a><i class="fas fa-external-link-alt"></i></li>-->
 						</ul>
