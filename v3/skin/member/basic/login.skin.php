@@ -1,14 +1,30 @@
 <?php
-if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
+if (!defined('_GNUBOARD_'))
+    exit;  // 개별 페이지 접근 불가
+
+// 관리자 로그인 여부 확인 (URL 파라미터 또는 경로 체크)
+$is_admin_login = false;
+if (isset($url) && preg_match('/\/adm(\/|$)/', $url)) {
+    $is_admin_login = true;
+}
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
-add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 0);
+add_stylesheet('<link rel="stylesheet" href="' . $member_skin_url . '/style.css">', 0);
+if ($is_admin_login) {
+    add_stylesheet('<link rel="stylesheet" href="' . G5_URL . '/resource/css/admin_login26.css">', 1);
+}
 ?>
 
 <!-- 로그인 시작 { -->
-<div id="mb_login" class="mbskin">
+<div id="mb_login" class="mbskin <?php echo $is_admin_login ? 'is_admin_login' : ''; ?>">
     <div class="mbskin_box">
-        <h1><?php echo $g5['title'] ?></h1>
+        <h1>
+            <?php if ($is_admin_login) { ?>
+                <img src="/resource/images/common/logo_new.svg" alt="EPIC LOUNGE">
+            <?php } else { ?>
+                <?php echo $g5['title'] ?>
+            <?php } ?>
+        </h1>
         <div class="mb_log_cate">
             <h2><span class="sound_only">회원</span>로그인</h2>
             <a href="<?php echo G5_BBS_URL ?>/register.php" class="join">회원가입</a>
@@ -25,24 +41,27 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
             <button type="submit" class="btn_submit">로그인</button>
             
             <div id="login_info">
-                <div class="login_if_auto chk_box">
-                    <input type="checkbox" name="auto_login" id="login_auto_login" class="selec_chk">
-                    <label for="login_auto_login"><span></span> 자동로그인</label>  
-                </div>
-                <div class="login_if_lpl">
-                    <a href="<?php echo G5_BBS_URL ?>/password_lost.php">아이디/비밀번호 찾기</a>  
-                </div>
+                <?php  /* ?>
+                 <div class="login_if_auto chk_box">
+                     <input type="checkbox" name="auto_login" id="login_auto_login" class="selec_chk">
+                     <label for="login_auto_login"><span></span> 자동로그인</label>
+                 </div>
+                 <div class="login_if_lpl">
+                     <a href="<?php echo G5_BBS_URL ?>/password_lost.php">아이디/비밀번호 찾기</a>
+                 </div>
+                 <?php */
+                ?>
             </div>
         </fieldset> 
         </form>
-        <?php @include_once(get_social_skin_path().'/social_login.skin.php'); // 소셜로그인 사용시 소셜로그인 버튼 ?>
+        <?php @include_once (get_social_skin_path() . '/social_login.skin.php'); // 소셜로그인 사용시 소셜로그인 버튼 ?>
     </div>
 
     <?php // 쇼핑몰 사용시 여기부터 ?>
     <?php if (isset($default['de_level_sell']) && $default['de_level_sell'] == 1) { // 상품구입 권한 ?>
 
 	<!-- 주문하기, 신청하기 -->
-	<?php if (preg_match("/orderform.php/", $url)) { ?>
+	<?php if (preg_match('/orderform.php/', $url)) { ?>
     <section id="mb_login_notmb">
         <h2>비회원 구매</h2>
         <p>비회원으로 주문하시는 경우 포인트는 지급하지 않습니다.</p>
@@ -77,7 +96,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
         </script>
     </section>
 
-    <?php } else if (preg_match("/orderinquiry.php$/", $url)) { ?>
+    <?php } else if (preg_match('/orderinquiry.php$/', $url)) { ?>
     <div id="mb_login_od_wr">
         <h2>비회원 주문조회 </h2>
 
