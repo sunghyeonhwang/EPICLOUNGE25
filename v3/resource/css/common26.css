@@ -1239,3 +1239,192 @@
 
 
 @media only screen and (max-width:420px) {}
+
+/* =================================================ital
+   Theme Toggle & Dark Mode System
+   ================================================= */
+
+.theme_toggle_btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    vertical-align: top;
+}
+
+.theme_toggle_btn:hover {
+    background: rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+}
+
+.toggle_icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
+
+.sun_icon, .moon_icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.moon_icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(90deg) scale(0);
+}
+
+/* Body Base for Transition */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Theme Definitions */
+body.dark-theme {
+    background-color: #101014 !important;
+    color: #ffffff;
+}
+
+body.dark-theme .theme_toggle_btn {
+    color: #ffd700;
+}
+
+body.dark-theme .theme_toggle_btn:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+body.dark-theme .sun_icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-90deg) scale(0);
+}
+
+body.dark-theme .moon_icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+}
+
+/* Header & Nav Dark Mode */
+body.dark-theme #header {
+    background: rgba(16, 16, 20, 0.85) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+body.dark-theme #header .tit span {
+    color: #ffffff !important;
+}
+
+body.dark-theme .top_btn2 {
+    border: 1px solid rgba(255,255,255,0.15) !important;
+    color: #fff !important;
+}
+
+/* Section Overrides */
+body.dark-theme .news_sec,
+body.dark-theme .resource_list {
+    background: #101014 !important;
+}
+
+body.dark-theme .news_sec .sec_title h2,
+body.dark-theme .resource_list .resource_title h2 {
+    color: #ffffff !important;
+}
+
+body.dark-theme .list_box {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+body.dark-theme .news_text_title,
+body.dark-theme .list_box .title,
+body.dark-theme .list_box .text {
+    color: #ffffff !important;
+}
+
+body.dark-theme .news_text_info {
+    color: #a0a0a0 !important;
+}
+
+body.dark-theme .sec_title a {
+    color: #a0a0a0;
+    border-color: #262626;
+}
+
+body.dark-theme .sec_title a:hover {
+    background: #1e293b;
+    color: #fff;
+}
+
+/* Search Box Dark Mode */
+body.dark-theme #header .top_search_btn_box form {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-theme #header .top_search_btn_box form input {
+    color: #fff !important;
+}
+
+body.dark-theme #header .top_search_btn_box form button img {
+    filter: invert(1) brightness(2);
+}
+
+body.dark-theme #header .top_search_btn_box form:focus-within {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: #33aeec !important;
+}
+
+body.dark-theme .logo img,
+body.dark-theme .m_logo img {
+    content: url('/resource/images/common/logo_dark.svg');
+}
+
+/* Submenu (LNB) Dark Mode */
+body.dark-theme #lnb .top1menu .depth1_ti span {
+    color: #ffffff !important;
+}
+
+body.dark-theme #lnb .top1menu .depth1.on .depth1_ti span {
+    color: #33aeec !important;
+}
+
+body.dark-theme #lnb ul .top2m {
+    background: rgba(20, 20, 25, 0.95) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.dark-theme #lnb .lnb_title_box .title {
+    color: #ffffff !important;
+}
+
+body.dark-theme #lnb .lnb_title_box .text {
+    color: #a0a0a0 !important;
+}
+
+body.dark-theme #lnb .depth2 > li > a {
+    color: #e0e0e0 !important;
+}
+
+body.dark-theme #lnb .depth2 > li > a:hover {
+    color: #33aeec !important;
+}
+
+body.dark-theme #lnb .menu_bg:before {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-theme #lnb .lnb_banner img {
+    opacity: 0.9;
+    filter: brightness(0.9) contrast(1.1);
+}

@@ -466,3 +466,29 @@ $(document).ready(function () {
 	$('html').addClass('body_active');
 });
 
+/**
+ * Theme Toggle & Persistence
+ */
+$(function() {
+    const body = $('body');
+    const toggleBtn = $('#theme-toggle');
+    const currentTheme = localStorage.getItem('theme');
+
+    // Initialize Theme
+    if (currentTheme === 'dark') {
+        body.addClass('dark-theme');
+    }
+
+    // Toggle Click Event
+    toggleBtn.on('click', function() {
+        body.toggleClass('dark-theme');
+        
+        // Persist preference
+        if (body.hasClass('dark-theme')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+    });
+});
+
