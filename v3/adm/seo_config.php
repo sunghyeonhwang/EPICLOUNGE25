@@ -172,11 +172,40 @@ $seo = sql_fetch(" SELECT * FROM v3_seo_config WHERE seo_page = 'default' ");
 .local_desc01 p { color: #2a4365; font-weight: 500; margin: 0; line-height: 1.6; }
 
 .platform_icon { width: 24px; vertical-align: middle; margin-right: 8px; }
+/* AI Analysis Styles */
+.ai_pulse_btn { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #fff; border: none; padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); transition: all 0.3s; font-size: 14px; }
+.ai_pulse_btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4); }
+.ai_pulse_btn i { font-size: 16px; animation: pulse 2s infinite; }
+
+@keyframes pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.ai_report_modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; backdrop-filter: blur(5px); }
+.ai_report_content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 600px; background: #fff; border-radius: 20px; padding: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+.ai_score_circle { width: 100px; height: 100px; border-radius: 50%; border: 8px solid #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; margin: 0 auto 20px; position: relative; }
+.ai_score_circle.good { border-color: #10b981; color: #10b981; }
+.ai_score_circle.warning { border-color: #f59e0b; color: #f59e0b; }
+.ai_score_circle.bad { border-color: #ef4444; color: #ef4444; }
+
+.ai_recommendation_list { margin-top: 25px; list-style: none; padding: 0; }
+.ai_recommendation_item { display: flex; gap: 12px; margin-bottom: 12px; font-size: 14px; line-height: 1.5; color: #4b5563; align-items: flex-start; }
+.ai_recommendation_item i { margin-top: 3px; font-size: 16px; }
+.ai_recommendation_item.pass i { color: #10b981; }
+.ai_recommendation_item.fail i { color: #ef4444; }
+.ai_recommendation_item.tip i { color: #6366f1; }
 </style>
 
 <div class="seo_config_container">
-    <div class="local_desc01 local_desc">
-        <p><i class="fa fa-rocket"></i> <b>마케팅 성과를 극대화하세요!</b><br>검색 엔진 노출 최적화뿐만 아니라 Google, Meta, Kakao 등 주요 매체의 트래킹 코드를 한곳에서 관리하여 광고 효율과 유입 분석을 최적화할 수 있습니다.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <div class="local_desc01 local_desc" style="margin-bottom: 0; flex: 1; margin-right: 20px;">
+            <p><i class="fa fa-rocket"></i> <b>마케팅 성과를 극대화하세요!</b><br>검색 엔진 노출 최적화뿐만 아니라 Google, Meta, Kakao 등 주요 매체의 트래킹 코드를 한곳에서 관리하여 광고 효율과 유입 분석을 최적화할 수 있습니다.</p>
+        </div>
+        <button type="button" class="ai_pulse_btn" onclick="runAIAnalysis()">
+            <i class="fa fa-magic"></i> AI SEO 분석하기
+        </button>
     </div>
 
     <form name="fseoconfig" id="fseoconfig" action="./seo_config.php" method="post" enctype="multipart/form-data">
@@ -329,56 +358,130 @@ $seo = sql_fetch(" SELECT * FROM v3_seo_config WHERE seo_page = 'default' ");
     </form>
 </div>
 
-<script>
-$(function() {
-    // 실시간 미리보기 업데이트
-    $('#seo_title').on('input', function() {
-        var val = $(this).val() || '제목을 입력하세요';
-        $('#preview_title, #preview_sns_title').text(val);
-    });
-    
-    $('#seo_description').on('input', function() {
-        var val = $(this).val() || '설명을 입력하세요';
-        $('#preview_desc, #preview_sns_desc').text(val);
-    });
-    
-    $('#seo_og_image').on('input', function() {
-        var val = $(this).val();
-        if(val) {
-            $('#preview_og_image').css('background-image', 'url(' + val + ')');
-        } else {
-            $('#preview_og_image').css('background-image', 'none');
-        }
-    });
-});
-</script>
+<!-- AI 분석 모달 -->
+<div id="aiModal" class="ai_report_modal">
+    <div class="ai_report_content">
+        <button type="button" onclick="closeAIModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: #9ca3af;">&times;</button>
+        <div style="text-align: center;">
+            <div id="aiScore" class="ai_score_circle">0</div>
+            <h3 id="aiStatus" style="font-size: 20px; font-weight: 700; color: #1f2937; margin-bottom: 5px;">현황 분석 중...</h3>
+            <p style="font-size: 14px; color: #6b7280;">실시간 AI SEO 진단 결과 보고서</p>
+        </div>
+        
+        <div id="aiResults" class="ai_recommendation_list">
+            <!-- 결과가 여기에 동적으로 삽입됨 -->
+        </div>
 
-<?php
-include_once (G5_ADMIN_PATH . '/admin.tail.php');
-?>
+        <div style="margin-top: 30px; padding: 15px; background: #fdf2f2; border-radius: 12px; display: none;" id="aiCriticalError">
+            <p style="font-size: 13px; color: #991b1b; font-weight: 600;"><i class="fa fa-exclamation-triangle"></i> 치명적 오류 발견: 검색엔진 수집이 원활하지 않을 수 있습니다.</p>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button type="button" onclick="closeAIModal()" class="btn_confirm" style="width: 100%;">확인 및 반영하러 가기</button>
+        </div>
+    </div>
+</div>
 
 <script>
 $(function() {
     // 실시간 미리보기 업데이트
-    $('#seo_title').on('input', function() {
-        var val = $(this).val() || '제목을 입력하세요';
-        $('#preview_title, #preview_sns_title').text(val);
-    });
-    
-    $('#seo_description').on('input', function() {
-        var val = $(this).val() || '설명을 입력하세요';
-        $('#preview_desc, #preview_sns_desc').text(val);
-    });
-    
-    $('#seo_og_image').on('input', function() {
-        var val = $(this).val();
-        if(val) {
-            $('#preview_og_image').css('background-image', 'url(' + val + ')');
+    function updatePreviews() {
+        var title = $('#seo_title').val() || '제목을 입력하세요';
+        var desc = $('#seo_description').val() || '설명을 입력하세요';
+        var og_img = $('#seo_og_image').val();
+
+        $('#preview_title, #preview_sns_title').text(title);
+        $('#preview_desc, #preview_sns_desc').text(desc);
+        
+        if(og_img) {
+            $('#preview_og_image').css('background-image', 'url(' + og_img + ')');
         } else {
             $('#preview_og_image').css('background-image', 'none');
         }
-    });
+    }
+
+    $('#seo_title, #seo_description, #seo_og_image').on('input', updatePreviews);
 });
+
+function runAIAnalysis() {
+    var title = $('#seo_title').val();
+    var desc = $('#seo_description').val();
+    var keywords = $('#seo_keywords').val();
+    var og_img = $('#seo_og_image').val();
+    var ga_id = $('input[name=seo_ga_id]').val();
+    var verif = $('input[name=seo_naver_verif]').val() || $('input[name=seo_google_verif]').val();
+
+    var score = 100;
+    var listHtml = '';
+    var hasCritical = false;
+
+    // 1. 타이틀 진단
+    if(title.length < 5) {
+        score -= 20;
+        listHtml += '<li class="ai_recommendation_item fail"><i class="fa fa-times-circle"></i> <b>타이틀 부족:</b> 제목이 너무 짧아 검색 신뢰도가 떨어집니다.</li>';
+        hasCritical = true;
+    } else if(title.length < 30) {
+        score -= 5;
+        listHtml += '<li class="ai_recommendation_item tip"><i class="fa fa-lightbulb-o"></i> <b>타이틀 팁:</b> 제목을 조금 더 길게(30-50자) 작성하여 정보를 보강하세요.</li>';
+    } else if(title.length > 70) {
+        score -= 5;
+        listHtml += '<li class="ai_recommendation_item tip"><i class="fa fa-lightbulb-o"></i> <b>타이틀 초과:</b> 제목이 너무 길어 검색 결과에서 잘릴 수 있습니다.</li>';
+    } else {
+        listHtml += '<li class="ai_recommendation_item pass"><i class="fa fa-check-circle"></i> 타이틀 길이가 최적화 범주에 속합니다.</li>';
+    }
+
+    // 2. 설명 진단
+    if(desc.length < 10) {
+        score -= 20;
+        listHtml += '<li class="ai_recommendation_item fail"><i class="fa fa-times-circle"></i> <b>설명 부족:</b> 검색 요약 설명이 거의 없어 클릭률이 저하될 수 있습니다.</li>';
+        hasCritical = true;
+    } else if(desc.length < 80) {
+        score -= 5;
+        listHtml += '<li class="ai_recommendation_item tip"><i class="fa fa-lightbulb-o"></i> <b>설명 보완:</b> 90~150자 사이로 구체적인 혜택이나 정보를 담아주세요.</li>';
+    } else {
+        listHtml += '<li class="ai_recommendation_item pass"><i class="fa fa-check-circle"></i> 검색 요약(Description)이 충분히 작성되었습니다.</li>';
+    }
+
+    // 3. 키워드 진단
+    if(!keywords) {
+        score -= 5;
+        listHtml += '<li class="ai_recommendation_item tip"><i class="fa fa-lightbulb-o"></i> <b>키워드 추천:</b> 관련 검색어를 입력하면 수집 성능 향상에 도움이 됩니다.</li>';
+    }
+
+    // 4. 이미지 진단
+    if(!og_img) {
+        score -= 15;
+        listHtml += '<li class="ai_recommendation_item fail"><i class="fa fa-times-circle"></i> <b>공유 이미지 부재:</b> SNS 공유 시 사이트 이미지가 노출되지 않습니다.</li>';
+    } else if(og_img.indexOf('files.epiclounge.co.kr') === -1) {
+        listHtml += '<li class="ai_recommendation_item tip"><i class="fa fa-info-circle"></i> 공유 이미지가 외부 서버에 있습니다. R2 직접 업로드를 권장합니다.</li>';
+    } else {
+        listHtml += '<li class="ai_recommendation_item pass"><i class="fa fa-check-circle"></i> 고성능 R2 공유 썸네일 사용 중입니다.</li>';
+    }
+
+    // 5. 마케팅 도구 진단
+    if(!ga_id || !verif) {
+        score -= 10;
+        listHtml += '<li class="ai_recommendation_item tip"><i class="fa fa-line-chart"></i> 분석 데이터 수집을 위해 GA4와 소유권 인증 태그를 연동하세요.</li>';
+    } else {
+        listHtml += '<li class="ai_recommendation_item pass"><i class="fa fa-check-circle"></i> 마케팅 분석 환경이 잘 갖춰져 있습니다.</li>';
+    }
+
+    // 최종 스코어링 클래스
+    var scoreClass = 'good';
+    var statusText = '최적화 상태: 우수';
+    if(score < 60) { scoreClass = 'bad'; statusText = '최적화 상태: 위험'; }
+    else if(score < 85) { scoreClass = 'warning'; statusText = '최적화 상태: 보완 필요'; }
+
+    $('#aiScore').text(score).removeClass('good warning bad').addClass(scoreClass);
+    $('#aiStatus').text(statusText);
+    $('#aiResults').html(listHtml);
+    $('#aiCriticalError').toggle(hasCritical);
+    $('#aiModal').fadeIn();
+}
+
+function closeAIModal() {
+    $('#aiModal').fadeOut();
+}
 </script>
 
 <?php

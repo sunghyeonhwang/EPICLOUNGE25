@@ -113,7 +113,7 @@ $url = 'http://' . $http_host . $request_uri;
             <div class="menu_bg clearfix">  
 					<div class="lnb_title_box">
 						<span class="title">리소스</span>
-						<span class="text">언리얼 서밋, 웨비나, 테크토크, 무료 콘텐츠, 백서 등<br> 다양한 리소스를 활용해 보세요.</span>
+						<span class="text">언리얼 페스트, 시작해요 언리얼, 무료 콘텐츠 등<br> 다양한 리소스를 활용해 보세요.</span>
 					</div>
 					
 					<div class="lnb_menu_box">

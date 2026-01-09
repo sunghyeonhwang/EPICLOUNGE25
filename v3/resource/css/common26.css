@@ -239,10 +239,10 @@
 /* Header */
 #header {
 	position: fixed;
-	background: rgba(255, 255, 255, 0.85);
+	background: rgba(255, 255, 255, 0.8); /* 좀 더 투명하게 조정하여 선명한 glass 효과 */
 	/* Glassmorphism: 프리미엄 메인 헤더 블러 효과 */
-	backdrop-filter: blur(20px) saturate(180%);
-	-webkit-backdrop-filter: blur(20px) saturate(180%);
+	backdrop-filter: blur(30px) saturate(180%);
+	-webkit-backdrop-filter: blur(30px) saturate(180%);
 	z-index: 100; /* 슬라이드 네비게이션 클릭을 위해 z-index 조정 (기존 1000) */
 	height: 90px;
 	width: 100%;
@@ -485,10 +485,10 @@
 	line-height: 1.35em;
 	width: 100%;
 	box-sizing: border-box;
-	background: rgba(255, 255, 255, 0.9);
-	/* Glassmorphism: 서브메뉴 초정밀 딥 블러 효과 (80px) */
-	backdrop-filter: blur(80px) saturate(200%) brightness(1.1);
-	-webkit-backdrop-filter: blur(80px) saturate(200%) brightness(1.1);
+	background: rgba(255, 255, 255, 0.8); /* 헤더와 동일하게 맞춤 */
+	/* Glassmorphism: 서브메뉴 헤더와 일치하도록 조정 */
+	backdrop-filter: blur(30px) saturate(180%);
+	-webkit-backdrop-filter: blur(30px) saturate(180%);
 	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.23);
 	border-top: 1px solid rgba(0, 0, 0, 0.05);
 	padding: 8px 0; /* 서브메뉴 전체 패딩을 8px로 축소하여 더 조밀하게 조정 */
@@ -501,9 +501,9 @@
 	left: 12px;
 	right: 12px;
 	bottom: 12px;
-	background: rgba(255, 255, 255, 0.62); /* 오퍼시티를 0.4로 상향하여 더 선명하게 조정 (기존 0.23) */
-	backdrop-filter: blur(30px);
-	-webkit-backdrop-filter: blur(30px);
+	background: rgba(255, 255, 255, 0.4); /* 오퍼시티 소폭 조정 */
+	backdrop-filter: blur(30px) saturate(180%);
+	-webkit-backdrop-filter: blur(30px) saturate(180%);
 	border-radius: 15px;
 	z-index: -1;
 	pointer-events: none;
@@ -562,7 +562,7 @@
 	display: inline-block;
 	vertical-align: top;
 	font-family: Freesentation;
-	font-size: 1.2rem; /* 1.2rem으로 키움 */
+	font-size: 1.075rem; /* 1.2rem에서 약 2px 줄인 수치 */
 	font-weight: 400;
 	color: #888;
 	line-height: 1.4;

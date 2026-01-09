@@ -229,7 +229,239 @@ $seo_extra_body = $v3_seo['seo_extra_body'];
       .hero-title { font-size: 40px; }
       .hero-title img { max-width: 300px; }
     }
+
+    /* Community Event Section - Editorial Grid */
+    .event_sec {
+      padding: 100px 0;
+      background: #000; /* 다크 모드 적용 */
+    }
+    .event_sec .sec_title {
+      position: relative;
+      margin-bottom: 30px; /* 여백 축소 */
+      text-align: center;
+    }
+    /* Unified Section Title Styles */
+    .event_sec .sec_title h2 {
+      font-size: 32px;
+      font-weight: 900;
+      color: #fff; /* 흰색 타이틀 */
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .news_sec .sec_title h2,
+    .resource_list .resource_title h2 {
+      font-size: 32px;
+      font-weight: 900;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .event_sec .sec_title a {
+      position: absolute;
+      top: 5px;
+      right: 0px;
+      border: 1px solid #e5e5e5;
+      border-radius: 4px;
+      padding: 5px 15px;
+      font-size: 14px;
+      color: #888;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .event_sec .sec_title a:hover {
+      color: #333;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+    }
+    .event_grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2열 배치 */
+      gap: 30px;
+    }
+    .event_item_card {
+      position: relative;
+      background: #111; /* 다크 배경 */
+      aspect-ratio: 16 / 9; /* 2행 2열을 위해 넓은 비율 유지 */
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid #222; /* 미세한 테두리 */
+      box-shadow: none; /* 쉐도우 제거 */
+      border-radius: 10px; /* 둥근 모서리 추가 */
+    }
+    .event_item_card > a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .event_item_card .img_wrap {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.5s ease;
+      opacity: 0; /* 초기 투명 (로딩 시각화) */
+      position: relative;
+    }
+    .event_item_card .img_wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 100%);
+      transform: skewX(-25deg);
+      transition: none;
+      z-index: 1;
+    }
+    .event_item_card.loaded .img_wrap {
+      opacity: 1;
+    }
+    .event_item_card:hover .img_wrap {
+      transform: scale(1.1);
+      /* filter: brightness(0.8); 제거 - 선명도 유지 */
+    }
+    .event_item_card:hover .img_wrap::after {
+      left: 150%;
+      transition: all 0.6s ease;
+    }
+
+    /* Overlay Content - Status Only (Solid & Sharp) */
+    .event_overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 15px;
+      z-index: 2;
+    }
+
+    .event_overlay .status_badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 900; /* Bold (Darker Weight) */
+      padding: 5px 12px;
+      background: #000; /* 투명 제외, 블랙 배경 */
+      color: #fff; /* 텍스트 흰색 */
+      border: 1.5px solid #fff; /* 아웃라인 강조 */
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: none; /* 쉐도우 제거 */
+    }
+    /* 상태별 포인트 (텍스트 컬러나 미세한 톤으로 구분) */
+    .event_overlay .status_badge.type1 { border-color: #000; color: #fff; background: #000; } 
+    .event_overlay .status_badge.type2 { opacity: 0.8; } 
+    .event_overlay .status_badge.type3 { 
+      background: transparent; /* 투명 버전 */
+      border: 1.5px solid #1FC3E8; /* 연한 하늘색 아웃라인 */
+      color: #1FC3E8; 
+      font-weight: 700;
+      box-shadow: none;
+    } /* 결과발표 - 요청 스타일 반영 */
+
+    .event_item_card:hover .event_overlay {
+      background: transparent; /* 호버 시 어두워지는 효과 제거 */
+    }
+    
+    /* Event Tab Styles - Modern Structured Capsule */
+    .event_tab_container {
+      background: none;
+      padding: 5px 0;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+    }
+    .event_tabs {
+      display: flex;
+      background: #1a1a1a; /* 다크 탭 배경 */
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid #333;
+      width: fit-content;
+      gap: 4px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .event_tab_btn {
+      font-size: 15px;
+      font-weight: 700;
+      color: #888;
+      background: transparent;
+      border: none;
+      padding: 12px 35px;
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+    }
+    .event_tab_btn:hover {
+      color: #fff;
+    }
+    .event_tab_btn:after {
+      content: '';
+      position: absolute;
+      bottom: 6px; /* 박스 내부 하단 배치 */
+      left: 50%;
+      width: 0;
+      height: 3px;
+      border-radius: 10px;
+      transform: translateX(-50%);
+      transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    }
+    
+    /* 활성화 상태 - 플로팅 박스 효과 (다크 테마) */
+    .event_tab_btn.active { 
+      background: #333;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .event_tab_btn.active:after { width: 40%; } /* 적절한 포인트 길이 */
+
+    /* 개별 탭 컬러 포인트 */
+    .event_tab_btn[data-type="community"]:after { background: #1FC3E8; }
+    .event_tab_btn[data-type="result"]:after { background: #C6FFF7; }
+    .event_tab_btn[data-type="global"]:after { background: #FDCCF8; }
+    .event_grid_container { display: none; }
+    .event_grid_container.active { display: block; animation: fadeIn 0.5s ease forwards; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 1024px) {
+      .event_grid { grid-template-columns: repeat(2, 1fr); }
+      .event_tab_btn { min-width: 100px; padding: 12px 20px; font-size: 14px; }
+    }
+    @media (max-width: 640px) {
+      .event_grid { grid-template-columns: 1fr; }
+      .event_tabs { width: 90%; }
+      .event_tab_btn { flex: 1; min-width: 0; padding: 10px 0; }
+    }
   </style>
+
+  <script>
+    function switchEventTab(type) {
+      $('.event_tab_btn').removeClass('active');
+      $(`.event_tab_btn[data-type="${type}"]`).addClass('active');
+      
+      $('.event_grid_container').removeClass('active');
+      $(`#event_grid_${type}`).addClass('active');
+
+      // Update "View All" link
+      const links = {
+        'community': 'https://epiclounge.co.kr/contents/event_list.php?category=%EC%BB%A4%EB%AE%A4%EB%8BA%88%ED%8B%B0%20%EC%9D%B4%EB%B2%A4%ED%8A%B8',
+        'result': 'https://epiclounge.co.kr/contents/event_list.php?status=%EA%B2%B0%EA%B3%BC%EB%B0%9C%ED%91%9C',
+        'global': 'https://epiclounge.co.kr/contents/global_event_list.php?category=%EA%B8%80%EB%A1%9C%EB%B2%8C%20%EC%9D%B4%EB%B2%A4%ED%8A%B8'
+      };
+      $('#event_view_all').attr('href', links[type]);
+    }
+  </script>
 
 
   <?php
@@ -367,6 +599,129 @@ $seo_extra_body = $v3_seo['seo_extra_body'];
       <div class="slider-dots-box"></div>
 
 
+    </section>
+
+    <!-- 이벤트 섹션 (탭 적용) -->
+    <section class="event_sec">
+      <div class="wrap">
+        <div class="sec_title">
+          <h2>이벤트</h2>
+          <a href="https://epiclounge.co.kr/contents/event_list.php?category=%EC%BB%A4%EB%AE%A4%EB%8BA%88%ED%8B%B0%20%EC%9D%B4%EB%B2%A4%ED%8A%B8" id="event_view_all">+ 전체보기</a>
+        </div>
+
+        <div class="event_tab_container">
+          <div class="event_tabs">
+            <button type="button" class="event_tab_btn active" data-type="community" onclick="switchEventTab('community')">커뮤니티</button>
+            <button type="button" class="event_tab_btn" data-type="result" onclick="switchEventTab('result')">결과발표</button>
+            <button type="button" class="event_tab_btn" data-type="global" onclick="switchEventTab('global')">글로벌</button>
+          </div>
+        </div>
+        
+        <!-- 커뮤니티 그리드 -->
+        <div id="event_grid_community" class="event_grid_container active">
+          <div class="event_grid">
+            <?php
+            $sql_community = " SELECT * FROM v3_rsc_event_bbs 
+                               WHERE category = '커뮤니티 이벤트' AND display_yn = 'Y' 
+                               AND (status = '진행중' OR status = '종료')
+                               ORDER BY ordr DESC, rsc_bbs_idx DESC 
+                               LIMIT 4 ";
+            $res_comm = sql_query($sql_community);
+            while ($row_ev = sql_fetch_array($res_comm)) {
+                $st_class = ($row_ev['status'] == '종료') ? "type2" : "type1";
+                $ev_thumb = (file_exists(G5_DATA_PATH.'/event/'.$row_ev['thumb_img'])) ? G5_DATA_URL.'/event/'.$row_ev['thumb_img'] : "/v3/resource/images/sub/event_list_img.jpg";
+                $ev_link = "/v3/contents/event_view.php?rsc_bbs_idx=".$row_ev['rsc_bbs_idx'];
+            ?>
+            <div class="event_item_card" id="ev_comm_<?php echo $i; ?>">
+              <a href="<?php echo $ev_link; ?>">
+                <div class="img_wrap" style="background-image: url('<?php echo $ev_thumb; ?>');" onload="this.parentElement.parentElement.classList.add('loaded')"></div>
+                <script>
+                  (function(){
+                    var img = new Image();
+                    img.src = '<?php echo $ev_thumb; ?>';
+                    img.onload = function() { document.getElementById('ev_comm_<?php echo $i; ?>').classList.add('loaded'); };
+                  })();
+                </script>
+                <div class="event_overlay">
+                  <span class="status_badge <?php echo $st_class; ?>"><?php echo $row_ev['status']; ?></span>
+                </div>
+              </a>
+            </div>
+            <?php $i++; } ?>
+          </div>
+        </div>
+
+        <!-- 결과발표 그리드 -->
+        <div id="event_grid_result" class="event_grid_container">
+          <div class="event_grid">
+            <?php
+            $sql_result = " SELECT * FROM v3_rsc_event_bbs 
+                               WHERE display_yn = 'Y' 
+                               AND status = '결과발표'
+                               ORDER BY ordr DESC, rsc_bbs_idx DESC 
+                               LIMIT 4 ";
+            $res_res = sql_query($sql_result);
+            $j = 0;
+            while ($row_ev = sql_fetch_array($res_res)) {
+                $st_class = "type3";
+                $ev_thumb = (file_exists(G5_DATA_PATH.'/event/'.$row_ev['thumb_img'])) ? G5_DATA_URL.'/event/'.$row_ev['thumb_img'] : "/v3/resource/images/sub/event_list_img.jpg";
+                $ev_link = "/v3/contents/event_view.php?rsc_bbs_idx=".$row_ev['rsc_bbs_idx'];
+            ?>
+            <div class="event_item_card" id="ev_res_<?php echo $j; ?>">
+              <a href="<?php echo $ev_link; ?>">
+                <div class="img_wrap" style="background-image: url('<?php echo $ev_thumb; ?>');"></div>
+                <script>
+                  (function(){
+                    var img = new Image();
+                    img.src = '<?php echo $ev_thumb; ?>';
+                    img.onload = function() { document.getElementById('ev_res_<?php echo $j; ?>').classList.add('loaded'); };
+                  })();
+                </script>
+                <div class="event_overlay">
+                  <span class="status_badge <?php echo $st_class; ?>"><?php echo $row_ev['status']; ?></span>
+                </div>
+              </a>
+            </div>
+            <?php $j++; } ?>
+          </div>
+        </div>
+
+        <!-- 글로벌 그리드 -->
+        <div id="event_grid_global" class="event_grid_container">
+          <div class="event_grid">
+            <?php
+            $sql_global = " SELECT * FROM v3_rsc_global_event_bbs 
+                            WHERE display_yn = 'Y' 
+                            AND (status = '진행중' OR status = '종료')
+                            ORDER BY ordr DESC, rsc_bbs_idx DESC 
+                            LIMIT 4 ";
+            $res_global = sql_query($sql_global);
+            $k = 0;
+            while ($row_ev = sql_fetch_array($res_global)) {
+                $st_class = ($row_ev['status'] == '종료') ? "type2" : "type1";
+                $ev_thumb = (file_exists(G5_DATA_PATH.'/event/'.$row_ev['thumb_img'])) ? G5_DATA_URL.'/event/'.$row_ev['thumb_img'] : "/v3/resource/images/sub/event_list_img.jpg";
+                $ev_link = "/v3/contents/global_event_view.php?rsc_bbs_idx=".$row_ev['rsc_bbs_idx'];
+            ?>
+            <div class="event_item_card" id="ev_gl_<?php echo $k; ?>">
+              <a href="<?php echo $ev_link; ?>">
+                <div class="img_wrap" style="background-image: url('<?php echo $ev_thumb; ?>');"></div>
+                <script>
+                  (function(){
+                    var img = new Image();
+                    img.src = '<?php echo $ev_thumb; ?>';
+                    img.onload = function() { document.getElementById('ev_gl_<?php echo $k; ?>').classList.add('loaded'); };
+                  })();
+                </script>
+                <div class="event_overlay">
+                  <span class="status_badge <?php echo $st_class; ?>"><?php echo $row_ev['status']; ?></span>
+                </div>
+              </a>
+            </div>
+            <?php $k++; } ?>
+          </div>
+        </div>
+
+      </div>
     </section>
 
 
