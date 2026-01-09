@@ -1,4 +1,4 @@
-<?php
+<?
 
 // 현재 호스트명이 www.epiclounge.co.kr 인지 확인
 if ($_SERVER['HTTP_HOST'] === 'www.epiclounge.co.kr') {
@@ -8,25 +8,9 @@ if ($_SERVER['HTTP_HOST'] === 'www.epiclounge.co.kr') {
   exit();
 }
 
-$g5_path = '.';
-include_once ('./_common.php');
-include_once ('./lib/latest.lib.php');
-
-// SEO 및 마케팅 설정 가져오기
-$v3_seo = sql_fetch(" SELECT * FROM v3_seo_config WHERE seo_page = 'default' ");
-$seo_title = ($v3_seo['seo_title']) ? $v3_seo['seo_title'] : "에픽 라운지";
-$seo_description = ($v3_seo['seo_description']) ? $v3_seo['seo_description'] : "";
-$seo_keywords = ($v3_seo['seo_keywords']) ? $v3_seo['seo_keywords'] : "";
-$seo_og_image = ($v3_seo['seo_og_image']) ? $v3_seo['seo_og_image'] : "";
-
-$seo_ga_id = trim($v3_seo['seo_ga_id']);
-$seo_gtm_id = trim($v3_seo['seo_gtm_id']);
-$seo_pixel_id = trim($v3_seo['seo_pixel_id']);
-$seo_kakao_pixel_id = trim($v3_seo['seo_kakao_pixel_id']);
-$seo_naver_verif = trim($v3_seo['seo_naver_verif']);
-$seo_google_verif = trim($v3_seo['seo_google_verif']);
-$seo_extra_head = $v3_seo['seo_extra_head'];
-$seo_extra_body = $v3_seo['seo_extra_body'];
+$g5_path = 'board';
+include_once ('board/common.php');
+include_once ('board/lib/latest.lib.php');
 
 ?>
 
@@ -37,9 +21,16 @@ $seo_extra_body = $v3_seo['seo_extra_body'];
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  
-  <?php include 'inc/marketing_head.php'; ?>
-  
+  <meta property="og:type" content="website" />
+  <meta property="fb:589663484560989" />
+<meta property="og:url" content="https://epiclounge.co.kr/event_challenge25.php" />
+<meta property="og:title" content="언리얼 엔진 챌린지 2025" />
+	<meta property="og:description" content="언리얼 챌린지 2025가 시작되었습니다! 올해의 주제인 ‘빛과 그림자’를 활용해 여러분만의 창의력을 마음껏 발휘해 멋진 작품을 만들어 보세요.">
+<meta property="og:image" content="https://unrealsummit16.cafe24.com/2025/challange25/ch25_thumanil.png" />
+  <meta property="og:image:height" content="630px" />
+  <meta property="og:image:width" content="1200px" />
+  <meta property="og:description" content="에픽 라운지" />
+  <meta name="naver-site-verification" content="374c7b8b38a950b57cfd67d5e14696efd33bc057" />
   <link rel="mask-icon" href="https://unrealsummit16.cafe24.com/2025/ufest25/images/mask-icon.svg" color="#424242">
   <link rel="apple-touch-icon" sizes="57x57" href="/v3/favicon/v3/favicon/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/v3/favicon/apple-icon-60x60.png">
@@ -58,11 +49,70 @@ $seo_extra_body = $v3_seo['seo_extra_body'];
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/v3/favicon/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
-  <title><?php echo get_text($seo_title); ?></title>
+  <!-- <meta property="og:title" content="스테이트 오브 언리얼 | 하이라이트" />
+  <meta property="og:type" content="website" />
+  <meta property="fb:589663484560989"/>
+  <meta name="keywords" content="스테이트 오브 언리얼 | 하이라이트 "/>
+  <meta name="description" content="스테이트 오브 언리얼 | 하이라이트">
+  <meta property="og:url" content="https://www.epiclounge.co.kr" />
+  <meta property="og:image" content="https://unrealsummit16.cafe24.com/stu/gdc_ogg.jpg" />
+  <meta property="og:image:height" content="630px" />
+  <meta property="og:image:width" content="1200px" />
+  <meta property="og:description" content="스테이트 오브 언리얼 하이라이트를 마련해 SOU에서 발표된 내용과 그 의미를 함께 짚어 보고자 합니다. SOU를 놓치신 분들이라면, 알람을 설정하여 시청해 보세요!" />
+  <meta name="naver-site-verification" content="374c7b8b38a950b57cfd67d5e14696efd33bc057" />
+  <link rel="shortcut icon" href="https://epiclounge.co.kr/favicon_16.ico" sizes="16x16"> 
+  <link rel="shortcut icon" href="https://epiclounge.co.kr/favicon_32.ico" sizes="32x32">  -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174668456-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-174668456-1');
+  </script>
+  <!-- Global site tag (gtag.js) - Google Ads: 760706945 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-760706945"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'AW-760706945');
+  </script>
+  <!-- Facebook Pixel Code -->
+  <script>
+    ! function(f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function() {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '413080733349618');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=413080733349618&ev=PageView&noscript=1" /></noscript>
+  <!-- End Facebook Pixel Code -->
+  <title>에픽 라운지</title>
 </head>
 
 <body>
-<?php include 'inc/marketing_body.php'; ?>
   <style>
     #quick_banner {
       display: none
@@ -80,159 +130,16 @@ $seo_extra_body = $v3_seo['seo_extra_body'];
 
   <script src="/v3/resource/js/jquery-3.4.1.min.js"></script>
   <script src="/v3/resource/js/slick.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="/v3/resource/js/ScrollTrigger.min.js"></script>
   <script src="/v3/resource/js/jquery.menu.min.js"></script>
   <script src="/v3/resource/js/jquery.responsive.min.js"></script>
   <script src="/v3/resource/js/common.js"></script>
-  <script src="/v3/resource/js/main26.js"></script>
-
-  <style>
-    /* Cinematic Hero Styles */
-    .cinematic-hero {
-      position: relative;
-      width: 100%;
-      height: 765px; /* 815px - 50px */
-      margin-top: 80px;
-      overflow: hidden;
-      background: #000;
-      z-index: 1;
-    }
-
-    .swiper-slide {
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    .hero-bg video, .hero-bg img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(1);
-    }
-
-
-
-    .hero-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 1;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 10;
-      text-align: center;
-      color: #fff;
-      max-width: 900px;
-      padding: 0 20px;
-    }
-
-    .hero-title {
-      font-size: 80px;
-      font-weight: 900;
-      margin-bottom: 20px;
-      letter-spacing: -2px;
-      line-height: 1.1;
-      opacity: 0;
-      height: 420px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-title img {
-        height: auto;
-    }
-
-
-
-    .hero-cta {
-      opacity: 0;
-    }
-
-    .hero-cta a {
-      display: inline-block;
-      padding: 14px 60px;
-      border-radius: 10px;
-      background: transparent;
-      border: 1px solid #A7A7A7;
-      color: #fff;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    
-    .hero-cta a:hover {
-      background: #fff;
-      color: #000;
-      transform: translateY(-3px);
-    }
-
-    /* Navigation Custom */
-    .swiper-button-next, .swiper-button-prev {
-      color: #fff;
-      opacity: 0.5;
-      transition: 0.3s;
-    }
-    .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
-    
-    /* Custom Pagination (Simple Dots) */
-    .swiper-custom-pagination {
-      position: absolute;
-      bottom: 50px !important;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      z-index: 1000;
-      pointer-events: auto; /* 클릭 차단 해제 */
-    }
-    .swiper-custom-pagination .swiper-pagination-bullet {
-      width: 12px;
-      height: 12px;
-      background: #888; /* 회색 */
-      border-radius: 50%;
-      opacity: 1;
-      margin: 0 4px !important;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      /* 클릭 영역 확장: 투명 테두리를 주어 실제 클릭 가능한 범위를 넓힘 */
-      border: 8px solid transparent;
-      background-clip: padding-box;
-    }
-    .swiper-custom-pagination .swiper-pagination-bullet:hover,
-    .swiper-custom-pagination .swiper-pagination-bullet-active {
-      background-color: #fff; /* background 단축 속성 대신 background-color 사용으로 clip 속성 유지 */
-      opacity: 1;
-    }
-
-    @media (max-width: 768px) {
-      .cinematic-hero { height: 600px; }
-      .hero-title { font-size: 40px; }
-      .hero-title img { max-width: 300px; }
-    }
-  </style>
+  <script src="/v3/resource/js/main.js"></script>
 
 
   <?php
+  include_once ('./_common.php');
+
   define('_INDEX_', true);
   if (!defined('_GNUBOARD_'))
     exit;  // 개별 페이지 접근 불가
@@ -258,46 +165,114 @@ $seo_extra_body = $v3_seo['seo_extra_body'];
   <?php include 'inc/common_header26.php'; ?>
   <!-- container -->
   <div class="container">
-    <section class="swiper cinematic-hero">
-      <div class="swiper-wrapper">
-        <?php
-        // DB에서 메인 비주얼 데이터 조회
-        $sql_visual = ' SELECT * FROM v3_visual_main WHERE vm_display = 1 ORDER BY vm_order ASC, vm_id DESC ';
-        $result_visual = sql_query($sql_visual);
-
-        while ($row = sql_fetch_array($result_visual)) {
-          $duration = $row['vm_duration'] ? $row['vm_duration'] : 7000;
-          ?>
-        <div class="swiper-slide" data-swiper-autoplay="<?php echo $duration; ?>">
-          <div class="hero-bg">
-            <?php if ($row['vm_bg_type'] == 'video') { ?>
-            <!-- Video Background -->
-            <video autoplay loop muted playsinline style="<?php echo ($row['vm_order'] == 2) ? 'filter: brightness(0.6) contrast(1.2);' : ''; ?>">
-              <source src="<?php echo $row['vm_bg_url']; ?>" type="video/mp4">
-            </video>
-            <?php } else { ?>
-            <!-- Image Background -->
-            <img src="<?php echo $row['vm_bg_url']; ?>" alt="Visual Background" style="width:100%; height:100%; object-fit:cover;">
-            <?php } ?>
-            <div class="hero-overlay"></div>
+    <section class="visual_slide visual_slide_1">
+      <!-- <div class="visual_slide_list main_slide_13" data-v="1">
+        <div class="visual_mp4" style="opacity:0.5">
+          <video autoplay muted loop playsinline class="video w_video">
+            <source src="https://unrealsummit16.cafe24.com/2025/challange25/unrealchallange25_movie_hq.webm" type="video/webm" >
+            <source src="https://unrealsummit16.cafe24.com/2025/challange25/unrealchallange25_movie_hq.mp4" type="video/mp4" >
+          </video>
+        </div>
+        <div class="visual_text_box">
+          <div class="text_box1">
+            <p class="num_text">
+              <img src="https://unrealsummit16.cafe24.com/site/main_num_text_blank.png" />
+      
+            </p>
+            <p class="info_text">
+              <span class="eng_text"><img src="https://unrealsummit16.cafe24.com/2025/challange25/lg5_ix.svg" /></span>
+      
+            </p>
           </div>
-          <div class="hero-content">
-            <div class="hero-title">
-              <img src="<?php echo $row['vm_title_img']; ?>" alt="Visual Title" style="width: 800px;">
-            </div>
-            <div class="hero-cta" style="margin-top: 0;">
-              <a href="<?php echo $row['vm_link_url']; ?>" target="_blank"><?php echo $row['vm_btn_text']; ?></a>
-            </div>
+          <div class="text_box2">
+      
+            <span class="text"></span>
+            <a href="https://epiclounge.co.kr/event_challenge25.php" target="_blank" class="btn_6">자세히 보기</a>
           </div>
         </div>
-        <?php } ?>
+      </div> -->
+       <div class="visual_slide_list main_slide_13" data-v="1">
+        <div class="visual_mp4" style="opacity:1">
+          <video autoplay loop muted class="video w_video">
+            <source src="https://unrealsummit16.cafe24.com/2025/ue57/ue57bh.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="visual_text_box">
+          <div class="text_box1">
+            <p class="num_text">
+              <img src="https://unrealsummit16.cafe24.com/site/main_num_text_blank.png" />
+      
+            </p>
+            <p class="info_text">
+              <span class="eng_text"><img src="https://unrealsummit16.cafe24.com/2025/ue57/ue57img_text.png" /></span>
+      
+            </p>
+          </div>
+          <div class="text_box2">
+      
+            <span class="text"></span>
+            <a href="https://epiclounge.co.kr/ue57.php" target="_blank" class="btn_6">다시보기</a>
+          </div>
+        </div>
       </div>
-      <!-- Controls -->
-      <div class="swiper-custom-pagination"></div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-    </section>
+      <div class="visual_slide_list main_slide_13" data-v="1">
+      
+        <div class="visual_mp4" style="opacity:1">
+        <video autoplay loop muted class="video w_video" style="filter: brightness(0.6) contrast(1.2);">
+            <source src="https://unrealsummit16.cafe24.com/2025/ufest25/3_fusion_2_re2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="visual_text_box">
+          <div class="text_box1">
+            <p class="num_text">
+              <img src="https://unrealsummit16.cafe24.com/site/main_num_text_blank.png" />
+      
+            </p>
+            <p class="info_text">
+              <span class="eng_text"><img src="https://unrealsummit16.cafe24.com/2025/ufest25/main_visual_lounge_re1215.svg" /></span>
+      
+            </p>
+          </div>
+          <div class="text_box2">
+      
+            <span class="text"></span>
+            <a href="https://epiclounge.co.kr/contents/replay.php" target="_blank" class="btn_6" style="border-radius: 5px;
+            background: var(--guide1, linear-gradient(231deg, #FFC481 -32.52%, #00D3C3 35.3%, #2842E6 149.1%)); color:#000; font-weight: 800; padding:15px 40px;">다시보기</a>
+          </div>
+        </div>
+      </div>
+      <div class="visual_slide_list main_slide_13" data-v="1">
 
+        <div class="visual_mp4" style="opacity:1">
+          <video autoplay loop muted class="video w_video">
+            <source src="https://unrealsummit16.cafe24.com/2025/start_twinunreal/lsu_2025_bg.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="visual_text_box">
+          <div class="text_box1">
+            <p class="num_text">
+              <img src="https://unrealsummit16.cafe24.com/site/main_num_text_blank.png" />
+
+            </p>
+            <p class="info_text">
+              <span class="eng_text"><img src="https://unrealsummit16.cafe24.com/2025/sou/start_twue_lounge_3.svg" /></span>
+
+            </p>
+          </div>
+          <div class="text_box2">
+
+            <span class="text"></span>
+            <a href="http://epiclounge.co.kr/start_lsu2025.php" target="_blank" class="btn_6">다시보기</a>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+    </section>
 
 
 
@@ -497,71 +472,20 @@ $seo_extra_body = $v3_seo['seo_extra_body'];
         animateBgSlideText(activeSlide);
       });
 
-      // Cinematic Swiper Initialization
-      // Cinematic Swiper Initialization
-      const animateSlide = (swiper) => {
-        const activeSlide = swiper.slides[swiper.activeIndex];
-        if (!activeSlide) return;
-
-        const title = activeSlide.querySelector('.hero-title');
-        const cta = activeSlide.querySelector('.hero-cta');
-        const bgMedia = activeSlide.querySelector('.hero-bg video, .hero-bg img');
-
-        // GSAP Reset & Animation
-        if (title && cta) {
-          gsap.killTweensOf([title, cta]);
-          gsap.set([title, cta], { autoAlpha: 0, y: 0 });
+      $(".visual_slide").slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        autoplay: true,
+        autoplaySpeed: 6000,
+        arrows: true,
+        dots: true,
+      }).on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+        for (i = 0; i < 10; i++) {
+          $(".visual_slide").removeClass("visual_slide_" + i);
         }
-        
-        if (bgMedia) {
-          gsap.killTweensOf(bgMedia);
-          gsap.set(bgMedia, { scale: 1 });
-        }
-
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.5 } }); // GSAP 애니메이션 속도 0.5초로 단축
-        
-        // Text Fade In
-        if (title && cta) {
-          tl.to(title, { autoAlpha: 1, y: 0 })
-            .to(cta, { autoAlpha: 1, y: 0 }, '-=0.3'); // 겹치는 시간 조정
-        }
-
-        // Ken Burns Effect via GSAP
-        if (bgMedia) {
-          gsap.fromTo(bgMedia, 
-            { scale: 1 },
-            { scale: 1.15, duration: 10, ease: 'none', overwrite: 'auto' }
-          );
-        }
-      };
-
-      const heroSwiper = new Swiper('.cinematic-hero', {
-        effect: 'fade',
-        fadeEffect: { crossFade: true },
-        loop: true,
-        loopAdditionalSlides: 2,
-        speed: 800, // 슬라이드 전환 속도 0.8초로 단축 (반응성 향상)
-        watchSlidesProgress: true,
-        autoplay: {
-          delay: 6000,
-          disableOnInteraction: false,
-        },
-        pagination: {
-          el: '.swiper-custom-pagination',
-          clickable: true,
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-        on: {
-          init: function () {
-            animateSlide(this);
-          },
-          transitionStart: function () {
-            animateSlide(this);
-          }
-        }
+        $(".visual_slide").addClass("visual_slide_" + $(".visual_slide div.slick-active").data("v"));
+        $(".visual_slide div.slick-active").data("v");
       });;
     </script>
   </div>

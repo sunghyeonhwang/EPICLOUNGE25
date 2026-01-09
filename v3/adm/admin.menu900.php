@@ -5,3 +5,4 @@ $menu['menu900'] = array(
     array('900200', 'SEO 설정 관리', '' . G5_ADMIN_URL . '/seo_config.php', 'seo_config'),
     array('900210', '주소 변환', '' . G5_ADMIN_URL . '/service_main.php', 'service_main')
 );
+?>
