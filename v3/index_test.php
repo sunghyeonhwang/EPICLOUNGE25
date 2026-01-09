@@ -86,7 +86,7 @@ $seo_extra_body = $v3_seo['seo_extra_body'];
   <script src="/v3/resource/js/ScrollTrigger.min.js"></script>
   <script src="/v3/resource/js/jquery.menu.min.js"></script>
   <script src="/v3/resource/js/jquery.responsive.min.js"></script>
-  <script src="/v3/resource/js/common.js"></script>
+  <script src="/v3/resource/js/common26.js"></script>
   <script src="/v3/resource/js/main26.js"></script>
 
   <style>
@@ -233,7 +233,7 @@ $seo_extra_body = $v3_seo['seo_extra_body'];
     /* Community Event Section - Editorial Grid */
     .event_sec {
       padding: 100px 0;
-      background: #000; /* 다크 모드 적용 */
+      background: linear-gradient(to bottom, #000 0%, #212121 100%); /* 이벤트 섹션만 그라데이션 적용 */
     }
     .event_sec .sec_title {
       position: relative;
@@ -443,6 +443,7 @@ $seo_extra_body = $v3_seo['seo_extra_body'];
       .event_tabs { width: 90%; }
       .event_tab_btn { flex: 1; min-width: 0; padding: 10px 0; }
     }
+
   </style>
 
   <script>

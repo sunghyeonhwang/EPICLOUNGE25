@@ -6,13 +6,14 @@ function web_menu(a){
 		depth2 = $(".depth2 > li");
 
 	top1menu.find(" > li > div").addClass('top2m');
-	depth1_t.bind({
+	depth1_t.on({ // bind 대신 on 권장
 		mouseenter:function(){
-			$(this).parents('.depth1').addClass('on').find('div.top2m').stop().slideDown(300);
+			// slideDown(300) -> fadeIn(150)으로 변경하여 반응성 향상
+			$(this).parents('.depth1').addClass('on').find('div.top2m').stop().fadeIn(150);
 		},
 		focusin:function(){
-			depth1.removeClass('on').find('div.top2m').stop().slideUp(100);
-			$(this).parents('.depth1').addClass('on').find('div.top2m').stop().show(300);
+			depth1.removeClass('on').find('div.top2m').stop().fadeOut(100);
+			$(this).parents('.depth1').addClass('on').find('div.top2m').stop().fadeIn(150);
 		}
 	});
 
@@ -21,12 +22,13 @@ function web_menu(a){
 	});
 
 	depth1.mouseleave(function(){
-		$(this).removeClass('on').find('div.top2m').stop().slideUp(100);
+		// slideUp(100) -> fadeOut(100)으로 일관성 유지
+		$(this).removeClass('on').find('div.top2m').stop().fadeOut(100);
 	});
 
 	top1menu.find('li:last-child .top2m li:last-child a').focusout(function(){
 		$('#lnb .depth1.on').removeClass('on');
-		$(this).parents('li.depth1').removeClass('on').find('.top2m').stop().slideUp(100);
+		$(this).parents('li.depth1').removeClass('on').find('.top2m').stop().fadeOut(100);
 	});
 	
 	depth2.bind({
@@ -50,7 +52,7 @@ function web_menu(a){
 	top1menu.find('> li:last-child ul li').each(function(index){
 		$(this).addClass('part_icon'+index);
 	});
-	//2017-05-25異붽
+	//2017-05-25異붽�
 	//$('.part_info div ')
 };
 
@@ -388,7 +390,7 @@ $(document).ready(function(){
 			setRolling();
 			return false;
 		}
-		playRolling();
+		setRolling();
 		settings.prevBtn.click(prevRolling);
 		settings.nextBtn.click(nextRolling);
 		settings.playBtn.click(playRolling);
